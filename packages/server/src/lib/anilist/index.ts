@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Action, ActionId, Source } from "chat";
-import { readFileSync } from "fs";
 import { ExecutableCommand } from "../../command/type";
 import { Language } from "../../controllers/language/find-user-language";
 import { getOutput } from "../../controllers/language/get-user-output";
