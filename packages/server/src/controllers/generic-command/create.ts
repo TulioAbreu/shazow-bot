@@ -1,5 +1,4 @@
-import { GenericCommand } from "./type";
-import CommandDb from "../../models/generic-command";
+import CommandDb, { GenericCommand } from "../../models/generic-command";
 
 export async function createGenericCommand(
     command: GenericCommand
@@ -27,7 +26,7 @@ export async function createGenericCommand(
                 isCacheable: commandFromDB["isCacheable"],
                 createAt: commandFromDB["createdAt"],
             }
-        );
+        ).lean();
     }
 
     const commandFromDB = await CommandDb.findOne({ name });

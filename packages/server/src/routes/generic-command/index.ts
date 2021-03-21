@@ -3,9 +3,9 @@ import { Router } from "express";
 import {
     createGenericCommand,
     findGenericCommand,
-    GenericCommand,
 } from "../../controllers/generic-command";
 import { removeGenericCommand } from "../../controllers/generic-command/remove";
+import { GenericCommand } from "../../models/generic-command";
 
 const HTTP_BAD_REQUEST = 502;
 const HTTP_OK_REQUEST = 200;

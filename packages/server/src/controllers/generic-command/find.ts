@@ -1,5 +1,4 @@
-import CommandDb from "../../models/generic-command";
-import { GenericCommand } from "./type";
+import CommandDb, { GenericCommand } from "../../models/generic-command";
 
 export async function findGenericCommand(
     commandName?: string
@@ -13,12 +12,12 @@ export async function findGenericCommand(
 
 async function findAll(): Promise<GenericCommand[]> {
     const genericCommands = await CommandDb.find().lean();
-    return genericCommands as GenericCommand[];
+    return genericCommands;
 }
 
 async function findOne(commandName: string): Promise<GenericCommand> {
     const genericCommand = await CommandDb.findOne({
         name: commandName,
     }).lean();
-    return (genericCommand as GenericCommand) ?? undefined;
+    return genericCommand ?? undefined;
 }

@@ -1,5 +1,13 @@
-import { Schema, model } from "mongoose";
-import { GenericCommand } from "../controllers/generic-command";
+import { Document, Schema, model } from "mongoose";
+
+export interface GenericCommand {
+    name: string;
+    output: string;
+    createdAt: Date;
+    isCacheable: boolean;
+}
+
+interface IGenericCommand extends GenericCommand, Document {}
 
 const GenericCommandSchema = new Schema({
     name: {
@@ -18,4 +26,4 @@ const GenericCommandSchema = new Schema({
     },
 });
 
-export default model<GenericCommand>("Command", GenericCommandSchema);
+export default model<IGenericCommand>("Command", GenericCommandSchema);
