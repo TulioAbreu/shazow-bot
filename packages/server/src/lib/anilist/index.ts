@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Action, ActionId, Source } from "chat";
-import { readFileSync } from "fs";
+import gql from "graphql-tag";
 import { ExecutableCommand } from "../../command/type";
 import { Language } from "../../controllers/language/find-user-language";
 import { getOutput } from "../../controllers/language/get-user-output";
@@ -8,7 +8,27 @@ import { Output } from "../../languages";
 import { UserSettings } from "../../models/user-settings";
 import { isNullOrUndefined } from "../../utils/is-null-or-undefined";
 
-const ANIME_QUERY = readFileSync("./queries/anime.graphql", "utf8");
+const ANIME_QUERY = gql`
+    query($search: String) {
+        Media(search: $search, type: ANIME) {
+            title {
+                english
+                romaji
+            }
+            coverImage {
+                large
+            }
+            startDate {
+                year
+            }
+            description
+            episodes
+            chapters
+            genres
+            averageScore
+        }
+    }
+`;
 
 interface AnimeMedia {
     title: {
