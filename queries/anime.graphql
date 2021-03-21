@@ -1,0 +1,19 @@
+query($search: String) {
+    Media(search: $search, type: ANIME) {
+        title {
+            english
+            romaji
+        }
+        coverImage {
+            large
+        }
+        startDate {
+            year
+        }
+        description
+        episodes
+        chapters
+        genres
+        averageScore
+    }
+}
