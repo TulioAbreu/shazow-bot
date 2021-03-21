@@ -1,38 +1,33 @@
 import axios from "axios";
 import { Action, ActionId, Source } from "chat";
+import { readFileSync } from "fs";
 import { ExecutableCommand } from "../../command/type";
 import { Language } from "../../controllers/language/find-user-language";
 import { getOutput } from "../../controllers/language/get-user-output";
 import { Output } from "../../languages";
 import { UserSettings } from "../../models/user-settings";
 import { isNullOrUndefined } from "../../utils/is-null-or-undefined";
-import { createErrorResult, createResult, Result } from "../../utils/result";
 
-const ANIME_QUERY = `
-    query($search: String) {
-        Media(search: $search, type: ANIME) {
-            title {
-                english
-                romaji
-            }
-            coverImage {
-                large
-            }
-            startDate {
-                year
-            }
-            description
-            episodes
-            chapters
-            genres
-            averageScore
+const ANIME_QUERY =
+`query($search: String) {
+    Media(search: $search, type: ANIME) {
+        title {
+            english
+            romaji
         }
+        coverImage {
+            large
+        }
+        startDate {
+            year
+        }
+        description
+        episodes
+        chapters
+        genres
+        averageScore
     }
-`;
-
-interface AnilistAnime {
-    Media: AnimeMedia;
-}
+}`;
 
 interface AnimeMedia {
     title: {
@@ -58,69 +53,62 @@ export default async function Anime(
     if (!command.arguments?.length) {
         return {
             id: ActionId.Reply,
-            body: getOutput(userSettings.language, Output.Anime.NoArguments),
+            body: getOutput(
+                userSettings.language,
+                Output.Anime.NoArguments
+            ),
         };
-    }
-
-    const animeResult = await retrieveAnime(command.arguments.join(" "));
-    if (!animeResult.hasValue) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(userSettings.language, Output.Anime.FetchFailed, [
-                animeResult.errorMessage,
-            ]),
-        };
-    }
-
-    const anime = animeResult.value;
-    let outputMessage = "";
-    switch (command.source) {
-        case Source.Discord:
-            outputMessage = renderDiscordResponse(
-                anime.Media,
-                userSettings.language
-            );
-            break;
-        case Source.Twitch:
-            outputMessage = renderTwitchResponse(
-                anime.Media,
-                userSettings.language
-            );
-            break;
-        default: {
-            outputMessage = renderTwitchResponse(
-                anime.Media,
-                userSettings.language
-            );
-        }
-    }
-    return {
-        id: ActionId.Reply,
-        body: outputMessage,
-    };
-}
-
-async function retrieveAnime(name: string): Promise<Result<AnilistAnime>> {
-    if (!name) {
-        return createErrorResult("Empty anime name");
     }
     try {
-        const response = await axios.post(
+        const resp = await axios.post(
             "https://graphql.anilist.co/",
             {
                 query: ANIME_QUERY,
                 variables: {
-                    search: name,
+                    search: command.arguments.join(" "),
                 },
             },
             {
                 timeout: 3000,
             }
         );
-        return createResult(response.data);
+        const { data } = resp.data;
+        let outputMessage = "";
+        switch (command.source) {
+        case Source.Discord:
+            {
+                outputMessage = renderDiscordResponse(
+                    data["Media"],
+                    userSettings.language
+                );
+            }
+            break;
+        case Source.Twitch:
+            {
+                outputMessage = renderTwitchResponse(
+                    data["Media"],
+                    userSettings.language
+                );
+            }
+            break;
+        default: {
+            outputMessage = renderTwitchResponse(
+                data["Media"],
+                userSettings.language
+            );
+        }
+        }
+        return {
+            id: ActionId.Reply,
+            body: outputMessage,
+        };
     } catch (error) {
-        // TODO: Log error
-        return createErrorResult(error);
+        return {
+            id: ActionId.Reply,
+            body: getOutput(userSettings.language, Output.Anime.FetchFailed, [
+                error,
+            ]),
+        };
     }
 }
 
