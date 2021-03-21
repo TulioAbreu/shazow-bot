@@ -37,7 +37,7 @@ async function main() {
         mongoose.connect(mongodbKey, {
             useUnifiedTopology: true,
             useNewUrlParser: true,
-        }),
+        });
         server.listen(port);
     } catch (error) {
         console.log(
@@ -45,9 +45,7 @@ async function main() {
                 error
         );
     } finally {
-        console.log(
-            "INFO - Bot is running and listening to port " + port
-        );
+        console.log("INFO - Bot is running and listening to port " + port);
     }
 }
 

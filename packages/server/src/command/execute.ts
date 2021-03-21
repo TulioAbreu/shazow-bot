@@ -8,7 +8,10 @@ import { executeGenericCommand } from "../controllers/generic-command/execute";
 import Anime from "../lib/anilist";
 import Poll from "../lib/poll";
 import Vote from "../lib/vote";
-import { findOneUserSettings, createUserSettings } from "../controllers/user-settings";
+import {
+    findOneUserSettings,
+    createUserSettings,
+} from "../controllers/user-settings";
 import PollStatus from "../lib/poll-status";
 import { saveCommandLog } from "../controllers/command-log";
 import Settings from "../lib/user-settings";
@@ -19,32 +22,38 @@ export async function execute(command: ExecutableCommand): Promise<Action> {
         return;
     }
 
-    const userSettings = await retrieveUserSettings(command.userID, command.source);
+    const userSettings = await retrieveUserSettings(
+        command.userID,
+        command.source
+    );
     saveCommandLog(command);
 
     switch (command.name) {
-    case "ping":
-        return Ping();
-    case "pong":
-        return Pong();
-    case "random":
-        return Random(command);
-    case "anime":
-        return Anime(command, userSettings);
-    case "poll":
-        return Poll(command, userSettings);
-    case "vote":
-        return Vote(command, userSettings);
-    case "pollStatus":
-        return PollStatus(command, userSettings);
-    case "settings":
-        return Settings(command, userSettings);
-    default:
-        return executeGenericCommand(command);
+        case "ping":
+            return Ping();
+        case "pong":
+            return Pong();
+        case "random":
+            return Random(command);
+        case "anime":
+            return Anime(command, userSettings);
+        case "poll":
+            return Poll(command, userSettings);
+        case "vote":
+            return Vote(command, userSettings);
+        case "pollStatus":
+            return PollStatus(command, userSettings);
+        case "settings":
+            return Settings(command, userSettings);
+        default:
+            return executeGenericCommand(command);
     }
 }
 
-async function retrieveUserSettings(userId: string, userSource: Source): Promise<UserSettings> {
+async function retrieveUserSettings(
+    userId: string,
+    userSource: Source
+): Promise<UserSettings> {
     const userSettings = await findOneUserSettings(userId, userSource);
     if (userSettings) {
         return userSettings;

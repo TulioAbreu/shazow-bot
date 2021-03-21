@@ -9,7 +9,9 @@ const CommandLogValidationSchema = yup.object().shape({
     source: yup.number().required(),
 });
 
-export async function saveCommandLog(command: ExecutableCommand): Promise<boolean> {
+export async function saveCommandLog(
+    command: ExecutableCommand
+): Promise<boolean> {
     const commandLog: CommandLog = {
         author: command.userName,
         commandName: command.name,

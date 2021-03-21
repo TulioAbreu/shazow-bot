@@ -82,12 +82,12 @@ export class TwitchEnvironment implements ChatEnvironment {
 
     private execute(target: string, context: ChatUserstate, action: Action) {
         switch (action.id) {
-        case ActionId.Reply:
-            return this.replyMessage(
-                target,
-                context,
-                action.body as string
-            );
+            case ActionId.Reply:
+                return this.replyMessage(
+                    target,
+                    context,
+                    action.body as string
+                );
         }
     }
 

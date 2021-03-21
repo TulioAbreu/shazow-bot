@@ -35,12 +35,13 @@ export default async function Vote(
         option: voteOption,
         source: command.source,
     } as Vote);
-    return success
-        ? {
-            id: ActionId.Reply,
-            body: getOutput(userSettings.language, Output.Vote.Success),
-        }
-        : undefined;
+    if (!success) {
+        return;
+    }
+    return {
+        id: ActionId.Reply,
+        body: getOutput(userSettings.language, Output.Vote.Success),
+    };
 }
 
 function getVoteOption(args: string[]): string {

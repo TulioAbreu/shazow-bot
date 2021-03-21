@@ -57,8 +57,8 @@ export class DiscordEnvironment implements ChatEnvironment {
             return;
         }
         switch (action.id) {
-        case ActionId.Reply:
-            return this.replyMessage(discordMessage, action.body);
+            case ActionId.Reply:
+                return this.replyMessage(discordMessage, action.body);
         }
     }
 

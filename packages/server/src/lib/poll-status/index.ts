@@ -28,12 +28,12 @@ export default async function PollStatus(
     }
     const pollStatus = await getPollStatus(poll._id);
     switch (command.source) {
-    case Source.Discord:
-        return renderDiscordResult(pollStatus, userSettings.language);
-    case Source.Twitch:
-        return renderDiscordResult(pollStatus, userSettings.language);
-    default:
-        return renderDiscordResult(pollStatus, userSettings.language);
+        case Source.Discord:
+            return renderDiscordResult(pollStatus, userSettings.language);
+        case Source.Twitch:
+            return renderDiscordResult(pollStatus, userSettings.language);
+        default:
+            return renderDiscordResult(pollStatus, userSettings.language);
     }
 }
 

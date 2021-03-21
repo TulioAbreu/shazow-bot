@@ -15,12 +15,12 @@ export default async function Settings(
     }
     const commandArgs = command.arguments;
     switch (commandArgs.shift().toLowerCase()) {
-    case "get":
-        return await getSettings(commandArgs, userSettings);
-    case "set":
-        return await setSettings(commandArgs, userSettings);
-    default:
-        return replyNoArguments(userSettings);
+        case "get":
+            return await getSettings(commandArgs, userSettings);
+        case "set":
+            return await setSettings(commandArgs, userSettings);
+        default:
+            return replyNoArguments(userSettings);
     }
 }
 
@@ -30,10 +30,10 @@ async function getSettings(
 ): Promise<Action> {
     const settings = commandArgs.shift();
     switch (settings) {
-    case "language":
-        return replyLanguage(userSettings);
-    default:
-        return replyNoArguments(userSettings);
+        case "language":
+            return replyLanguage(userSettings);
+        default:
+            return replyNoArguments(userSettings);
     }
 }
 
@@ -59,10 +59,10 @@ async function setSettings(
 ): Promise<Action> {
     const settings = commandArgs.shift();
     switch (settings) {
-    case "language":
-        return setLanguage(commandArgs, userSettings);
-    default:
-        return replyNoArguments(userSettings);
+        case "language":
+            return setLanguage(commandArgs, userSettings);
+        default:
+            return replyNoArguments(userSettings);
     }
 }
 

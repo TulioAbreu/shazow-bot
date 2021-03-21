@@ -8,9 +8,7 @@ export async function executeGenericCommand(
     if (!command || !command.name?.length) {
         return;
     }
-    let dbCommand = await findGenericCommand(
-        command.name
-    );
+    let dbCommand = await findGenericCommand(command.name);
 
     if (!dbCommand) {
         return;
