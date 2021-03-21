@@ -58,64 +58,56 @@ export default async function Anime(
             ),
         };
     }
-    const animeMedia: AnimeMedia = await retrieveAnilistMedia(command.arguments.join(" "));
-    if (!animeMedia) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(userSettings.language, Output.Anime.FetchFailed, [""]),
-        };
-    }
-
-    let outputMessage = "";
-    switch (command.source) {
-    case Source.Discord:
-        {
-            outputMessage = renderDiscordResponse(
-                animeMedia,
-                userSettings.language
-            );
-        }
-        break;
-    case Source.Twitch:
-        {
-            outputMessage = renderTwitchResponse(
-                animeMedia,
-                userSettings.language
-            );
-        }
-        break;
-    default: {
-        outputMessage = renderTwitchResponse(
-            animeMedia,
-            userSettings.language
-        );
-    }
-    }
-    return {
-        id: ActionId.Reply,
-        body: outputMessage,
-    };
-}
-
-async function retrieveAnilistMedia(name: string): Promise<AnimeMedia> {
-    const API_URL = "https://graphql.anilist.co/";
     try {
-        const response = await axios.post(
-            API_URL,
+        const resp = await axios.post(
+            "https://graphql.anilist.co/",
             {
                 query: ANIME_QUERY,
                 variables: {
-                    search: name,
+                    search: command.arguments.join(" "),
                 },
             },
             {
                 timeout: 3000,
-            },
+            }
         );
-        return response.data?.Media;
+        const { data } = resp.data;
+        let outputMessage = "";
+        switch (command.source) {
+        case Source.Discord:
+            {
+                outputMessage = renderDiscordResponse(
+                    data["Media"],
+                    userSettings.language
+                );
+            }
+            break;
+        case Source.Twitch:
+            {
+                outputMessage = renderTwitchResponse(
+                    data["Media"],
+                    userSettings.language
+                );
+            }
+            break;
+        default: {
+            outputMessage = renderTwitchResponse(
+                data["Media"],
+                userSettings.language
+            );
+        }
+        }
+        return {
+            id: ActionId.Reply,
+            body: outputMessage,
+        };
     } catch (error) {
-        // TODO: Log error
-        return;
+        return {
+            id: ActionId.Reply,
+            body: getOutput(userSettings.language, Output.Anime.FetchFailed, [
+                error,
+            ]),
+        };
     }
 }
 
