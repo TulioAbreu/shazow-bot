@@ -9,7 +9,7 @@ export async function createUserSettings(
 ): Promise<UserSettings> {
     const DEFAULT_LANGUAGE = Language.English;
     const DEFAULT_ROLE = Role.None;
-    const createdUser = UserSettingsDb.create({
+    const createdUser = await UserSettingsDb.create({
         userId,
         platform,
         language: DEFAULT_LANGUAGE,

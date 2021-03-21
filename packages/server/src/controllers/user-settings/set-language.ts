@@ -7,9 +7,9 @@ export async function setUserSettingsLanguage(
     platform: Source,
     language: Language
 ): Promise<UserSettings> {
-    const updatedUserSettings = UserSettingsDb.updateOne(
+    const updatedUserSettings: UserSettings = await UserSettingsDb.updateOne(
         { userId, platform },
         { language }
-    );
+    ).lean();
     return updatedUserSettings;
 }

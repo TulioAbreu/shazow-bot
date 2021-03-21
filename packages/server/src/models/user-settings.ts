@@ -3,12 +3,14 @@ import { Document, Schema, model } from "mongoose";
 import { Language } from "../controllers/language/find-user-language";
 import { Role } from "../types";
 
-export interface UserSettings extends Document {
+export interface UserSettings {
     userId: string;
     platform: Source;
     role: Role;
     language: Language;
 }
+
+export interface IUserSettings extends UserSettings, Document {}
 
 const UserSettingsSchema = new Schema({
     userId: {
@@ -31,4 +33,4 @@ const UserSettingsSchema = new Schema({
     },
 });
 
-export default model<UserSettings>("UserSetting", UserSettingsSchema);
+export default model<IUserSettings>("UserSetting", UserSettingsSchema);
