@@ -27,5 +27,8 @@
         "prettier": "2.2.1",
         "shx": "^0.3.3",
         "ts-jest": "^26.4.4"
+    },
+    "devDependencies": {
+        "eslint-config-prettier": "^8.1.0"
     }
 }
