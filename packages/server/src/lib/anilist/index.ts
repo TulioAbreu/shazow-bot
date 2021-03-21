@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Action, ActionId, Source } from "chat";
-import gql from "graphql-tag";
 import { ExecutableCommand } from "../../command/type";
 import { Language } from "../../controllers/language/find-user-language";
 import { getOutput } from "../../controllers/language/get-user-output";
@@ -9,7 +8,7 @@ import { UserSettings } from "../../models/user-settings";
 import { isNullOrUndefined } from "../../utils/is-null-or-undefined";
 import { createErrorResult, createResult, Result } from "../../utils/result";
 
-const ANIME_QUERY = gql`
+const ANIME_QUERY = `
     query($search: String) {
         Media(search: $search, type: ANIME) {
             title {
