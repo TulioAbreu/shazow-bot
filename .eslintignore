@@ -1,0 +1,7 @@
+*.json
+*.js
+*.lock
+*.code-workspace
+*.yml
+*/dist/*
+Procfile
