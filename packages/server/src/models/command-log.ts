@@ -1,13 +1,15 @@
 import { Source } from "chat";
 import { Document, Schema, model } from "mongoose";
 
-export interface CommandLog extends Document {
+export interface CommandLog {
     message: string;
     author: string;
     sentAt: Date;
     source: Source;
     commandName: string;
 }
+
+interface ICommandLog extends CommandLog, Document {}
 
 const CommandLogSchema = new Schema({
     message: {
@@ -32,4 +34,4 @@ const CommandLogSchema = new Schema({
     },
 });
 
-export default model<CommandLog>("CommandLog", CommandLogSchema);
+export default model<ICommandLog>("CommandLog", CommandLogSchema);

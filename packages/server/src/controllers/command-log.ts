@@ -10,13 +10,13 @@ const CommandLogValidationSchema = yup.object().shape({
 });
 
 export async function saveCommandLog(command: ExecutableCommand): Promise<boolean> {
-    const commandLog = {
+    const commandLog: CommandLog = {
         author: command.userName,
         commandName: command.name,
         message: command.message,
         source: command.source,
         sentAt: new Date(),
-    } as CommandLog;
+    };
 
     if (!(await CommandLogValidationSchema.isValid(command))) {
         return false;
