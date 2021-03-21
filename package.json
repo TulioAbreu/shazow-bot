@@ -1,0 +1,31 @@
+{
+    "name": "shazow-bot",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/TulioAbreu/shazow-bot.git",
+    "author": "TulioAbreu",
+    "license": "MIT",
+    "private": true,
+    "workspaces": {
+        "packages": [
+            "packages/*"
+        ]
+    },
+    "scripts": {
+        "clean-build": "shx rm -rf build/",
+        "test": "jest --passWithNoTests",
+        "build": "lerna run build",
+        "start": "node packages/server/dist/index.js",
+        "prettier": "prettier --write ./*",
+        "lint": "eslint ./ --fix --max-warnings=0"
+    },
+    "dependencies": {
+        "@typescript-eslint/eslint-plugin": "^4.13.0",
+        "@typescript-eslint/parser": "^4.13.0",
+        "eslint": "^7.18.0",
+        "lerna": "^3.22.1",
+        "prettier": "2.2.1",
+        "shx": "^0.3.3",
+        "ts-jest": "^26.4.4"
+    }
+}
