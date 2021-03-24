@@ -15,12 +15,13 @@ import { parseExecutableCommand } from "./command/parser";
 async function main() {
     console.log("INFO - Starting...");
     const {
+        port,
         mongodbKey,
         discordToken,
         twitchToken,
         twitchUsername,
     } = getSecret();
-    const { port, twitchChannels } = Config;
+    const { twitchChannels } = Config;
     try {
         const chat = new Chat(
             await new DiscordEnvironment().authenticate(discordToken),

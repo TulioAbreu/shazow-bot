@@ -6,6 +6,7 @@ export interface Secret {
     twitchUsername: string;
     twitchToken: string;
     mongodbKey: string;
+    port: number;
 }
 
 const SecretSchema = yup.object().shape({
@@ -13,6 +14,7 @@ const SecretSchema = yup.object().shape({
     MONGODB_CONNECTION_URL: yup.string().required(),
     TWITCH_USERNAME: yup.string().required(),
     TWITCH_TOKEN: yup.string().required(),
+    PORT: yup.number().required(),
 });
 
 export function getSecret(): Secret {
@@ -23,5 +25,6 @@ export function getSecret(): Secret {
         mongodbKey: env.MONGODB_CONNECTION_URL,
         twitchUsername: env.TWITCH_USERNAME,
         twitchToken: env.TWITCH_TOKEN,
+        port: env.PORT,
     };
 }
