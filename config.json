@@ -1,5 +1,5 @@
 {
-    "port": 80,
+    "port": 3001,
     "prefix": "$",
     "trollCommandThreshold": 150,
     "twitchChannels": [
