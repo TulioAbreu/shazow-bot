@@ -25,6 +25,10 @@ describe("removePrefix", () => {
         const message = getFakeCommandMessage(prefix);
         expect(removePrefix(message, prefix)).toBe(getFakeCommandMessage(""));
     });
+
+    it("should be true", () => {
+        expect(false).toBe(true);
+    });
 });
 
 describe("isCommand", () => {
