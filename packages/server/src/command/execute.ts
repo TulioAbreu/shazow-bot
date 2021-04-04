@@ -1,4 +1,6 @@
 import config from "../config";
+import CreateGenericCommand from "../lib/create-command";
+import DeleteGenericCommand from "../lib/delete-command";
 import Ping from "../lib/ping";
 import Pong from "../lib/pong";
 import Random from "../lib/random";
@@ -45,6 +47,10 @@ export async function execute(command: ExecutableCommand): Promise<Action> {
             return PollStatus(command, userSettings);
         case "settings":
             return Settings(command, userSettings);
+        case "createCommand":
+            return CreateGenericCommand(command, userSettings);
+        case "deleteCommand":
+            return DeleteGenericCommand(command, userSettings);
         default:
             return executeGenericCommand(command);
     }
