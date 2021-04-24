@@ -9,12 +9,12 @@ export async function executeGenericCommand(
         return;
     }
 
-    const genericCommand = GenericCommandDb.findOne(command.name);
+    const genericCommand = await GenericCommandDb.findOne(command.name);
     if (!genericCommand) { return; }
 
     const output = command.arguments.reduce((currentOutput, argument, index) => {
         return currentOutput.replace(`%args${index}`, argument);
-    });
+    }, genericCommand.output);
 
     return {
         id: ActionId.Reply,
