@@ -9,8 +9,8 @@ import {
 import Config from "./config";
 import * as mongoose from "mongoose";
 import { getSecret } from "./secret";
-import { execute } from "./command/execute";
-import { parseExecutableCommand } from "./command/parser";
+import { execute } from "./services/command";
+import { parseExecutableCommand } from "./services/command/parser";
 
 async function main() {
     console.log("INFO - Starting...");

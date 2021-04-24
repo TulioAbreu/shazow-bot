@@ -1,7 +1,7 @@
 import { Source } from "chat";
 import { UserSettings } from "../../models/user-settings";
 import { Role } from "../../types";
-import { ExecutableCommand } from "../../command/type";
+import { ExecutableCommand } from "../../services/command";
 import { Language } from "../language/find-user-language";
 
 const FAKE_USER_ID = "fakeUserId";

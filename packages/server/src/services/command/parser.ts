@@ -1,5 +1,5 @@
 import { Message } from "chat";
-import { ExecutableCommand } from "./type";
+import { ExecutableCommand } from ".";
 
 export function parseExecutableCommand(
     message: Message,
@@ -24,7 +24,7 @@ export function parseExecutableCommand(
     };
 }
 
-export function isCommand(
+function isCommand(
     messageContent: string,
     commandPrefix: string
 ): boolean {
@@ -34,7 +34,7 @@ export function isCommand(
     return messageContent.startsWith(commandPrefix);
 }
 
-export function removePrefix(
+function removePrefix(
     messageContent: string,
     commandPrefix: string
 ): string {

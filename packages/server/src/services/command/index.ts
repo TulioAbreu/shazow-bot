@@ -1,20 +1,28 @@
-import config from "../config";
-import CreateGenericCommand from "../lib/create-command";
-import DeleteGenericCommand from "../lib/delete-command";
-import Ping from "../lib/ping";
-import Pong from "../lib/pong";
-import Random from "../lib/random";
-import type { ExecutableCommand } from "./type";
-import type { UserSettings } from "../models/user-settings";
-import { executeGenericCommand } from "../controllers/generic-command/execute";
-import Anime from "../lib/anilist";
-import Poll from "../lib/poll";
-import Vote from "../lib/vote";
-import * as UserSettingsDb from "../repositories/user-settings";
-import PollStatus from "../lib/poll-status";
-import * as CommandLogDb from "../repositories/command-log";
-import Settings from "../lib/user-settings";
+import config from "../../config";
+import CreateGenericCommand from "../../lib/create-command";
+import DeleteGenericCommand from "../../lib/delete-command";
+import Ping from "../../lib/ping";
+import Pong from "../../lib/pong";
+import Random from "../../lib/random";
+import type { UserSettings } from "../../models/user-settings";
+import { executeGenericCommand } from "../../services/generic-command";
+import Anime from "../../lib/anilist";
+import Poll from "../../lib/poll";
+import Vote from "../../lib/vote";
+import * as UserSettingsDb from "../../repositories/user-settings";
+import PollStatus from "../../lib/poll-status";
+import * as CommandLogDb from "../../repositories/command-log";
+import Settings from "../../lib/user-settings";
 import { Action, Source } from "chat";
+
+export interface ExecutableCommand {
+    userID: string;
+    userName: string;
+    name: string;
+    message: string;
+    arguments: string[];
+    source: Source;
+}
 
 export async function execute(command: ExecutableCommand): Promise<Action> {
     if (isEmptyCommand(command) || isTrollCommand(command)) {
