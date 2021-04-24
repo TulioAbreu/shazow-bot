@@ -1,11 +1,11 @@
 import { Action, ActionId } from "chat";
-import { ExecutableCommand } from "../../command/type";
+import { ExecutableCommand } from "../command";
 import * as GenericCommandDb from "../../repositories/generic-command";
 
 export async function executeGenericCommand(
     command: ExecutableCommand
 ): Promise<Action> {
-    if (!command || !command.name?.length) {
+    if (!command?.name?.length) {
         return;
     }
 
