@@ -10,12 +10,9 @@ import { executeGenericCommand } from "../controllers/generic-command/execute";
 import Anime from "../lib/anilist";
 import Poll from "../lib/poll";
 import Vote from "../lib/vote";
-import {
-    findOneUserSettings,
-    createUserSettings,
-} from "../controllers/user-settings";
+import * as UserSettingsDb from "../repositories/user-settings";
 import PollStatus from "../lib/poll-status";
-import { saveCommandLog } from "../controllers/command-log";
+import * as CommandLogDb from "../repositories/command-log";
 import Settings from "../lib/user-settings";
 import { Action, Source } from "chat";
 
@@ -28,7 +25,13 @@ export async function execute(command: ExecutableCommand): Promise<Action> {
         command.userID,
         command.source
     );
-    saveCommandLog(command);
+    CommandLogDb.save({
+        author: command.userName,
+        commandName: command.name,
+        message: command.message,
+        source: command.source,
+        sentAt: new Date(),
+    });
 
     switch (command.name) {
         case "ping":
@@ -60,11 +63,11 @@ async function retrieveUserSettings(
     userId: string,
     userSource: Source
 ): Promise<UserSettings> {
-    const userSettings = await findOneUserSettings(userId, userSource);
+    const userSettings = await UserSettingsDb.findOne(userId, userSource);
     if (userSettings) {
         return userSettings;
     } else {
-        return createUserSettings(userId, userSource);
+        return UserSettingsDb.create(userId, userSource);
     }
 }
 
