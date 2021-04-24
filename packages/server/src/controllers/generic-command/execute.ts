@@ -1,6 +1,6 @@
 import { Action, ActionId } from "chat";
 import { ExecutableCommand } from "../../command/type";
-import { findGenericCommand } from "./find";
+import * as GenericCommandDb from "../../repositories/generic-command";
 
 export async function executeGenericCommand(
     command: ExecutableCommand
@@ -8,20 +8,14 @@ export async function executeGenericCommand(
     if (!command || !command.name?.length) {
         return;
     }
-    let dbCommand = await findGenericCommand(command.name);
 
-    if (!dbCommand) {
-        return;
-    }
+    const genericCommand = GenericCommandDb.findOne(command.name);
+    if (!genericCommand) { return; }
 
-    if (Array.isArray(dbCommand)) {
-        dbCommand = dbCommand.shift();
-    }
+    const output = command.arguments.reduce((currentOutput, argument, index) => {
+        return currentOutput.replace(`%args${index}`, argument);
+    });
 
-    let output = dbCommand.output;
-    for (let i = 0; i < command.arguments.length; ++i) {
-        output = output.replace(`%args${i}`, command.arguments[i]);
-    }
     return {
         id: ActionId.Reply,
         body: output,
