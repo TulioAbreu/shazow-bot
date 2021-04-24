@@ -1,5 +1,5 @@
 import { Action, ActionId } from "chat";
-import { ExecutableCommand } from "../../command/type";
+import { ExecutableCommand } from "../../services/command";
 
 const DEFAULT_MIN_VALUE = 0;
 const DEFAULT_MAX_VALUE = 1000;

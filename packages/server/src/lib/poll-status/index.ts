@@ -1,4 +1,4 @@
-import type { ExecutableCommand } from "../../command/type";
+import type { ExecutableCommand } from "../../services/command";
 import type { UserSettings } from "../../models/user-settings";
 import { findDisabledPolls } from "../../controllers/poll";
 import {

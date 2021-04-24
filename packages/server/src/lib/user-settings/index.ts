@@ -1,5 +1,5 @@
 import { Action, ActionId } from "chat";
-import type { ExecutableCommand } from "../../command/type";
+import type { ExecutableCommand } from "../../services/command";
 import { Language } from "../../controllers/language/find-user-language";
 import { getOutput } from "../../controllers/language/get-user-output";
 import * as UserSettingsDb from "../../repositories/user-settings";

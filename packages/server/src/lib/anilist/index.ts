@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Action, ActionId, Source } from "chat";
-import { ExecutableCommand } from "../../command/type";
+import { ExecutableCommand } from "../../services/command";
 import { Language } from "../../controllers/language/find-user-language";
 import { getOutput } from "../../controllers/language/get-user-output";
 import { Output } from "../../languages";

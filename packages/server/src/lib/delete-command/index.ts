@@ -1,5 +1,5 @@
 import { Action, ActionId } from "chat";
-import { ExecutableCommand } from "../../command/type";
+import { ExecutableCommand } from "../../services/command";
 import * as GenericCommandDb from "../../repositories/generic-command";
 import { UserSettings } from "../../models/user-settings";
 import { Role } from "../../types";

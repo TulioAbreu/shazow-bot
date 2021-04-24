@@ -1,5 +1,5 @@
 import { Action, ActionId } from "chat";
-import { ExecutableCommand } from "../../command/type";
+import { ExecutableCommand } from "../../services/command";
 import { getOutput } from "../../controllers/language/get-user-output";
 import { findActivePolls } from "../../controllers/poll";
 import * as VoteDb from "../../repositories/vote";
