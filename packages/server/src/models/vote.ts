@@ -1,7 +1,7 @@
 import { Source } from "chat";
 import { Document, Schema, model } from "mongoose";
 
-export interface Vote extends Document {
+export interface Vote {
     _id?: string;
     pollId: string;
     username: string;
@@ -10,6 +10,8 @@ export interface Vote extends Document {
     option: string;
     source: Source;
 }
+
+export interface IVote extends Vote, Document<string> {}
 
 const VoteSchema = new Schema({
     pollId: {
@@ -38,4 +40,4 @@ const VoteSchema = new Schema({
     },
 });
 
-export default model<Vote>("Vote", VoteSchema);
+export default model<IVote>("Vote", VoteSchema);

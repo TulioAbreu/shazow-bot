@@ -2,7 +2,7 @@ import { Action, ActionId } from "chat";
 import { ExecutableCommand } from "../../command/type";
 import { getOutput } from "../../controllers/language/get-user-output";
 import { findActivePolls } from "../../controllers/poll";
-import { createVote } from "../../controllers/vote/create";
+import * as VoteDb from "../../repositories/vote";
 import { Output } from "../../languages";
 import { Poll } from "../../models/poll";
 import { UserSettings } from "../../models/user-settings";
@@ -27,14 +27,14 @@ export default async function Vote(
     }
     const voteOption = getVoteOption(command.arguments);
     const pollIndex = getPollIndexFromOption(activePolls, voteOption);
-    const success = await createVote({
+    const success = await VoteDb.save({
         pollId: activePolls[pollIndex]?._id,
         username: command.userName,
         userId: command.userID,
         sentAt: new Date(),
         option: voteOption,
         source: command.source,
-    } as Vote);
+    });
     if (!success) {
         return;
     }

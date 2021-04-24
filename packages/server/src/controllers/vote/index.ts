@@ -1,1 +1,0 @@
-export { createVote } from "./create";

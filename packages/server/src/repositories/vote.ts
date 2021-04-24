@@ -1,12 +1,10 @@
-import VoteDb, { Vote } from "../../models/vote";
-import { isNullOrUndefined } from "../../utils/is-null-or-undefined";
+import VoteDb, { Vote } from "../models/vote";
+import { isNullOrUndefined } from "../utils/is-null-or-undefined";
 
-export async function createVote(vote: Vote): Promise<boolean> {
+export async function save(vote: Vote): Promise<boolean> {
     const userCanVote = await canUserVote(vote.userId, vote.pollId);
-    if (!vote || !userCanVote) {
-        return false;
-    }
-    if (isNullOrUndefined(vote.sentAt)) {
+    if (!vote || !userCanVote) { return false; }
+    if (!vote.sentAt) {
         vote.sentAt = new Date();
     }
     await VoteDb.create(vote);
