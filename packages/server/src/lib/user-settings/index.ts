@@ -2,7 +2,8 @@ import { Action, ActionId } from "chat";
 import type { ExecutableCommand } from "../../command/type";
 import { Language } from "../../controllers/language/find-user-language";
 import { getOutput } from "../../controllers/language/get-user-output";
-import { setUserSettingsLanguage } from "../../controllers/user-settings";
+import * as UserSettingsDb from "../../repositories/user-settings";
+
 import { Output } from "../../languages";
 import type { UserSettings } from "../../models/user-settings";
 
@@ -74,11 +75,7 @@ async function setLanguage(
     if (!Object.values(Language).includes(language)) {
         return replyInvalidLanguage(userSettings);
     }
-    await setUserSettingsLanguage(
-        userSettings.userId,
-        userSettings.platform,
-        language
-    );
+    await UserSettingsDb.update(userSettings.userId, userSettings.platform, { language });
     return {
         id: ActionId.Reply,
         body: getOutput(language, Output.Settings.SetLanguageSuccess),
