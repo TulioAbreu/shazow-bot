@@ -1,11 +1,6 @@
 import * as yup from "yup";
 import { Router } from "express";
-import {
-    createGenericCommand,
-    findGenericCommand,
-} from "../../controllers/generic-command";
-import { removeGenericCommand } from "../../controllers/generic-command/remove";
-import { GenericCommand } from "../../models/generic-command";
+import * as GenericCommandDb from "../../repositories/generic-command";
 
 const HTTP_BAD_REQUEST = 502;
 const HTTP_OK_REQUEST = 200;
@@ -14,7 +9,9 @@ const genericCommandRouter = Router();
 
 genericCommandRouter.get("/:name?", async (req, res) => {
     const { name } = req.params;
-    const command = await findGenericCommand(name);
+    const command = name
+        ? await GenericCommandDb.findOne(name)
+        : await GenericCommandDb.findAll();
     if (!command) {
         return res.status(HTTP_NOT_FOUND).json({});
     }
@@ -30,7 +27,7 @@ genericCommandRouter.post("/", async (req, res) => {
     if (!(await commandSchema.isValid(body))) {
         return res.status(HTTP_BAD_REQUEST);
     }
-    const genericCommand = await createGenericCommand(body as GenericCommand);
+    const genericCommand = await GenericCommandDb.save(body);
     res.status(HTTP_OK_REQUEST).json(genericCommand);
 });
 
@@ -39,7 +36,7 @@ genericCommandRouter.delete("/:name", async (req, res) => {
     if (!name?.length) {
         return res.status(HTTP_BAD_REQUEST);
     }
-    const result = await removeGenericCommand(name);
+    const result = await GenericCommandDb.remove(name);
     if (result) {
         return res.status(HTTP_OK_REQUEST);
     } else {

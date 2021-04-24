@@ -1,6 +1,6 @@
 import { Action, ActionId } from "chat";
 import { ExecutableCommand } from "../../command/type";
-import { removeGenericCommand } from "../../controllers/generic-command/remove";
+import * as GenericCommandDb from "../../repositories/generic-command";
 import { UserSettings } from "../../models/user-settings";
 import { Role } from "../../types";
 
@@ -24,7 +24,7 @@ export default async function DeleteCommand(
 
     await Promise.all(command.arguments.map(async (name: string) => {
         try {
-            await removeGenericCommand(name);
+            await GenericCommandDb.remove(name);
         } catch (error) {
             return {
                 id: ActionId.Reply,

@@ -1,6 +1,6 @@
 import { Action, ActionId } from "chat";
 import { ExecutableCommand } from "../../command/type";
-import { createGenericCommand } from "../../controllers/generic-command";
+import * as GenericCommandDb from "../../repositories/generic-command";
 import { UserSettings } from "../../models/user-settings";
 import { Role } from "../../types";
 
@@ -24,7 +24,7 @@ export default async function CreateCommand(
     }
 
     try {
-        await createGenericCommand({
+        await GenericCommandDb.save({
             name: name,
             output: output.join(" "),
             createdAt: new Date(),
