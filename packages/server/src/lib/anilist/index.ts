@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Action, ActionId, Source } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Language } from "../../controllers/language/find-user-language";
@@ -6,44 +5,7 @@ import { getOutput } from "../../controllers/language/get-user-output";
 import { Output } from "../../languages";
 import { UserSettings } from "../../models/user-settings";
 import { isNullOrUndefined } from "../../utils/is-null-or-undefined";
-
-const ANIME_QUERY =
-`query($search: String) {
-    Media(search: $search, type: ANIME) {
-        title {
-            english
-            romaji
-        }
-        coverImage {
-            large
-        }
-        startDate {
-            year
-        }
-        description
-        episodes
-        chapters
-        genres
-        averageScore
-    }
-}`;
-
-interface AnimeMedia {
-    title: {
-        english: string;
-        romaji: string;
-    };
-    coverImage: {
-        large: string;
-    };
-    startDate: {
-        year: number;
-    };
-    description: string;
-    episodes: number | null;
-    genres: string[];
-    averageScore: number;
-}
+import { AnimeMedia, fetchAnime } from "../../services/anime";
 
 export default async function Anime(
     command: ExecutableCommand,
@@ -58,79 +20,46 @@ export default async function Anime(
             ),
         };
     }
-    try {
-        const resp = await axios.post(
-            "https://graphql.anilist.co/",
-            {
-                query: ANIME_QUERY,
-                variables: {
-                    search: command.arguments.join(" "),
-                },
-            },
-            {
-                timeout: 3000,
-            }
-        );
-        const { data } = resp.data;
-        let outputMessage = "";
-        switch (command.source) {
-        case Source.Discord:
-            {
-                outputMessage = renderDiscordResponse(
-                    data["Media"],
-                    userSettings.language
-                );
-            }
-            break;
-        case Source.Twitch:
-            {
-                outputMessage = renderTwitchResponse(
-                    data["Media"],
-                    userSettings.language
-                );
-            }
-            break;
-        default: {
-            outputMessage = renderTwitchResponse(
-                data["Media"],
-                userSettings.language
-            );
-        }
-        }
-        return {
-            id: ActionId.Reply,
-            body: outputMessage,
-        };
-    } catch (error) {
+    const animeResult = await fetchAnime(command.arguments?.join(" "));
+    if (!animeResult.hasValue) {
         return {
             id: ActionId.Reply,
             body: getOutput(userSettings.language, Output.Anime.FetchFailed, [
-                error,
+                animeResult.errorMessage,
             ]),
         };
     }
+    const anime: AnimeMedia = animeResult.value;
+    const outputRenderer = {
+        [Source.Discord]: renderDiscordResponse,
+        [Source.Twitch]: renderTwitchResponse,
+    }[command.source] ?? renderTwitchResponse;
+    return {
+        id: ActionId.Reply,
+        body: outputRenderer(anime, userSettings.language),
+    };
 }
 
-function renderTwitchResponse(media: AnimeMedia, language: Language): string {
+function renderTwitchResponse(anime: AnimeMedia, language: Language): string {
     function renderTitle() {
-        return media.title.romaji || media.title.english;
+        return anime.Media.title.romaji || anime.Media.title.english;
     }
 
     function renderYear() {
-        return media.startDate.year?.toString() || "";
+        return anime.Media.startDate.year?.toString() || "";
     }
 
     function renderGenres() {
-        return `${media.genres.join(", ")}`;
+        return `${anime.Media.genres.join(", ")}`;
     }
 
     function renderEpisodes(): string {
-        const episodes = media.episodes;
+        const episodes = anime.Media.episodes;
         return episodes?.toString() || "";
     }
 
     function renderScore(): string {
-        const score = media.averageScore;
+        const score = anime.Media.averageScore;
         if (isNullOrUndefined(score)) {
             return "";
         }
@@ -146,30 +75,30 @@ function renderTwitchResponse(media: AnimeMedia, language: Language): string {
     ]);
 }
 
-function renderDiscordResponse(media: AnimeMedia, language: Language): string {
+function renderDiscordResponse(anime: AnimeMedia, language: Language): string {
     function renderTitle(): string {
-        return `**${media.title.english || media.title.romaji}**`;
+        return `**${anime.Media.title.english || anime.Media.title.romaji}**`;
     }
 
     function renderGenres(): string {
-        return `${media.genres.join(", ")}`;
+        return `${anime.Media.genres.join(", ")}`;
     }
 
     function renderEpisodes(): string {
-        const episodes = media.episodes;
+        const episodes = anime.Media.episodes;
         return episodes?.toString() || "";
     }
 
     function renderYear(): string {
-        return media.startDate.year?.toString() || "";
+        return anime.Media.startDate.year?.toString() || "";
     }
 
     function renderDescription(): string {
-        return media.description.replace(/<[^>]*>/g, "");
+        return anime.Media.description.replace(/<[^>]*>/g, "");
     }
 
     function renderScore(): string {
-        const score = media.averageScore;
+        const score = anime.Media.averageScore;
         if (isNullOrUndefined(score)) {
             return "";
         }
@@ -177,7 +106,7 @@ function renderDiscordResponse(media: AnimeMedia, language: Language): string {
     }
 
     function renderImage(): string {
-        return media.coverImage.large;
+        return anime.Media.coverImage.large;
     }
 
     return getOutput(language, Output.Anime.SuccessDiscord, [
