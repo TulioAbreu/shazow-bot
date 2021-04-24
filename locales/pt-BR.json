@@ -1,0 +1,19 @@
+{
+    "VoteInvalidArgs": "parâmetros inválidos!",
+    "VoteNoActivePolls": " nenhuma enquete está ativa no momento.",
+    "VoteSuccess": "voto computado com sucesso!",
+    "PollInvalidArgs": "parâmetros inválidos",
+    "PollNoPermission": "você não tem permissão para executar essa ação.",
+    "PollSuccess": "A enquete foi criada e deve encerrar em %args0 minutos! %args1 %args2",
+    "AnimeNoArguments": "preciso do nome do anime!",
+    "AnimeFetchFailed": "ocorreu algum problema enquanto procurava seu anime. Tente mais tarde! Erro: %args0",
+    "AnimeSuccessDiscord": "\n%args0 (%args1)\n**Gênero**: %args2\n**Episódios**: %args3\n%args4\n**Nota**: %args5\n%args6",
+    "AnimeSuccessTwitch": "%args0 (%args1) - Gêneros: %args2 - Episódios: %args3 - Nota: %args4",
+    "PollStatusNoRecentPolls": "nenhuma enquete terminou recentemente",
+    "PollStatusSuccessDiscord": "**Resultado para %args0:**\n%args1",
+    "PollStatusSuccessDiscordOption": "**%args0** - %args1 votos",
+    "SettingsNoArguments": "settings <set/get> <language> <?selectedLanguage>",
+    "SettingsGetLanguage": "linguagem = %args0.",
+    "SettingsInvalidLanguage": "Linguagem não suportada. Atualmente são suportadas: %args0",
+    "SettingsSetLanguageSuccess": "Linguagem PT foi selecionada."
+}
