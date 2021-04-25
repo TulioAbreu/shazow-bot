@@ -5,7 +5,7 @@ const server = express();
 
 server.use(express.json());
 
-server.get("/health", (req, res) => {
+server.get("/health", (req: express.Request, res: express.Response) => {
     res.send("OK");
 });
 
