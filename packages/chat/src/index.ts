@@ -11,3 +11,4 @@ export {
     OnMessageCallback,
     Source,
 } from "./types";
+export { createChatReply } from "./shortcuts";

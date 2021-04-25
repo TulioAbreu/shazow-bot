@@ -1,4 +1,4 @@
-import { Action, ActionId } from "chat";
+import { Action, createChatReply } from "chat";
 import type { ExecutableCommand } from "../../services/command";
 import { Language, Output, getOutput } from "../../services/language";
 import * as UserSettingsDb from "../../repositories/user-settings";
@@ -37,19 +37,13 @@ async function getSettings(
 }
 
 function replyNoArguments(userSettings: UserSettings): Action {
-    return {
-        id: ActionId.Reply,
-        body: getOutput(Output.SettingsNoArguments, userSettings.language),
-    };
+    return createChatReply(getOutput(Output.SettingsNoArguments, userSettings.language));
 }
 
 async function replyLanguage(userSettings: UserSettings): Promise<Action> {
-    return {
-        id: ActionId.Reply,
-        body: getOutput(Output.SettingsGetLanguage, userSettings.language, [
-            userSettings.language,
-        ]),
-    };
+    return createChatReply(getOutput(Output.SettingsGetLanguage, userSettings.language, [
+        userSettings.language,
+    ]));
 }
 
 async function setSettings(
@@ -76,23 +70,17 @@ async function setLanguage(
     await UserSettingsDb.update(userSettings.userId, userSettings.platform, {
         language,
     });
-    return {
-        id: ActionId.Reply,
-        body: getOutput(Output.SettingsSetLanguageSuccess, language, [
-            language,
-        ]),
-    };
+    return createChatReply(getOutput(Output.SettingsSetLanguageSuccess, language, [
+        language,
+    ]));
 }
 
 function replyInvalidLanguage(userSettings: UserSettings): Action {
-    return {
-        id: ActionId.Reply,
-        body: getOutput(Output.SettingsInvalidLanguage, userSettings.language, [
-            Object.keys(Language)
-                .map((languageKey: string) => {
-                    return `${languageKey} (${Language[languageKey]})`;
-                })
-                .join(", "),
-        ]),
-    };
+    return createChatReply(getOutput(Output.SettingsInvalidLanguage, userSettings.language, [
+        Object.keys(Language)
+            .map((languageKey: string) => {
+                return `${languageKey} (${Language[languageKey]})`;
+            })
+            .join(", "),
+    ]));
 }

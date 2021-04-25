@@ -1,4 +1,4 @@
-import { Action, ActionId } from "chat";
+import { Action, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import * as GenericCommandDb from "../../repositories/generic-command";
 import { UserSettings } from "../../models/user-settings";
@@ -10,18 +10,12 @@ export default async function CreateCommand(
     userSettings: UserSettings
 ): Promise<Action> {
     if (userSettings.role < Role.Trusted) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(Output.CreateCommandAccessNegated, userSettings.language),
-        };
+        return createChatReply(getOutput(Output.CreateCommandAccessNegated, userSettings.language));
     }
 
     const [name, ...output] = command.arguments;
     if (!hasValidArguments(name, output)) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(Output.CreateCommandInvalidArguments, userSettings.language),
-        };
+        return createChatReply(getOutput(Output.CreateCommandInvalidArguments, userSettings.language));
     }
 
     try {
@@ -32,16 +26,10 @@ export default async function CreateCommand(
             isCacheable: false,
         });
     } catch (error) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(Output.CreateCommandFail, userSettings.language, [name, error]),
-        };
+        return createChatReply(getOutput(Output.CreateCommandFail, userSettings.language, [name, error]));
     }
 
-    return {
-        id: ActionId.Reply,
-        body: getOutput(Output.CreateCommandSuccess, userSettings.language, [name]),
-    };
+    return createChatReply(getOutput(Output.CreateCommandSuccess, userSettings.language, [name]));
 }
 
 function hasValidArguments(name: string, output: string[]): boolean {

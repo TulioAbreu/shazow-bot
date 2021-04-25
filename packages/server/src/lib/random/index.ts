@@ -1,4 +1,4 @@
-import { Action, ActionId } from "chat";
+import { Action, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
 
 const DEFAULT_MIN_VALUE = 0;
@@ -18,10 +18,7 @@ export default function Random(command: ExecutableCommand): Action {
         }
     }
     const value = randomIntFromInterval(minValue, maxValue);
-    return {
-        id: ActionId.Reply,
-        body: `${value}`,
-    };
+    return createChatReply(`${value}`);
 }
 
 function parseArgument(arg: string): number {

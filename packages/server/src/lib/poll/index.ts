@@ -1,4 +1,4 @@
-import { Action, ActionId } from "chat";
+import { Action, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Output, getOutput } from "../../services/language";
 import { Poll } from "../../models/poll";
@@ -16,36 +16,24 @@ export default async function Poll(
     userSettings: UserSettings
 ): Promise<Action> {
     if (!command.arguments?.length) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(Output.PollInvalidArgs, userSettings.language),
-        };
+        return createChatReply(getOutput(Output.PollInvalidArgs, userSettings.language));
     }
     if (!canUserStartPoll(userSettings)) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(Output.PollNoPermission, userSettings.language),
-        };
+        return createChatReply(getOutput(Output.PollNoPermission, userSettings.language));
     }
     const pollMinutes = parseInt(command.arguments[0]);
     const { question, options } = parsePoll(
         command.arguments.slice(1).join(" ")
     );
     if (!checkPollParameters(question, options, pollMinutes)) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(Output.PollInvalidArgs, userSettings.language),
-        };
+        return createChatReply(getOutput(Output.PollInvalidArgs, userSettings.language));
     }
     await PollDb.create(question, options, pollMinutes);
-    return {
-        id: ActionId.Reply,
-        body: getOutput(Output.PollSuccess, userSettings.language, [
-            `${pollMinutes}`,
-            question,
-            options.join(", "),
-        ]),
-    };
+    return createChatReply(getOutput(Output.PollSuccess, userSettings.language, [
+        `${pollMinutes}`,
+        question,
+        options.join(", "),
+    ]));
 }
 
 function checkPollParameters(

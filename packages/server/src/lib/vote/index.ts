@@ -1,4 +1,4 @@
-import { Action, ActionId } from "chat";
+import { Action, ActionId, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Output, getOutput } from "../../services/language";
 import * as PollDb from "../../repositories/poll";
@@ -13,17 +13,11 @@ export default async function Vote(
     userSettings: UserSettings
 ): Promise<Action> {
     if (!command.arguments?.length) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(Output.VoteInvalidArgs, userSettings.language),
-        };
+        return createChatReply(getOutput(Output.VoteInvalidArgs, userSettings.language));
     }
     const activePolls = (await PollDb.find()).filter(isPollActive);
     if (!activePolls?.length) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(Output.VoteNoActivePolls, userSettings.language),
-        };
+        return createChatReply(getOutput(Output.VoteNoActivePolls, userSettings.language));
     }
     const voteOption = getVoteOption(command.arguments);
     const pollIndex = getPollIndexFromOption(activePolls, voteOption);
@@ -38,10 +32,7 @@ export default async function Vote(
     if (!success) {
         return;
     }
-    return {
-        id: ActionId.Reply,
-        body: getOutput(Output.VoteSuccess, userSettings.language),
-    };
+    return createChatReply(getOutput(Output.VoteSuccess, userSettings.language));
 }
 
 function getVoteOption(args: string[]): string {

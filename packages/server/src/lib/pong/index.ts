@@ -1,8 +1,5 @@
-import { Action, ActionId } from "chat";
+import { Action, createChatReply } from "chat";
 
 export default function Pong(): Action {
-    return {
-        id: ActionId.Reply,
-        body: "ping!",
-    };
+    return createChatReply("ping!");
 }

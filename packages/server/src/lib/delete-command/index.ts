@@ -1,4 +1,4 @@
-import { Action, ActionId } from "chat";
+import { Action, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import * as GenericCommandDb from "../../repositories/generic-command";
 import { UserSettings } from "../../models/user-settings";
@@ -10,17 +10,11 @@ export default async function DeleteCommand(
     userSettings: UserSettings
 ): Promise<Action> {
     if (userSettings.role < Role.Admin) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(Output.DeleteCommandAccessNegated, userSettings.language),
-        };
+        return createChatReply(getOutput(Output.DeleteCommandAccessNegated, userSettings.language));
     }
 
     if (!hasValidArguments(command.arguments)) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(Output.DeleteCommandInvalidArguments, userSettings.language),
-        };
+        return createChatReply(getOutput(Output.DeleteCommandInvalidArguments, userSettings.language));
     }
 
     await Promise.all(
@@ -28,18 +22,12 @@ export default async function DeleteCommand(
             try {
                 await GenericCommandDb.remove(name);
             } catch (error) {
-                return {
-                    id: ActionId.Reply,
-                    body: getOutput(Output.DeleteCommandFail, userSettings.language, [name, error]),
-                };
+                return createChatReply(getOutput(Output.DeleteCommandInvalidArguments, userSettings.language));
             }
         })
     );
 
-    return {
-        id: ActionId.Reply,
-        body: getOutput(Output.DeleteCommandSuccess, userSettings.language, [command.arguments.join(", ")]),
-    };
+    return createChatReply(getOutput(Output.DeleteCommandSuccess, userSettings.language, [command.arguments.join(", ")]));
 }
 
 function hasValidArguments(args: string[]): boolean {

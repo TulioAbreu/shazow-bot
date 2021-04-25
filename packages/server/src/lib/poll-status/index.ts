@@ -7,7 +7,7 @@ import {
 } from "../../services/poll";
 import { Poll } from "../../models/poll";
 import { Language, Output, getOutput } from "../../services/language";
-import { Action, ActionId, Source } from "chat";
+import { Action, ActionId, createChatReply, Source } from "chat";
 import * as PollDb from "../../repositories/poll";
 import { isPollDisabled } from "../../services/poll";
 
@@ -17,13 +17,10 @@ export default async function PollStatus(
 ): Promise<Action> {
     const poll = await getLastFinishedPoll();
     if (!poll) {
-        return {
-            id: ActionId.Reply,
-            body: getOutput(
-                Output.PollStatusNoRecentPolls,
-                userSettings.language
-            ),
-        };
+        return createChatReply(getOutput(
+            Output.PollStatusNoRecentPolls,
+            userSettings.language
+        ));
     }
     const pollStatus = await getPollStatus(poll._id);
     switch (command.source) {
@@ -39,21 +36,18 @@ function renderDiscordResult(
     pollStatus: PollStatus,
     language: Language
 ): Action {
-    return {
-        id: ActionId.Reply,
-        body: getOutput(Output.PollStatusSuccessDiscord, language, [
-            pollStatus.question,
-            pollStatus.options
-                .map((option: PollStatusOption) => {
-                    return getOutput(
-                        Output.PollStatusSuccessDiscordOption,
-                        language,
-                        [option.option, (option.votes ?? 0).toString()]
-                    );
-                })
-                .join("\n"),
-        ]),
-    };
+    return createChatReply(getOutput(Output.PollStatusSuccessDiscord, language, [
+        pollStatus.question,
+        pollStatus.options
+            .map((option: PollStatusOption) => {
+                return getOutput(
+                    Output.PollStatusSuccessDiscordOption,
+                    language,
+                    [option.option, (option.votes ?? 0).toString()]
+                );
+            })
+            .join("\n"),
+    ]));
 }
 
 async function getLastFinishedPoll(): Promise<Poll> {
