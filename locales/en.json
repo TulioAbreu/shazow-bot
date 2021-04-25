@@ -24,5 +24,9 @@
     "DeleteCommandAccessNegated": "You shall not pass!",
     "DeleteCommandInvalidArguments": "Invalid arguments!",
     "DeleteCommandFail": "Failed to remove command %args0. Error: %args1",
-    "DeleteCommandSuccess": "Removed commands: %args0"
+    "DeleteCommandSuccess": "Removed commands: %args0",
+    "WeatherInvalidArgs": "Invalid arguments!",
+    "WeatherLocationNotFound": "location not found.",
+    "WeatherSuccess": "Location: %args0 - Temperature %args1 - Min %args2 - Max %args3",
+    "WeatherFail": "Failed to retrieve weather data."
 }

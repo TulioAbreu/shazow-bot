@@ -33,6 +33,10 @@ export enum Output {
     DeleteCommandInvalidArguments = "DeleteCommandInvalidArguments",
     DeleteCommandFail = "DeleteCommandFail",
     DeleteCommandSuccess = "DeleteCommandSuccess",
+    WeatherInvalidArgs = "WeatherInvalidArgs",
+    WeatherLocationNotFound = "WeatherLocationNotFound",
+    WeatherSuccess = "WeatherSuccess",
+    WeatherFail = "WeatherFail",
 }
 
 const DEFAULT_LANGUAGE = Language.English;

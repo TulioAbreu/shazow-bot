@@ -24,5 +24,9 @@
     "DeleteCommandAccessNegated": "Você não tem permissão para excluir comandos!",
     "DeleteCommandInvalidArguments": "Parâmetros inválidos!",
     "DeleteCommandFail": "Falha ao remover o comando %args0. Erro: %args1",
-    "DeleteCommandSuccess": "Comandos removidos: %args0"
+    "DeleteCommandSuccess": "Comandos removidos: %args0",
+    "WeatherInvalidArgs": "Parâmetros inválidos!",
+    "WeatherLocationNotFound": "não foi possível encontrar a localização.",
+    "WeatherSuccess": "Local: %args0 - Temperatura %args1 - Min %args2 - Max %args3",
+    "WeatherFail": "Falha ao buscar informações do clima."
 }

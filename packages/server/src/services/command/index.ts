@@ -14,6 +14,7 @@ import PollStatus from "../../lib/poll-status";
 import * as CommandLogDb from "../../repositories/command-log";
 import Settings from "../../lib/user-settings";
 import { Action, Source } from "chat";
+import Weather from "../../lib/weather";
 
 export interface ExecutableCommand {
     userID: string;
@@ -62,6 +63,8 @@ export async function execute(command: ExecutableCommand): Promise<Action> {
             return CreateGenericCommand(command, userSettings);
         case "deleteCommand":
             return DeleteGenericCommand(command, userSettings);
+        case "weather":
+            return Weather(command, userSettings);
         default:
             return executeGenericCommand(command);
     }
