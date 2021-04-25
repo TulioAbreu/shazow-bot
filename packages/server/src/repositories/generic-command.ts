@@ -1,8 +1,6 @@
 import CommandDb, { GenericCommand } from "../models/generic-command";
 
-export async function save(
-    command: GenericCommand,
-): Promise<GenericCommand> {
+export async function save(command: GenericCommand): Promise<GenericCommand> {
     const { name, output, isCacheable } = command;
 
     async function create() {
@@ -15,14 +13,17 @@ export async function save(
     }
 
     async function updateExistent() {
-        return CommandDb.findOneAndUpdate({
-            name
-        }, {
-            name,
-            output,
-            isCacheable: commandFromDB.isCacheable,
-            createdAt: commandFromDB.createdAt,
-        }).lean();
+        return CommandDb.findOneAndUpdate(
+            {
+                name,
+            },
+            {
+                name,
+                output,
+                isCacheable: commandFromDB.isCacheable,
+                createdAt: commandFromDB.createdAt,
+            }
+        ).lean();
     }
 
     const commandFromDB = await CommandDb.findOne({ name });
@@ -45,9 +46,7 @@ export async function findOne(commandName: string): Promise<GenericCommand> {
     return genericCommand ?? undefined;
 }
 
-export async function remove(
-    commandName: string,
-): Promise<GenericCommand> {
+export async function remove(commandName: string): Promise<GenericCommand> {
     const operationResult = await CommandDb.findOneAndDelete({
         name: commandName,
     }).lean();

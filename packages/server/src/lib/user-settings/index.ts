@@ -73,26 +73,26 @@ async function setLanguage(
     if (!Object.values(Language).includes(language)) {
         return replyInvalidLanguage(userSettings);
     }
-    await UserSettingsDb.update(userSettings.userId, userSettings.platform, { language });
+    await UserSettingsDb.update(userSettings.userId, userSettings.platform, {
+        language,
+    });
     return {
         id: ActionId.Reply,
-        body: getOutput(Output.SettingsSetLanguageSuccess, language, [language]),
+        body: getOutput(Output.SettingsSetLanguageSuccess, language, [
+            language,
+        ]),
     };
 }
 
 function replyInvalidLanguage(userSettings: UserSettings): Action {
     return {
         id: ActionId.Reply,
-        body: getOutput(
-            Output.SettingsInvalidLanguage,
-            userSettings.language,
-            [
-                Object.keys(Language)
-                    .map((languageKey: string) => {
-                        return `${languageKey} (${Language[languageKey]})`;
-                    })
-                    .join(", "),
-            ]
-        ),
+        body: getOutput(Output.SettingsInvalidLanguage, userSettings.language, [
+            Object.keys(Language)
+                .map((languageKey: string) => {
+                    return `${languageKey} (${Language[languageKey]})`;
+                })
+                .join(", "),
+        ]),
     };
 }

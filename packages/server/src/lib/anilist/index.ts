@@ -12,10 +12,7 @@ export default async function Anime(
     if (!command.arguments?.length) {
         return {
             id: ActionId.Reply,
-            body: getOutput(
-                Output.AnimeNoArguments,
-                userSettings.language,
-            ),
+            body: getOutput(Output.AnimeNoArguments, userSettings.language),
         };
     }
     const animeResult = await fetchAnime(command.arguments?.join(" "));
@@ -28,10 +25,11 @@ export default async function Anime(
         };
     }
     const anime: AnimeMedia = animeResult.value;
-    const outputRenderer = {
-        [Source.Discord]: renderDiscordResponse,
-        [Source.Twitch]: renderTwitchResponse,
-    }[command.source] ?? renderTwitchResponse;
+    const outputRenderer =
+        {
+            [Source.Discord]: renderDiscordResponse,
+            [Source.Twitch]: renderTwitchResponse,
+        }[command.source] ?? renderTwitchResponse;
     return {
         id: ActionId.Reply,
         body: outputRenderer(anime, userSettings.language),

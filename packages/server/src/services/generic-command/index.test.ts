@@ -15,16 +15,15 @@ jest.mock("../../repositories/generic-command", () => ({
             name: "redirect",
             createdAt: new Date(),
             isCacheable: false,
-            output: "redirect to %args0"
+            output: "redirect to %args0",
         } as GenericCommand)
         .mockReturnValueOnce({
             name: "redirect",
             createdAt: new Date(),
             isCacheable: false,
-            output: "redirect from %args0 to %args1"
-        } as GenericCommand)
-    })
-);
+            output: "redirect from %args0 to %args1",
+        } as GenericCommand),
+}));
 
 describe("Generic Command", () => {
     it("should execute", async () => {

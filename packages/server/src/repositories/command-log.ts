@@ -8,11 +8,11 @@ const CommandLogSchema = yup.object().shape({
     source: yup.string().required(),
 });
 
-export async function save(
-    commandLog: CommandLog
-): Promise<boolean> {
+export async function save(commandLog: CommandLog): Promise<boolean> {
     const isValid = await CommandLogSchema.isValid(commandLog);
-    if (!isValid) { return false; }
+    if (!isValid) {
+        return false;
+    }
     await CommandLogDb.create(commandLog);
     return true;
 }

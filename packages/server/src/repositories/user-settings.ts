@@ -14,14 +14,14 @@ export async function create(
         userId,
         platform,
         language: DEFAULT_LANGUAGE,
-        role: DEFAULT_ROLE
+        role: DEFAULT_ROLE,
     });
     return createdUser;
 }
 
 export async function findOne(
     userId: string,
-    platform: Source,
+    platform: Source
 ): Promise<UserSettings> {
     const userSettings = UserSettingsDb.findOne({
         userId,
@@ -37,7 +37,7 @@ export async function update(
 ): Promise<boolean> {
     const updatedUserSettings = await UserSettingsDb.updateOne(
         { userId, platform },
-        userSettings,
+        userSettings
     ).lean();
     return updatedUserSettings.nModified === 1;
 }

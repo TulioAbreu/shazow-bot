@@ -17,11 +17,10 @@ export interface AnimeMedia {
         episodes: number | null;
         genres: string[];
         averageScore: number;
-    }
+    };
 }
 
-const ANIME_QUERY =
-`query($search: String) {
+const ANIME_QUERY = `query($search: String) {
     Media(search: $search, type: ANIME) {
         title {
             english

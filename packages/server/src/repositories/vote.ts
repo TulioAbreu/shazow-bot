@@ -3,7 +3,9 @@ import { isNullOrUndefined } from "../utils/is-null-or-undefined";
 
 export async function save(vote: Vote): Promise<boolean> {
     const userCanVote = await canUserVote(vote.userId, vote.pollId);
-    if (!vote || !userCanVote) { return false; }
+    if (!vote || !userCanVote) {
+        return false;
+    }
     if (!vote.sentAt) {
         vote.sentAt = new Date();
     }

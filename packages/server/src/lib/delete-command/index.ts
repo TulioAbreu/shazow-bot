@@ -22,16 +22,18 @@ export default async function DeleteCommand(
         };
     }
 
-    await Promise.all(command.arguments.map(async (name: string) => {
-        try {
-            await GenericCommandDb.remove(name);
-        } catch (error) {
-            return {
-                id: ActionId.Reply,
-                body: `Failed to remove command ${name}. Error: ${error}`,
-            };
-        }
-    }));
+    await Promise.all(
+        command.arguments.map(async (name: string) => {
+            try {
+                await GenericCommandDb.remove(name);
+            } catch (error) {
+                return {
+                    id: ActionId.Reply,
+                    body: `Failed to remove command ${name}. Error: ${error}`,
+                };
+            }
+        })
+    );
 
     return {
         id: ActionId.Reply,

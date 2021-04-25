@@ -3,7 +3,7 @@ import { createErrorResult, createResult, Result } from "../../utils/result";
 
 export enum Language {
     English = "en",
-    PortugueseBrazil = "pt-BR"
+    PortugueseBrazil = "pt-BR",
 }
 
 export enum Output {
@@ -70,13 +70,14 @@ function readLocaleFiles(): I18nDict {
             const localeFileContent = readFileSync(filepath, "utf-8");
             return createResult(JSON.parse(localeFileContent));
         } catch (error) {
-            console.error(`[ERROR] Failed to read locale file. ErrorMsg: ${error}`);
+            console.error(
+                `[ERROR] Failed to read locale file. ErrorMsg: ${error}`
+            );
             return createErrorResult("Failed to read locale file");
         }
     }
 
-    return Object
-        .values(Language)
+    return Object.values(Language)
         .map((locale: string) => {
             const localeDict = readLocaleFile(`./locales/${locale}.json`);
             if (!localeDict.hasValue) {

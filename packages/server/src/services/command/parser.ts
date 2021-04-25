@@ -24,20 +24,14 @@ export function parseExecutableCommand(
     };
 }
 
-function isCommand(
-    messageContent: string,
-    commandPrefix: string
-): boolean {
+function isCommand(messageContent: string, commandPrefix: string): boolean {
     if (!messageContent?.length) {
         return false;
     }
     return messageContent.startsWith(commandPrefix);
 }
 
-function removePrefix(
-    messageContent: string,
-    commandPrefix: string
-): string {
+function removePrefix(messageContent: string, commandPrefix: string): string {
     if (!messageContent.startsWith(commandPrefix)) {
         return messageContent;
     }

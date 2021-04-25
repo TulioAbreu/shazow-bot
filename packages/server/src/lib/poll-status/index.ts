@@ -20,7 +20,7 @@ export default async function PollStatus(
             id: ActionId.Reply,
             body: getOutput(
                 Output.PollStatusNoRecentPolls,
-                userSettings.language,
+                userSettings.language
             ),
         };
     }
