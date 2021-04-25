@@ -30,7 +30,7 @@ export default async function Vote(
         source: command.source,
     });
     if (!success) {
-        return;
+        return createChatReply(getOutput(Output.VoteFail, userSettings.language));
     }
     return createChatReply(getOutput(Output.VoteSuccess, userSettings.language));
 }

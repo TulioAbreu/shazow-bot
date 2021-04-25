@@ -10,6 +10,7 @@ export enum Output {
     VoteInvalidArgs = "VoteInvalidArgs",
     VoteNoActivePolls = "VoteNoActivePolls",
     VoteSuccess = "VoteSuccess",
+    VoteFail = "VoteFail",
     PollInvalidArgs = "PollInvalidArgs",
     PollNoPermission = "PollNoPermission",
     PollSuccess = "PollSuccess",

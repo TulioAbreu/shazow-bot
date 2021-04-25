@@ -2,6 +2,7 @@
     "VoteInvalidArgs": "invalid params!",
     "VoteNoActivePolls": "there are no active polls right now.",
     "VoteSuccess": "vote computed with success!",
+    "VoteFail": "failed to register vote.",
     "PollInvalidArgs": "invalid params!",
     "PollNoPermission": "insufficient permissions.",
     "PollSuccess": "A enquete foi criada e deve encerrar em %args0 minutos! %args1 %args2",
