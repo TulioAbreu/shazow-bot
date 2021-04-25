@@ -15,5 +15,13 @@
     "SettingsNoArguments": "settings <set/get> <language> <?selectedLanguage>",
     "SettingsGetLanguage": "linguagem = %args0.",
     "SettingsInvalidLanguage": "Linguagem não suportada. Atualmente são suportadas: %args0",
-    "SettingsSetLanguageSuccess": "Linguagem %args0 foi selecionada."
+    "SettingsSetLanguageSuccess": "Linguagem %args0 foi selecionada.",
+    "CreateCommandAccessNegated": "Você não tem permissão para criar commandos!",
+    "CreateCommandInvalidArguments": "Parâmetros inválidos!",
+    "CreateCommandFail": "Falha ao criar comando %args0. Erro: %args1",
+    "CreateCommandSuccess": "Comando %args0 foi criado com sucesso!",
+    "DeleteCommandAccessNegated": "Você não tem permissão para excluir comandos!",
+    "DeleteCommandInvalidArguments": "Parâmetros inválidos!",
+    "DeleteCommandFail": "Falha ao remover o comando %args0. Erro: %args1",
+    "DeleteCommandSuccess": "Comandos removidos: %args0"
 }

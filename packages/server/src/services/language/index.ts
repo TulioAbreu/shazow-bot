@@ -24,6 +24,14 @@ export enum Output {
     SettingsGetLanguage = "SettingsGetLanguage",
     SettingsInvalidLanguage = "SettingsInvalidLanguage",
     SettingsSetLanguageSuccess = "SettingsSetLanguageSuccess",
+    CreateCommandAccessNegated = "CreateCommandAccessNegated",
+    CreateCommandInvalidArguments = "CreateCommandInvalidArguments",
+    CreateCommandFail = "CreateCommandFail",
+    CreateCommandSuccess = "CreateCommandSuccess",
+    DeleteCommandAccessNegated = "DeleteCommandAccessNegated",
+    DeleteCommandInvalidArguments = "DeleteCommandInvalidArguments",
+    DeleteCommandFail = "DeleteCommandFail",
+    DeleteCommandSuccess = "DeleteCommandSuccess",
 }
 
 const DEFAULT_LANGUAGE = Language.English;

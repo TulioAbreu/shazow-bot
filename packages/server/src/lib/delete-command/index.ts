@@ -3,6 +3,7 @@ import { ExecutableCommand } from "../../services/command";
 import * as GenericCommandDb from "../../repositories/generic-command";
 import { UserSettings } from "../../models/user-settings";
 import { Role } from "../../types";
+import { getOutput, Output } from "../../services/language";
 
 export default async function DeleteCommand(
     command: ExecutableCommand,
@@ -11,14 +12,14 @@ export default async function DeleteCommand(
     if (userSettings.role < Role.Admin) {
         return {
             id: ActionId.Reply,
-            body: "You shall not pass!",
+            body: getOutput(Output.DeleteCommandAccessNegated, userSettings.language),
         };
     }
 
     if (!hasValidArguments(command.arguments)) {
         return {
             id: ActionId.Reply,
-            body: "Invalid arguments!",
+            body: getOutput(Output.DeleteCommandInvalidArguments, userSettings.language),
         };
     }
 
@@ -29,7 +30,7 @@ export default async function DeleteCommand(
             } catch (error) {
                 return {
                     id: ActionId.Reply,
-                    body: `Failed to remove command ${name}. Error: ${error}`,
+                    body: getOutput(Output.DeleteCommandFail, userSettings.language, [name, error]),
                 };
             }
         })
@@ -37,7 +38,7 @@ export default async function DeleteCommand(
 
     return {
         id: ActionId.Reply,
-        body: `Commands removed: ${command.arguments.join(", ")}`,
+        body: getOutput(Output.DeleteCommandSuccess, userSettings.language, [command.arguments.join(", ")]),
     };
 }
 

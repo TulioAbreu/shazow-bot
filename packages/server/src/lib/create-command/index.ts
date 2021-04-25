@@ -3,6 +3,7 @@ import { ExecutableCommand } from "../../services/command";
 import * as GenericCommandDb from "../../repositories/generic-command";
 import { UserSettings } from "../../models/user-settings";
 import { Role } from "../../types";
+import { getOutput, Output } from "../../services/language";
 
 export default async function CreateCommand(
     command: ExecutableCommand,
@@ -11,7 +12,7 @@ export default async function CreateCommand(
     if (userSettings.role < Role.Trusted) {
         return {
             id: ActionId.Reply,
-            body: "You shall not pass!",
+            body: getOutput(Output.CreateCommandAccessNegated, userSettings.language),
         };
     }
 
@@ -19,7 +20,7 @@ export default async function CreateCommand(
     if (!hasValidArguments(name, output)) {
         return {
             id: ActionId.Reply,
-            body: "Invalid arguments!",
+            body: getOutput(Output.CreateCommandInvalidArguments, userSettings.language),
         };
     }
 
@@ -33,13 +34,13 @@ export default async function CreateCommand(
     } catch (error) {
         return {
             id: ActionId.Reply,
-            body: `Failed to create command ${name}. Error: ${error}`,
+            body: getOutput(Output.CreateCommandFail, userSettings.language, [name, error]),
         };
     }
 
     return {
         id: ActionId.Reply,
-        body: `Command ${name} created with success!`,
+        body: getOutput(Output.CreateCommandSuccess, userSettings.language, [name]),
     };
 }
 

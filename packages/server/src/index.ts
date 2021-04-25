@@ -39,6 +39,7 @@ async function main() {
             useUnifiedTopology: true,
             useNewUrlParser: true,
         });
+        mongoose.set("useFindAndModify", false);
         server.listen(port);
     } catch (error) {
         console.log(
