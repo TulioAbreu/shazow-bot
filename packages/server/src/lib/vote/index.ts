@@ -1,4 +1,4 @@
-import { Action, ActionId, createChatReply } from "chat";
+import { Action, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Output, getOutput } from "../../services/language";
 import * as PollDb from "../../repositories/poll";

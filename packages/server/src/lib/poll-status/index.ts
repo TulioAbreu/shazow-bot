@@ -7,7 +7,7 @@ import {
 } from "../../services/poll";
 import { Poll } from "../../models/poll";
 import { Language, Output, getOutput } from "../../services/language";
-import { Action, ActionId, createChatReply, Source } from "chat";
+import { Action, createChatReply, Source } from "chat";
 import * as PollDb from "../../repositories/poll";
 import { isPollDisabled } from "../../services/poll";
 
