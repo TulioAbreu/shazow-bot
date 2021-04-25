@@ -11,11 +11,11 @@ export interface Secret {
 }
 
 const SecretSchema = yup.object().shape({
-    DISCORD_TOKEN: yup.string().required(),
-    MONGODB_CONNECTION_URL: yup.string().required(),
-    TWITCH_USERNAME: yup.string().required(),
-    TWITCH_TOKEN: yup.string().required(),
-    PORT: yup.number().required(),
+    DISCORD_TOKEN: yup.string().default(""),
+    MONGODB_CONNECTION_URL: yup.string().default(""),
+    TWITCH_USERNAME: yup.string().default(""),
+    TWITCH_TOKEN: yup.string().default(""),
+    PORT: yup.number().default(3001),
     WEATHER_API_KEY: yup.string().default(""),
 });
 
