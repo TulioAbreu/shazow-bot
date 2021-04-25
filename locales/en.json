@@ -15,5 +15,5 @@
     "SettingsNoArguments": "settings <set/get> <language> <?selectedLanguage>",
     "SettingsGetLanguage": "language = %args0.",
     "SettingsInvalidLanguage": "Language not supported. Currently supported languages: %args0",
-    "SettingsSetLanguageSuccess": "EN Language was selected."
+    "SettingsSetLanguageSuccess": "%args0 Language was selected."
 }

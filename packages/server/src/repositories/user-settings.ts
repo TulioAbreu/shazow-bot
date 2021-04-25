@@ -1,5 +1,5 @@
 import { Source } from "chat";
-import { Language } from "../controllers/language/find-user-language";
+import { Language } from "../services/language";
 import { Role } from "../types";
 import UserSettingsDb, { UserSettings } from "../models/user-settings";
 

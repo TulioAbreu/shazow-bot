@@ -1,8 +1,6 @@
 import { Action, ActionId, Source } from "chat";
 import { ExecutableCommand } from "../../services/command";
-import { Language } from "../../controllers/language/find-user-language";
-import { getOutput } from "../../controllers/language/get-user-output";
-import { Output } from "../../languages";
+import { Language, Output, getOutput } from "../../services/language";
 import { UserSettings } from "../../models/user-settings";
 import { isNullOrUndefined } from "../../utils/is-null-or-undefined";
 import { AnimeMedia, fetchAnime } from "../../services/anime";
@@ -15,8 +13,8 @@ export default async function Anime(
         return {
             id: ActionId.Reply,
             body: getOutput(
+                Output.AnimeNoArguments,
                 userSettings.language,
-                Output.Anime.NoArguments
             ),
         };
     }
@@ -24,7 +22,7 @@ export default async function Anime(
     if (!animeResult.hasValue) {
         return {
             id: ActionId.Reply,
-            body: getOutput(userSettings.language, Output.Anime.FetchFailed, [
+            body: getOutput(Output.AnimeFetchFailed, userSettings.language, [
                 animeResult.errorMessage,
             ]),
         };
@@ -66,7 +64,7 @@ function renderTwitchResponse(anime: AnimeMedia, language: Language): string {
         return (score / 10).toString();
     }
 
-    return getOutput(language, Output.Anime.SuccessTwitch, [
+    return getOutput(Output.AnimeSuccessTwitch, language, [
         renderTitle(),
         renderYear(),
         renderGenres(),
@@ -109,7 +107,7 @@ function renderDiscordResponse(anime: AnimeMedia, language: Language): string {
         return anime.Media.coverImage.large;
     }
 
-    return getOutput(language, Output.Anime.SuccessDiscord, [
+    return getOutput(Output.AnimeSuccessDiscord, language, [
         renderTitle(),
         renderYear(),
         renderGenres(),

@@ -7,9 +7,7 @@ import {
     PollStatusOption,
 } from "../../controllers/poll/get-poll-status";
 import { Poll } from "../../models/poll";
-import { getOutput } from "../../controllers/language/get-user-output";
-import { Language } from "../../controllers/language/find-user-language";
-import { Output } from "../../languages";
+import { Language, Output, getOutput } from "../../services/language";
 import { Action, ActionId, Source } from "chat";
 
 export default async function PollStatus(
@@ -21,8 +19,8 @@ export default async function PollStatus(
         return {
             id: ActionId.Reply,
             body: getOutput(
+                Output.PollStatusNoRecentPolls,
                 userSettings.language,
-                Output.PollStatus.NoRecentPolls
             ),
         };
     }
@@ -43,13 +41,13 @@ function renderDiscordResult(
 ): Action {
     return {
         id: ActionId.Reply,
-        body: getOutput(language, Output.PollStatus.SuccessDiscord, [
+        body: getOutput(Output.PollStatusSuccessDiscord, language, [
             pollStatus.question,
             pollStatus.options
                 .map((option: PollStatusOption) => {
                     return getOutput(
+                        Output.PollStatusSuccessDiscordOption,
                         language,
-                        Output.PollStatus.SuccessDiscordOption,
                         [option.option, (option.votes || 0).toString()]
                     );
                 })

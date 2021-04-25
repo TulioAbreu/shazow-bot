@@ -1,6 +1,6 @@
 import { Source } from "chat";
 import { Document, Schema, model } from "mongoose";
-import { Language } from "../controllers/language/find-user-language";
+import { Language } from "../services/language";
 import { Role } from "../types";
 
 export interface UserSettings {

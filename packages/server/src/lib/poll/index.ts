@@ -1,8 +1,7 @@
 import { Action, ActionId } from "chat";
 import { ExecutableCommand } from "../../services/command";
-import { getOutput } from "../../controllers/language";
+import { Output, getOutput } from "../../services/language";
 import { createPoll } from "../../controllers/poll";
-import { Output } from "../../languages";
 import { Poll } from "../../models/poll";
 import { UserSettings } from "../../models/user-settings";
 import { Role } from "../../types";
@@ -19,13 +18,13 @@ export default async function Poll(
     if (!command.arguments?.length) {
         return {
             id: ActionId.Reply,
-            body: getOutput(userSettings.language, Output.Poll.InvalidArgs),
+            body: getOutput(Output.PollInvalidArgs, userSettings.language),
         };
     }
     if (!canUserStartPoll(userSettings)) {
         return {
             id: ActionId.Reply,
-            body: getOutput(userSettings.language, Output.Poll.NoPermission),
+            body: getOutput(Output.PollNoPermission, userSettings.language),
         };
     }
     const pollMinutes = parseInt(command.arguments[0]);
@@ -35,13 +34,13 @@ export default async function Poll(
     if (!checkPollParameters(question, options, pollMinutes)) {
         return {
             id: ActionId.Reply,
-            body: getOutput(userSettings.language, Output.Poll.InvalidArgs),
+            body: getOutput(Output.PollInvalidArgs, userSettings.language),
         };
     }
     await createPoll(question, options, pollMinutes);
     return {
         id: ActionId.Reply,
-        body: getOutput(userSettings.language, Output.Poll.Success, [
+        body: getOutput(Output.PollSuccess, userSettings.language, [
             `${pollMinutes}`,
             question,
             options.join(", "),

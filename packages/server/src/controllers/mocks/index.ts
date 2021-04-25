@@ -2,7 +2,7 @@ import { Source } from "chat";
 import { UserSettings } from "../../models/user-settings";
 import { Role } from "../../types";
 import { ExecutableCommand } from "../../services/command";
-import { Language } from "../language/find-user-language";
+import { Language } from "../../services/language";
 
 const FAKE_USER_ID = "fakeUserId";
 const FAKE_USER_NAME = "fakeUserName";

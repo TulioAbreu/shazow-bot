@@ -1,9 +1,8 @@
 import { Action, ActionId } from "chat";
 import { ExecutableCommand } from "../../services/command";
-import { getOutput } from "../../controllers/language/get-user-output";
+import { Output, getOutput } from "../../services/language";
 import { findActivePolls } from "../../controllers/poll";
 import * as VoteDb from "../../repositories/vote";
-import { Output } from "../../languages";
 import { Poll } from "../../models/poll";
 import { UserSettings } from "../../models/user-settings";
 import { Vote } from "../../models/vote";
@@ -15,14 +14,14 @@ export default async function Vote(
     if (!command.arguments?.length) {
         return {
             id: ActionId.Reply,
-            body: getOutput(userSettings.language, Output.Vote.InvalidArgs),
+            body: getOutput(Output.VoteInvalidArgs, userSettings.language),
         };
     }
     const activePolls = await findActivePolls();
     if (!activePolls?.length) {
         return {
             id: ActionId.Reply,
-            body: getOutput(userSettings.language, Output.Vote.NoActivePolls),
+            body: getOutput(Output.VoteNoActivePolls, userSettings.language),
         };
     }
     const voteOption = getVoteOption(command.arguments);
@@ -40,7 +39,7 @@ export default async function Vote(
     }
     return {
         id: ActionId.Reply,
-        body: getOutput(userSettings.language, Output.Vote.Success),
+        body: getOutput(Output.VoteSuccess, userSettings.language),
     };
 }
 

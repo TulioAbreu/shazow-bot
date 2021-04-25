@@ -1,10 +1,8 @@
 import { Action, ActionId } from "chat";
 import type { ExecutableCommand } from "../../services/command";
-import { Language } from "../../controllers/language/find-user-language";
-import { getOutput } from "../../controllers/language/get-user-output";
+import { Language, Output, getOutput } from "../../services/language";
 import * as UserSettingsDb from "../../repositories/user-settings";
 
-import { Output } from "../../languages";
 import type { UserSettings } from "../../models/user-settings";
 
 export default async function Settings(
@@ -41,14 +39,14 @@ async function getSettings(
 function replyNoArguments(userSettings: UserSettings): Action {
     return {
         id: ActionId.Reply,
-        body: getOutput(userSettings.language, Output.Settings.NoArguments),
+        body: getOutput(Output.SettingsNoArguments, userSettings.language),
     };
 }
 
 async function replyLanguage(userSettings: UserSettings): Promise<Action> {
     return {
         id: ActionId.Reply,
-        body: getOutput(userSettings.language, Output.Settings.GetLanguage, [
+        body: getOutput(Output.SettingsGetLanguage, userSettings.language, [
             userSettings.language,
         ]),
     };
@@ -71,14 +69,14 @@ async function setLanguage(
     commandArgs: string[],
     userSettings: UserSettings
 ): Promise<Action> {
-    const language = commandArgs.shift().toUpperCase() as Language;
+    const language = commandArgs.shift() as Language;
     if (!Object.values(Language).includes(language)) {
         return replyInvalidLanguage(userSettings);
     }
     await UserSettingsDb.update(userSettings.userId, userSettings.platform, { language });
     return {
         id: ActionId.Reply,
-        body: getOutput(language, Output.Settings.SetLanguageSuccess),
+        body: getOutput(Output.SettingsSetLanguageSuccess, language, [language]),
     };
 }
 
@@ -86,8 +84,8 @@ function replyInvalidLanguage(userSettings: UserSettings): Action {
     return {
         id: ActionId.Reply,
         body: getOutput(
+            Output.SettingsInvalidLanguage,
             userSettings.language,
-            Output.Settings.InvalidLanguage,
             [
                 Object.keys(Language)
                     .map((languageKey: string) => {
