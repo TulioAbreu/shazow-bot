@@ -16,7 +16,7 @@ const SecretSchema = yup.object().shape({
     TWITCH_USERNAME: yup.string().required(),
     TWITCH_TOKEN: yup.string().required(),
     PORT: yup.number().required(),
-    WEATHER_API_KEY: yup.string().required(),
+    WEATHER_API_KEY: yup.string().default(""),
 });
 
 export function getSecret(): Secret {
