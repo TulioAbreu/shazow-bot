@@ -1,4 +1,5 @@
 import VoteDb, { Vote } from "../models/vote";
+import { asArray } from "../utils/as-array";
 import { isNullOrUndefined } from "../utils/is-null-or-undefined";
 
 export async function save(vote: Vote): Promise<boolean> {
@@ -11,6 +12,10 @@ export async function save(vote: Vote): Promise<boolean> {
     }
     await VoteDb.create(vote);
     return true;
+}
+
+export async function findByPollId(pollId: string): Promise<Vote[]> {
+    return asArray<Vote>(await VoteDb.find({ pollId }).lean());
 }
 
 async function canUserVote(userId: string, pollId: string): Promise<boolean> {

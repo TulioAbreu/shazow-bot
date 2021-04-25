@@ -1,10 +1,10 @@
 import { Action, ActionId } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Output, getOutput } from "../../services/language";
-import { createPoll } from "../../controllers/poll";
 import { Poll } from "../../models/poll";
 import { UserSettings } from "../../models/user-settings";
 import { Role } from "../../types";
+import * as PollDb from "../../repositories/poll";
 
 interface ParsedPoll {
     question: string;
@@ -37,7 +37,7 @@ export default async function Poll(
             body: getOutput(Output.PollInvalidArgs, userSettings.language),
         };
     }
-    await createPoll(question, options, pollMinutes);
+    await PollDb.create(question, options, pollMinutes);
     return {
         id: ActionId.Reply,
         body: getOutput(Output.PollSuccess, userSettings.language, [

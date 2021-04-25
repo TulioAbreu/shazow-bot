@@ -1,11 +1,12 @@
 import { Action, ActionId } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Output, getOutput } from "../../services/language";
-import { findActivePolls } from "../../controllers/poll";
+import * as PollDb from "../../repositories/poll";
 import * as VoteDb from "../../repositories/vote";
 import { Poll } from "../../models/poll";
 import { UserSettings } from "../../models/user-settings";
 import { Vote } from "../../models/vote";
+import { isPollActive } from "../../services/poll";
 
 export default async function Vote(
     command: ExecutableCommand,
@@ -17,7 +18,7 @@ export default async function Vote(
             body: getOutput(Output.VoteInvalidArgs, userSettings.language),
         };
     }
-    const activePolls = await findActivePolls();
+    const activePolls = (await PollDb.find()).filter(isPollActive);
     if (!activePolls?.length) {
         return {
             id: ActionId.Reply,

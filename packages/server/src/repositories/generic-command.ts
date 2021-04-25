@@ -1,4 +1,5 @@
 import CommandDb, { GenericCommand } from "../models/generic-command";
+import { asArray } from "../utils/as-array";
 
 export async function save(command: GenericCommand): Promise<GenericCommand> {
     const { name, output, isCacheable } = command;
@@ -36,7 +37,7 @@ export async function save(command: GenericCommand): Promise<GenericCommand> {
 
 export async function findAll(): Promise<GenericCommand[]> {
     const genericCommands = await CommandDb.find().lean();
-    return genericCommands;
+    return asArray(genericCommands);
 }
 
 export async function findOne(commandName: string): Promise<GenericCommand> {

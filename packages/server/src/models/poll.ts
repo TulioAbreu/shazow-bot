@@ -1,12 +1,14 @@
 import { Document, Schema, model } from "mongoose";
 
-export interface Poll extends Document {
+export interface Poll {
     _id?: string;
     question: string;
     options: string[];
     createdAt: Date;
     expiresAt: Date;
 }
+
+interface IPoll extends Poll, Document<string> {}
 
 const PollSchema = new Schema({
     question: {
@@ -28,4 +30,4 @@ const PollSchema = new Schema({
     },
 });
 
-export default model<Poll>("Poll", PollSchema);
+export default model<IPoll>("Poll", PollSchema);

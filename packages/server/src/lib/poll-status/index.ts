@@ -1,14 +1,15 @@
 import type { ExecutableCommand } from "../../services/command";
 import type { UserSettings } from "../../models/user-settings";
-import { findDisabledPolls } from "../../controllers/poll";
 import {
     getPollStatus,
     PollStatus,
     PollStatusOption,
-} from "../../controllers/poll/get-poll-status";
+} from "../../services/poll";
 import { Poll } from "../../models/poll";
 import { Language, Output, getOutput } from "../../services/language";
 import { Action, ActionId, Source } from "chat";
+import * as PollDb from "../../repositories/poll";
+import { isPollDisabled } from "../../services/poll";
 
 export default async function PollStatus(
     command: ExecutableCommand,
@@ -26,10 +27,9 @@ export default async function PollStatus(
     }
     const pollStatus = await getPollStatus(poll._id);
     switch (command.source) {
-        case Source.Discord:
-            return renderDiscordResult(pollStatus, userSettings.language);
         case Source.Twitch:
             return renderDiscordResult(pollStatus, userSettings.language);
+        case Source.Discord:
         default:
             return renderDiscordResult(pollStatus, userSettings.language);
     }
@@ -48,7 +48,7 @@ function renderDiscordResult(
                     return getOutput(
                         Output.PollStatusSuccessDiscordOption,
                         language,
-                        [option.option, (option.votes || 0).toString()]
+                        [option.option, (option.votes ?? 0).toString()]
                     );
                 })
                 .join("\n"),
@@ -57,18 +57,16 @@ function renderDiscordResult(
 }
 
 async function getLastFinishedPoll(): Promise<Poll> {
-    const polls = await findDisabledPolls();
-    if (!polls?.length) {
+    const disabledPolls = (await PollDb.find())
+        .filter(isPollDisabled);
+    if (!disabledPolls?.length) {
         return;
     }
-    let mostRecentPollTime = polls[0].expiresAt.getTime();
-    let mostRecentPollIndex = 0;
-    for (let i = 1; i < polls.length; ++i) {
-        const pollExpirationTime = polls[i].expiresAt.getTime();
-        if (pollExpirationTime > mostRecentPollTime) {
-            mostRecentPollTime = pollExpirationTime;
-            mostRecentPollIndex = i;
+    return disabledPolls.reduce((lastFinishedPoll, poll) => {
+        if (poll.expiresAt.getTime() > lastFinishedPoll.expiresAt.getTime()) {
+            return poll;
+        } else {
+            return lastFinishedPoll;
         }
-    }
-    return polls[mostRecentPollIndex];
+    }, disabledPolls[0]);
 }
