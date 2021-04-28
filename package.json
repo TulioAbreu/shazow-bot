@@ -16,6 +16,7 @@
         "test": "jest --passWithNoTests",
         "build": "lerna run build",
         "start": "node packages/server/dist/index.js",
+        "new": "plop",
         "prettier": "prettier --write ./*",
         "lint": "eslint ./ --fix --max-warnings=0"
     },
@@ -23,12 +24,11 @@
         "@typescript-eslint/eslint-plugin": "^4.13.0",
         "@typescript-eslint/parser": "^4.13.0",
         "eslint": "^7.18.0",
+        "eslint-config-prettier": "^8.1.0",
         "lerna": "^3.22.1",
         "prettier": "2.2.1",
+        "plop": "^2.7.4",
         "shx": "^0.3.3",
         "ts-jest": "^26.4.4"
-    },
-    "devDependencies": {
-        "eslint-config-prettier": "^8.1.0"
     }
 }

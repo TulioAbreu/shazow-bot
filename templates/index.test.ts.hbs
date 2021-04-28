@@ -1,0 +1,10 @@
+import { ActionId } from "chat";
+import {{PascalCaseName}} from ".";
+
+describe("{{PascalCaseName}} Command", () => {
+    test("should return a ping", async () => {
+        const response = await {{PascalCaseName}}();
+        expect(response.id).toBe(ActionId.Reply);
+        expect(response.body).toBe("ping!");
+    });
+});
