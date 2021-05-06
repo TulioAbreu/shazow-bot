@@ -15,6 +15,7 @@ import * as CommandLogDb from "../../repositories/command-log";
 import Settings from "../../lib/user-settings";
 import { Action, ChatClient, Source } from "chat";
 import Weather from "../../lib/weather";
+import Help from "../../lib/help";
 
 export interface ExecutableCommand {
     userID: string;
@@ -68,6 +69,8 @@ export async function execute(
             return DeleteGenericCommand(command, userSettings);
         case "weather":
             return Weather(command, userSettings);
+        case "help":
+            return Help(command, userSettings);
         default:
             return executeGenericCommand(command);
     }
