@@ -1,6 +1,7 @@
 import * as DiscordJs from "discord.js";
-import { ChatClient, OnMessageCallback } from ".";
-import { Action, ActionId, Message, Source } from "..";
+import { ChatClient, OnMessageCallback } from "..";
+import { Action, ActionId, Message, Source } from "../..";
+import { replyMessage } from "./actions";
 
 export interface DiscordCredentials {
     token: string;
@@ -43,18 +44,11 @@ export class DiscordClient implements ChatClient {
     }
 
     private async handleOutput(discordMessage: DiscordJs.Message, action: Action): Promise<void> {
-        function replyMessage() {
-            if (!action.body?.length) {
-                return;
-            }
-            discordMessage.reply(action.body);
-        }
-
         if (!action?.id) {
             return;
         }
         switch (action.id) {
-            case ActionId.Reply: return replyMessage();
+            case ActionId.Reply: return replyMessage(discordMessage, action.body);
         }
     }
 
