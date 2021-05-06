@@ -1,15 +1,16 @@
-import { ChatEnvironment, Maybe, OnMessageCallback } from "./types";
+import { ChatClient } from "./environment";
+import { Maybe } from "./types";
 
 export class Chat {
-    private environments: ChatEnvironment[] = [];
+    private environments: ChatClient[];
 
-    constructor(...environments: Maybe<ChatEnvironment>[]) {
-        this.environments = environments.filter((x) => x) as ChatEnvironment[];
+    constructor(...environments: Maybe<ChatClient>[]) {
+        this.environments = environments.filter((x: ChatClient): ChatClient => x);
     }
 
-    setOnMessageCallback(onMessageCallback: OnMessageCallback): void {
+    listen(): void {
         for (const env of this.environments) {
-            env.setOnMessageCallback(onMessageCallback);
+            env.listen();
         }
     }
 }

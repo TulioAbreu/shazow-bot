@@ -1,10 +1,11 @@
 import server from "./routes";
 import {
     Chat,
-    DiscordEnvironment,
+    DiscordClient,
+    TwitchClient,
     Message,
     Action,
-    TwitchEnvironment,
+    ChatClient,
 } from "chat";
 import Config from "./config";
 import * as mongoose from "mongoose";
@@ -22,19 +23,21 @@ async function main() {
         twitchUsername,
     } = getSecret();
     const { twitchChannels } = Config;
+    const onMessageCallback = async (client: ChatClient, message: Message): Promise<Action> => {
+        return execute(client, parseExecutableCommand(message, Config.prefix));
+    };
     try {
         const chat = new Chat(
-            await new DiscordEnvironment().authenticate(discordToken),
-            await new TwitchEnvironment(twitchChannels).authenticate(
-                twitchUsername,
-                twitchToken
-            )
+            await new DiscordClient(onMessageCallback).authenticate({
+                token: discordToken,
+            }),
+            await new TwitchClient(onMessageCallback).authenticate({
+                username: twitchUsername,
+                token: twitchToken,
+                channels: twitchChannels,
+            }),
         );
-        chat.setOnMessageCallback(
-            async (message: Message): Promise<Action> => {
-                return execute(parseExecutableCommand(message, Config.prefix));
-            }
-        );
+        chat.listen();
         mongoose.connect(mongodbKey, {
             useUnifiedTopology: true,
             useNewUrlParser: true,

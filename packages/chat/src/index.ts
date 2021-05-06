@@ -1,14 +1,13 @@
 export { Chat } from "./chat";
-export { DiscordEnvironment } from "./environments/discord";
-export { TwitchEnvironment } from "./environments/twitch";
+export { OnMessageCallback, ChatClient, ChatCredentials } from "./environment";
+export { TwitchClient } from "./environment/twitch";
+export { DiscordClient } from "./environment/discord";
 export {
     Action,
     ActionId,
-    ChatEnvironment,
     Event,
     Maybe,
     Message,
-    OnMessageCallback,
     Source,
 } from "./types";
 export { createChatReply } from "./shortcuts";

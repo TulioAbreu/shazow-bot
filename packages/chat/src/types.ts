@@ -26,10 +26,4 @@ export enum Event {
     OnMessage = 0,
 }
 
-export type OnMessageCallback = (message: Message) => Promise<Action>;
-
 export type Maybe<T> = T | undefined;
-
-export interface ChatEnvironment {
-    setOnMessageCallback(onMessageCallback: OnMessageCallback): void;
-}
