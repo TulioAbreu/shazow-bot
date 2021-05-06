@@ -29,5 +29,5 @@
     "WeatherLocationNotFound": "não foi possível encontrar a localização.",
     "WeatherSuccess": "Local: %args0 - Temperatura %args1 - Min %args2 - Max %args3",
     "WeatherFail": "Falha ao buscar informações do clima.",
-    "Help": "Placeholder para o comando de ajuda"
+    "Help": "Link para lista de todos comandos: https://github.com/TulioAbreu/shazow-bot/blob/master/docs/pt-BR.md"
 }
