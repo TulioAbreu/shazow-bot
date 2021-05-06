@@ -1,6 +1,7 @@
 import * as Tmi from "tmi.js";
-import { ChatClient, OnMessageCallback } from ".";
-import { Action, ActionId, Message, Source } from "../types";
+import { ChatClient, OnMessageCallback } from "..";
+import { Action, ActionId, Message, Source } from "../../types";
+import { replyMessage } from "./actions";
 
 interface TwitchCredentials {
     username: string;
@@ -68,8 +69,13 @@ export class TwitchClient implements ChatClient {
         action: Action
     ) {
         switch (action.id) {
-            case ActionId.Reply:
-                return this.replyMessage(target, context, action.body as string);
+            case ActionId.Reply: {
+                return replyMessage(
+                    this.client, target,
+                    context.username,
+                    action.body as string,
+                );
+            }
         }
     }
 
@@ -86,13 +92,5 @@ export class TwitchClient implements ChatClient {
             content: content,
             sentAt: new Date(),
         };
-    }
-
-    public replyMessage(
-        target: string,
-        context: Tmi.ChatUserstate,
-        response: string
-    ): void {
-        this.client.say(target, `@${context.username} ${response}`);
     }
 }

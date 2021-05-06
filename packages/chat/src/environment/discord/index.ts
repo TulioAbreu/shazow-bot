@@ -1,6 +1,6 @@
 import * as DiscordJs from "discord.js";
 import { ChatClient, OnMessageCallback } from "..";
-import { Action, ActionId, Message, Source } from "../..";
+import { Action, ActionId, Message, Source } from "../../types";
 import { replyMessage } from "./actions";
 
 export interface DiscordCredentials {
