@@ -37,13 +37,17 @@ async function getSettings(
 }
 
 function replyNoArguments(userSettings: UserSettings): Action {
-    return createChatReply(getOutput(Output.SettingsNoArguments, userSettings.language));
+    return createChatReply(
+        getOutput(Output.SettingsNoArguments, userSettings.language)
+    );
 }
 
 async function replyLanguage(userSettings: UserSettings): Promise<Action> {
-    return createChatReply(getOutput(Output.SettingsGetLanguage, userSettings.language, [
-        userSettings.language,
-    ]));
+    return createChatReply(
+        getOutput(Output.SettingsGetLanguage, userSettings.language, [
+            userSettings.language,
+        ])
+    );
 }
 
 async function setSettings(
@@ -70,17 +74,19 @@ async function setLanguage(
     await UserSettingsDb.update(userSettings.userId, userSettings.platform, {
         language,
     });
-    return createChatReply(getOutput(Output.SettingsSetLanguageSuccess, language, [
-        language,
-    ]));
+    return createChatReply(
+        getOutput(Output.SettingsSetLanguageSuccess, language, [language])
+    );
 }
 
 function replyInvalidLanguage(userSettings: UserSettings): Action {
-    return createChatReply(getOutput(Output.SettingsInvalidLanguage, userSettings.language, [
-        Object.keys(Language)
-            .map((languageKey: string) => {
-                return `${languageKey} (${Language[languageKey]})`;
-            })
-            .join(", "),
-    ]));
+    return createChatReply(
+        getOutput(Output.SettingsInvalidLanguage, userSettings.language, [
+            Object.keys(Language)
+                .map((languageKey: string) => {
+                    return `${languageKey} (${Language[languageKey]})`;
+                })
+                .join(", "),
+        ])
+    );
 }

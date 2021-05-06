@@ -13,7 +13,7 @@ import * as UserSettingsDb from "../../repositories/user-settings";
 import PollStatus from "../../lib/poll-status";
 import * as CommandLogDb from "../../repositories/command-log";
 import Settings from "../../lib/user-settings";
-import { Action, Source } from "chat";
+import { Action, ChatClient, Source } from "chat";
 import Weather from "../../lib/weather";
 
 export interface ExecutableCommand {
@@ -25,7 +25,10 @@ export interface ExecutableCommand {
     source: Source;
 }
 
-export async function execute(command: ExecutableCommand): Promise<Action> {
+export async function execute(
+    client: ChatClient,
+    command: ExecutableCommand
+): Promise<Action> {
     if (isEmptyCommand(command) || isTrollCommand(command)) {
         return;
     }

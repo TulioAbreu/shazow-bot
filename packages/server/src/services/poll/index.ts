@@ -28,11 +28,15 @@ export function isPollDisabled(poll: Poll): boolean {
 
 export async function getPollStatus(id: string): Promise<PollStatus> {
     const poll = await PollDb.findById(id);
-    if (!poll) { return; }
+    if (!poll) {
+        return;
+    }
     const pollVotes = await VoteDb.findByPollId(poll._id);
     return {
         question: poll.question,
-        options: poll.options.map((option: string) => getOptionVotes(option, pollVotes))
+        options: poll.options.map((option: string) =>
+            getOptionVotes(option, pollVotes)
+        ),
     };
 }
 

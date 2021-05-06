@@ -15,12 +15,14 @@ describe("Weather Service", () => {
                 },
                 current: { temp_c: 30 },
                 forecast: {
-                    forecastday: [{
-                        day: {
-                            maxtemp_c: 40,
-                            mintemp_c: 10,
+                    forecastday: [
+                        {
+                            day: {
+                                maxtemp_c: 40,
+                                mintemp_c: 10,
+                            },
                         },
-                    }],
+                    ],
                 },
             },
         }));
@@ -28,7 +30,9 @@ describe("Weather Service", () => {
         const weatherStatusResult = await fetchWeatherStatus("belo horizonte");
         expect(weatherStatusResult.hasValue).toBeTruthy();
         const weatherStatus = weatherStatusResult.value;
-        expect(weatherStatus.location).toBe("belo horizonte / minas gerais / brasil");
+        expect(weatherStatus.location).toBe(
+            "belo horizonte / minas gerais / brasil"
+        );
         expect(weatherStatus.dayTemperature).toBe(30);
         expect(weatherStatus.maxTemperature).toBe(40);
         expect(weatherStatus.minTemperature).toBe(10);

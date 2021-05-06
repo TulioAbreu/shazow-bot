@@ -18,21 +18,23 @@ interface OpenWeatherPayload {
         name: string;
         region: string;
         country: string;
-    }
+    };
     current: {
         temp_c: number;
-    }
+    };
     forecast: {
         forecastday: {
             day: {
                 maxtemp_c: number;
                 mintemp_c: number;
-            }
+            };
         }[];
     };
 }
 
-export async function fetchWeatherStatus(location: string): Promise<Result<Weather>> {
+export async function fetchWeatherStatus(
+    location: string
+): Promise<Result<Weather>> {
     const endpoint = getWeatherApiEndpoint();
     try {
         const response = await axios.get(endpoint, {
@@ -42,7 +44,7 @@ export async function fetchWeatherStatus(location: string): Promise<Result<Weath
                 q: normalizeDiacritics(normalizeText(location)),
                 aqi: "no",
                 alerts: "no",
-            }
+            },
         });
         const weather = parseWeatherData(response.data);
         if (!weather) {
@@ -56,7 +58,9 @@ export async function fetchWeatherStatus(location: string): Promise<Result<Weath
 }
 
 function parseWeatherData(payload: OpenWeatherPayload): Weather {
-    if (!payload) { return; }
+    if (!payload) {
+        return;
+    }
     const forecast = payload.forecast.forecastday.shift();
     return {
         location: `${payload.location.name} / ${payload.location.region} / ${payload.location.country}`,
