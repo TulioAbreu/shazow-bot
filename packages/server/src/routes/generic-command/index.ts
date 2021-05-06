@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
     createGenericCommand,
     deleteGenericCommand,
-    findGenericCommand
+    findGenericCommand,
 } from "../../controllers/generic-command";
 
 const genericCommandRouter = Router();

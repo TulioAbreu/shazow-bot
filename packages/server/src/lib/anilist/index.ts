@@ -10,13 +10,17 @@ export default async function Anime(
     userSettings: UserSettings
 ): Promise<Action> {
     if (!command.arguments?.length) {
-        return createChatReply(getOutput(Output.AnimeNoArguments, userSettings.language));
+        return createChatReply(
+            getOutput(Output.AnimeNoArguments, userSettings.language)
+        );
     }
     const animeResult = await fetchAnime(command.arguments?.join(" "));
     if (!animeResult.hasValue) {
-        return createChatReply(getOutput(Output.AnimeFetchFailed, userSettings.language, [
-            animeResult.errorMessage,
-        ]));
+        return createChatReply(
+            getOutput(Output.AnimeFetchFailed, userSettings.language, [
+                animeResult.errorMessage,
+            ])
+        );
     }
     const anime: AnimeMedia = animeResult.value;
     const outputRenderer =

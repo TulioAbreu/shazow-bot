@@ -1,6 +1,9 @@
 import { Action, Message } from "../types";
 
-export type OnMessageCallback = (client: ChatClient, message: Message) => Promise<Action>;
+export type OnMessageCallback = (
+    client: ChatClient,
+    message: Message
+) => Promise<Action>;
 
 export interface ChatClient {
     authenticate(credentials: ChatCredentials): Promise<ChatClient>;

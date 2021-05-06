@@ -10,11 +10,18 @@ export default async function DeleteCommand(
     userSettings: UserSettings
 ): Promise<Action> {
     if (userSettings.role < Role.Admin) {
-        return createChatReply(getOutput(Output.DeleteCommandAccessNegated, userSettings.language));
+        return createChatReply(
+            getOutput(Output.DeleteCommandAccessNegated, userSettings.language)
+        );
     }
 
     if (!hasValidArguments(command.arguments)) {
-        return createChatReply(getOutput(Output.DeleteCommandInvalidArguments, userSettings.language));
+        return createChatReply(
+            getOutput(
+                Output.DeleteCommandInvalidArguments,
+                userSettings.language
+            )
+        );
     }
 
     await Promise.all(
@@ -22,12 +29,21 @@ export default async function DeleteCommand(
             try {
                 await GenericCommandDb.remove(name);
             } catch (error) {
-                return createChatReply(getOutput(Output.DeleteCommandInvalidArguments, userSettings.language));
+                return createChatReply(
+                    getOutput(
+                        Output.DeleteCommandInvalidArguments,
+                        userSettings.language
+                    )
+                );
             }
         })
     );
 
-    return createChatReply(getOutput(Output.DeleteCommandSuccess, userSettings.language, [command.arguments.join(", ")]));
+    return createChatReply(
+        getOutput(Output.DeleteCommandSuccess, userSettings.language, [
+            command.arguments.join(", "),
+        ])
+    );
 }
 
 function hasValidArguments(args: string[]): boolean {

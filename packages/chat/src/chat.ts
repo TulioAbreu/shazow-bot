@@ -5,7 +5,9 @@ export class Chat {
     private environments: ChatClient[];
 
     constructor(...environments: Maybe<ChatClient>[]) {
-        this.environments = environments.filter((x: ChatClient): ChatClient => x);
+        this.environments = environments.filter(
+            (x: ChatClient): ChatClient => x
+        );
     }
 
     listen(): void {

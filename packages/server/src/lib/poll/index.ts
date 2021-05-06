@@ -16,24 +16,32 @@ export default async function Poll(
     userSettings: UserSettings
 ): Promise<Action> {
     if (!command.arguments?.length) {
-        return createChatReply(getOutput(Output.PollInvalidArgs, userSettings.language));
+        return createChatReply(
+            getOutput(Output.PollInvalidArgs, userSettings.language)
+        );
     }
     if (!canUserStartPoll(userSettings)) {
-        return createChatReply(getOutput(Output.PollNoPermission, userSettings.language));
+        return createChatReply(
+            getOutput(Output.PollNoPermission, userSettings.language)
+        );
     }
     const pollMinutes = parseInt(command.arguments[0]);
     const { question, options } = parsePoll(
         command.arguments.slice(1).join(" ")
     );
     if (!checkPollParameters(question, options, pollMinutes)) {
-        return createChatReply(getOutput(Output.PollInvalidArgs, userSettings.language));
+        return createChatReply(
+            getOutput(Output.PollInvalidArgs, userSettings.language)
+        );
     }
     await PollDb.create(question, options, pollMinutes);
-    return createChatReply(getOutput(Output.PollSuccess, userSettings.language, [
-        `${pollMinutes}`,
-        question,
-        options.join(", "),
-    ]));
+    return createChatReply(
+        getOutput(Output.PollSuccess, userSettings.language, [
+            `${pollMinutes}`,
+            question,
+            options.join(", "),
+        ])
+    );
 }
 
 function checkPollParameters(

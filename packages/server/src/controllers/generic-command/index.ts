@@ -3,7 +3,10 @@ import * as yup from "yup";
 import * as GenericCommandDb from "../../repositories/generic-command";
 import { HTTP } from "../../utils/constants";
 
-export async function findGenericCommand(req: Request, res: Response): Promise<void> {
+export async function findGenericCommand(
+    req: Request,
+    res: Response
+): Promise<void> {
     const { name } = req.params;
     const command = name
         ? await GenericCommandDb.findOne(name)
@@ -15,7 +18,10 @@ export async function findGenericCommand(req: Request, res: Response): Promise<v
     res.status(HTTP.OK).json(command);
 }
 
-export async function createGenericCommand(req: Request, res: Response): Promise<void> {
+export async function createGenericCommand(
+    req: Request,
+    res: Response
+): Promise<void> {
     const commandSchema = yup.object().shape({
         name: yup.string().required(),
         output: yup.string().required(),
@@ -30,7 +36,10 @@ export async function createGenericCommand(req: Request, res: Response): Promise
     res.status(HTTP.OK).json(genericCommand);
 }
 
-export async function deleteGenericCommand(req: Request, res: Response): Promise<void> {
+export async function deleteGenericCommand(
+    req: Request,
+    res: Response
+): Promise<void> {
     const { name } = req.params;
     if (!name) {
         res.status(HTTP.BAD_REQUEST);

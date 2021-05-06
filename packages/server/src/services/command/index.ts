@@ -25,7 +25,10 @@ export interface ExecutableCommand {
     source: Source;
 }
 
-export async function execute(client: ChatClient, command: ExecutableCommand): Promise<Action> {
+export async function execute(
+    client: ChatClient,
+    command: ExecutableCommand
+): Promise<Action> {
     if (isEmptyCommand(command) || isTrollCommand(command)) {
         return;
     }

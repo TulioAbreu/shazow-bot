@@ -10,7 +10,7 @@ interface TwitchCredentials {
 }
 
 export class TwitchClient implements ChatClient {
-    private client : Tmi.Client;
+    private client: Tmi.Client;
     private onMessageCallback: OnMessageCallback;
 
     // TODO: Call this from Client
@@ -19,7 +19,9 @@ export class TwitchClient implements ChatClient {
         this.onMessageCallback = onMessageCallback;
     }
 
-    public async authenticate(credentials: TwitchCredentials): Promise<ChatClient> {
+    public async authenticate(
+        credentials: TwitchCredentials
+    ): Promise<ChatClient> {
         if (!credentials?.token || !credentials?.username) {
             return;
         }
@@ -47,7 +49,7 @@ export class TwitchClient implements ChatClient {
                 target: string,
                 context: Tmi.ChatUserstate,
                 msg: string,
-                self: boolean,
+                self: boolean
             ) => {
                 if (self) {
                     return;
@@ -57,7 +59,10 @@ export class TwitchClient implements ChatClient {
                     target,
                     msg
                 );
-                const responseAction = await this.onMessageCallback(this, message);
+                const responseAction = await this.onMessageCallback(
+                    this,
+                    message
+                );
                 this.execute(target, context, responseAction);
             }
         );
@@ -71,9 +76,10 @@ export class TwitchClient implements ChatClient {
         switch (action.id) {
             case ActionId.Reply: {
                 return replyMessage(
-                    this.client, target,
+                    this.client,
+                    target,
                     context.username,
-                    action.body as string,
+                    action.body as string
                 );
             }
         }

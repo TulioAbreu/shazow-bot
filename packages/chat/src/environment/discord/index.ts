@@ -16,7 +16,9 @@ export class DiscordClient implements ChatClient {
         this.onMessageCallback = onMessageCallback;
     }
 
-    public async authenticate(credentials: DiscordCredentials): Promise<ChatClient> {
+    public async authenticate(
+        credentials: DiscordCredentials
+    ): Promise<ChatClient> {
         if (!credentials?.token) {
             return;
         }
@@ -37,18 +39,25 @@ export class DiscordClient implements ChatClient {
                     return;
                 }
                 const message = this.parseMessage(discordMessage);
-                const responseAction = await this.onMessageCallback(this, message);
+                const responseAction = await this.onMessageCallback(
+                    this,
+                    message
+                );
                 this.handleOutput(discordMessage, responseAction);
             }
         );
     }
 
-    private async handleOutput(discordMessage: DiscordJs.Message, action: Action): Promise<void> {
+    private async handleOutput(
+        discordMessage: DiscordJs.Message,
+        action: Action
+    ): Promise<void> {
         if (!action?.id) {
             return;
         }
         switch (action.id) {
-            case ActionId.Reply: return replyMessage(discordMessage, action.body);
+            case ActionId.Reply:
+                return replyMessage(discordMessage, action.body);
         }
     }
 

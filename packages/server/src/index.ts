@@ -23,7 +23,10 @@ async function main() {
         twitchUsername,
     } = getSecret();
     const { twitchChannels } = Config;
-    const onMessageCallback = async (client: ChatClient, message: Message): Promise<Action> => {
+    const onMessageCallback = async (
+        client: ChatClient,
+        message: Message
+    ): Promise<Action> => {
         return execute(client, parseExecutableCommand(message, Config.prefix));
     };
     try {
@@ -35,7 +38,7 @@ async function main() {
                 username: twitchUsername,
                 token: twitchToken,
                 channels: twitchChannels,
-            }),
+            })
         );
         chat.listen();
         mongoose.connect(mongodbKey, {
