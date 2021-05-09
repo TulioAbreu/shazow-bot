@@ -33,7 +33,7 @@ const UserSettingsSchema = new Schema({
         required: true,
     },
     isIgnored: {
-        type: Schema.Types.String,
+        type: Schema.Types.Boolean,
         default: false,
         required: true,
     },
