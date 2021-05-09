@@ -28,6 +28,7 @@ describe("parseExecutableCommnad", () => {
                 source: Source.Discord,
                 userId: "000000000000000000",
                 userName: "fakeUserName",
+                isPing: false,
             };
             const command = parseExecutableCommand(message, "!");
             expect(command.name).toBe("test");
@@ -46,6 +47,7 @@ describe("parseExecutableCommnad", () => {
                 source: Source.Discord,
                 userId: "000000000000000000",
                 userName: "fakeUserName",
+                isPing: false,
             };
             const command = parseExecutableCommand(message, "!");
             expect(command.name).toBe("test");

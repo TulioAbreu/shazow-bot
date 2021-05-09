@@ -5,9 +5,6 @@ export function parseExecutableCommand(
     message: Message,
     commandPrefix: string
 ): ExecutableCommand {
-    if (!message || !isCommand(message.content, commandPrefix)) {
-        return;
-    }
     const sanitizedCommandMessage = removePrefix(
         message.content,
         commandPrefix
@@ -22,13 +19,6 @@ export function parseExecutableCommand(
         message: message.content,
         source: message.source,
     };
-}
-
-function isCommand(messageContent: string, commandPrefix: string): boolean {
-    if (!messageContent?.length) {
-        return false;
-    }
-    return messageContent.startsWith(commandPrefix);
 }
 
 function removePrefix(messageContent: string, commandPrefix: string): string {

@@ -12,7 +12,7 @@ describe("Command", () => {
                 userName: "",
                 message: "",
             };
-            const result = await execute(undefined, command);
+            const result = await execute(undefined, undefined, command);
             expect(result).toBeUndefined();
         });
 
@@ -26,7 +26,7 @@ describe("Command", () => {
                 userID: "",
                 userName: "",
             };
-            const result = await execute(undefined, command);
+            const result = await execute(undefined, undefined, command);
             expect(result).toBeUndefined();
         });
     });

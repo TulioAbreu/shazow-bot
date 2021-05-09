@@ -3,15 +3,11 @@ import {
     Chat,
     DiscordClient,
     TwitchClient,
-    Message,
-    Action,
-    ChatClient,
 } from "chat";
 import Config from "./config";
 import * as mongoose from "mongoose";
 import { getSecret } from "./secret";
-import { execute } from "./services/command";
-import { parseExecutableCommand } from "./services/command/parser";
+import { onMessageCallback } from "./app";
 
 async function main() {
     console.log("INFO - Starting...");
@@ -23,12 +19,6 @@ async function main() {
         twitchUsername,
     } = getSecret();
     const { twitchChannels } = Config;
-    const onMessageCallback = async (
-        client: ChatClient,
-        message: Message
-    ): Promise<Action> => {
-        return execute(client, parseExecutableCommand(message, Config.prefix));
-    };
     try {
         const chat = new Chat(
             await new DiscordClient(onMessageCallback).authenticate({
@@ -48,12 +38,9 @@ async function main() {
         mongoose.set("useFindAndModify", false);
         server.listen(port);
     } catch (error) {
-        console.log(
-            "ERROR - Failed to initialize message environments. Reason: " +
-                error
-        );
+        console.log(`ERROR - Failed to initialize message environments. Reason: ${error}`);
     } finally {
-        console.log("INFO - Bot is running and listening to port " + port);
+        console.log(`INFO - Bot is running and listening to port ${port}`);
     }
 }
 

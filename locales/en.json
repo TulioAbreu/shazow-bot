@@ -29,5 +29,6 @@
     "WeatherLocationNotFound": "location not found.",
     "WeatherSuccess": "Location: %args0 - Temperature %args1 - Min %args2 - Max %args3",
     "WeatherFail": "Failed to retrieve weather data.",
-    "Help": "Commands list: https://github.com/TulioAbreu/shazow-bot/blob/master/docs/en.md"
+    "Help": "Commands list: https://github.com/TulioAbreu/shazow-bot/blob/master/docs/en.md",
+    "Pinged": "My prefix is %args0"
 }

@@ -28,16 +28,13 @@ export interface ExecutableCommand {
 
 export async function execute(
     client: ChatClient,
+    userSettings: UserSettings,
     command: ExecutableCommand
 ): Promise<Action> {
-    if (isEmptyCommand(command) || isTrollCommand(command)) {
+    if (isTrollCommand(command)) {
         return;
     }
 
-    const userSettings = await retrieveUserSettings(
-        command.userID,
-        command.source
-    );
     CommandLogDb.save({
         author: command.userName,
         commandName: command.name,
@@ -74,28 +71,6 @@ export async function execute(
         default:
             return executeGenericCommand(command);
     }
-}
-
-async function retrieveUserSettings(
-    userId: string,
-    userSource: Source
-): Promise<UserSettings> {
-    const userSettings = await UserSettingsDb.findOne(userId, userSource);
-    if (userSettings) {
-        return userSettings;
-    } else {
-        return UserSettingsDb.create(userId, userSource);
-    }
-}
-
-function isEmptyCommand(command: ExecutableCommand): boolean {
-    if (!command?.name?.length) {
-        return true;
-    }
-    if (command.name.replace(config.prefix, "").length === 0) {
-        return true;
-    }
-    return false;
 }
 
 function isTrollCommand(command: ExecutableCommand): boolean {
