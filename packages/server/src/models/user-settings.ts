@@ -8,6 +8,7 @@ export interface UserSettings {
     platform: Source;
     role: Role;
     language: Language;
+    isIgnored: boolean;
 }
 
 export interface IUserSettings extends UserSettings, Document {}
@@ -29,6 +30,11 @@ const UserSettingsSchema = new Schema({
     language: {
         type: Schema.Types.String,
         default: Language.English,
+        required: true,
+    },
+    isIgnored: {
+        type: Schema.Types.String,
+        default: false,
         required: true,
     },
 });

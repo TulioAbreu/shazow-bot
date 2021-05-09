@@ -18,6 +18,11 @@ export async function onMessageCallback(
     }
 
     const userSettings = await retrieveUserSettings(message.userId, message.source);
+    const shouldIgnoreMessage = getShouldIgnoreMessage(userSettings);
+    if (shouldIgnoreMessage) {
+        return;
+    }
+
     if (message.isPing) {
         return onPingMessage(userSettings, prefix);
     }
@@ -72,3 +77,6 @@ async function retrieveUserSettings(
     }
 }
 
+function getShouldIgnoreMessage(userSettings: UserSettings): boolean {
+    return userSettings.isIgnored;
+}

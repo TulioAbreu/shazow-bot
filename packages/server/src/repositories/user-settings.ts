@@ -15,6 +15,7 @@ export async function create(
         platform,
         language: DEFAULT_LANGUAGE,
         role: DEFAULT_ROLE,
+        isIgnored: false,
     });
     return createdUser;
 }
