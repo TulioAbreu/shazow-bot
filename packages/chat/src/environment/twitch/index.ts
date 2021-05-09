@@ -97,6 +97,11 @@ export class TwitchClient implements ChatClient {
             userName: context["username"],
             content: content,
             sentAt: new Date(),
+            isPing: this.isPingMessage(content),
         };
+    }
+
+    private isPingMessage(content: string): boolean {
+        return content.includes(`@${this.client.getUsername()}`);
     }
 }

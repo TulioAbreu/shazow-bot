@@ -69,6 +69,11 @@ export class DiscordClient implements ChatClient {
             content: discordMessage.content,
             source: Source.Discord,
             sentAt: new Date(),
+            isPing: this.isPingMessage(discordMessage),
         };
+    }
+
+    private isPingMessage(discordMessage: DiscordJs.Message): boolean {
+        return discordMessage.mentions.has(this.client.user.id);
     }
 }
