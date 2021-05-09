@@ -67,6 +67,7 @@ export class DiscordClient implements ChatClient {
             userName: discordMessage.author.username,
             channelId: discordMessage.channel.id,
             content: discordMessage.content,
+            serverId: discordMessage.guild.id,
             source: Source.Discord,
             sentAt: new Date(),
             isPing: this.isPingMessage(discordMessage),

@@ -19,6 +19,7 @@ export interface Message {
     userId: string;
     userName: string;
     content: string;
+    serverId: string;
     sentAt: Date;
     isPing: boolean;
 }
