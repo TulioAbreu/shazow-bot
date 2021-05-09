@@ -9,7 +9,6 @@ import { executeGenericCommand } from "../../services/generic-command";
 import Anime from "../../lib/anilist";
 import Poll from "../../lib/poll";
 import Vote from "../../lib/vote";
-import * as UserSettingsDb from "../../repositories/user-settings";
 import PollStatus from "../../lib/poll-status";
 import * as CommandLogDb from "../../repositories/command-log";
 import Settings from "../../lib/user-settings";
