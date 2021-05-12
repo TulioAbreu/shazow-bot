@@ -16,6 +16,7 @@
         "test": "jest --passWithNoTests",
         "build": "lerna run build",
         "start": "node packages/server/dist/index.js",
+        "admin:start-dev": "cd packages/admin && next dev",
         "new": "plop",
         "prettier": "prettier --write ./*",
         "lint": "eslint ./ --fix --max-warnings=0"
