@@ -1,4 +1,3 @@
-import server from "./routes";
 import {
     Chat,
     DiscordClient,
@@ -36,11 +35,10 @@ async function main() {
             useNewUrlParser: true,
         });
         mongoose.set("useFindAndModify", false);
-        server.listen(port);
     } catch (error) {
         console.log(`ERROR - Failed to initialize message environments. Reason: ${error}`);
     } finally {
-        console.log(`INFO - Bot is running and listening to port ${port}`);
+        console.log(`INFO - Bot is running`);
     }
 }
 
