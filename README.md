@@ -1,5 +1,5 @@
 <p align="center">
-    <h1>ShazowBot</h1>
+    <img src="https://raw.githubusercontent.com/TulioAbreu/shazow-bot/master/assets/ShazowBot.svg" alt="ShazowBot">
 </p>
 <p align="center">
     <a href="https://gitmoji.dev">
