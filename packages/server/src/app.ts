@@ -6,28 +6,29 @@ import { parseExecutableCommand } from "./services/command/parser";
 import { getOutput, Output } from "./services/language";
 import Config from "./config";
 
-const prefix = Config.prefix;
+const DEFAULT_PREFIX = Config.prefix;
 
 export async function onMessageCallback(
     client: ChatClient,
     message: Message
 ): Promise<Action> {
-    const shouldIgnoreMessageSync = getShouldIgnoreMessageSync(message, prefix);
+    const shouldIgnoreMessageSync = getShouldIgnoreMessageSync(message, DEFAULT_PREFIX);
     if (shouldIgnoreMessageSync) {
         return;
     }
 
     const userSettings = await retrieveUserSettings(message.userId, message.source);
+
     const shouldIgnoreMessage = getShouldIgnoreMessage(userSettings);
     if (shouldIgnoreMessage) {
         return;
     }
 
     if (message.isPing) {
-        return onPingMessage(userSettings, prefix);
+        return onPingMessage(userSettings, DEFAULT_PREFIX);
     }
-    if (isCommandMessage(message.content, prefix)) {
-        return onCommandMessage(client, message, userSettings, prefix);
+    if (isCommandMessage(message.content, DEFAULT_PREFIX)) {
+        return onCommandMessage(client, message, userSettings, DEFAULT_PREFIX);
     }
 }
 
