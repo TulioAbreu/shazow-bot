@@ -15,7 +15,7 @@
         "clean-build": "shx rm -rf build/",
         "test": "jest --passWithNoTests",
         "build": "lerna run build",
-        "bot:start": "node packages/server/dist/index.js",
+        "app:start": "node packages/app/dist/index.js",
         "api:start": "node packages/api/dist/index.js",
         "new": "plop",
         "prettier": "prettier --write ./*",

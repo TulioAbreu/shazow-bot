@@ -5,7 +5,7 @@ import Ping from "../../lib/ping";
 import Pong from "../../lib/pong";
 import Random from "../../lib/random";
 import type { UserSettings } from "database/lib/models/user-settings";
-import { executeGenericCommand } from "../../services/generic-command";
+import { executeGenericCommand } from "../generic-command";
 import Anime from "../../lib/anilist";
 import Poll from "../../lib/poll";
 import Vote from "../../lib/vote";

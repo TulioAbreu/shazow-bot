@@ -1,1 +1,1 @@
-worker: yarn bot:start
+worker: yarn app:start
