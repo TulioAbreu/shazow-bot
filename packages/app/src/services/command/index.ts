@@ -1,20 +1,9 @@
-import config from "../../config";
-import CreateGenericCommand from "../../lib/create-command";
-import DeleteGenericCommand from "../../lib/delete-command";
-import Ping from "../../lib/ping";
-import Pong from "../../lib/pong";
-import Random from "../../lib/random";
-import type { UserSettings } from "database/lib/models/user-settings";
-import { executeGenericCommand } from "../generic-command";
-import Anime from "../../lib/anilist";
-import Poll from "../../lib/poll";
-import Vote from "../../lib/vote";
-import PollStatus from "../../lib/poll-status";
-import * as CommandLogDb from "database/lib/repositories/command-log";
-import Settings from "../../lib/user-settings";
 import { Action, ChatClient, Source } from "chat";
-import Weather from "../../lib/weather";
-import Help from "../../lib/help";
+import type { UserSettings } from "database/lib/models/user-settings";
+import * as CommandLogDb from "database/lib/repositories/command-log";
+import config from "../../config";
+import { Ping, Pong, Random, Anilist, CreateCommand, DeleteCommand, Help, Poll, PollStatus, Settings, Vote, Weather } from "../../lib";
+import { executeGenericCommand } from "../generic-command";
 
 export interface ExecutableCommand {
     userID: string;
@@ -50,7 +39,7 @@ export async function execute(
         case "random":
             return Random(command);
         case "anime":
-            return Anime(command, userSettings);
+            return Anilist(command, userSettings);
         case "poll":
             return Poll(command, userSettings);
         case "vote":
@@ -60,9 +49,9 @@ export async function execute(
         case "settings":
             return Settings(command, userSettings);
         case "createCommand":
-            return CreateGenericCommand(command, userSettings);
+            return CreateCommand(command, userSettings);
         case "deleteCommand":
-            return DeleteGenericCommand(command, userSettings);
+            return DeleteCommand(command, userSettings);
         case "weather":
             return Weather(command, userSettings);
         case "help":
