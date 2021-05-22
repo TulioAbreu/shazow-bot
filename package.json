@@ -17,6 +17,7 @@
         "build": "lerna run build",
         "app:start": "node packages/app/dist/index.js",
         "api:start": "node packages/api/dist/index.js",
+        "front:dev": "yarn --cwd ./packages/front next dev",
         "new": "plop",
         "prettier": "prettier --write ./*",
         "lint": "eslint ./ --fix --max-warnings=0"
