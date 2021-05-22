@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as yup from "yup";
-import * as GenericCommandDb from "database/lib/repositories/generic-command";
+import * as GenericCommandDb from "database/dist/repositories/generic-command";
 import { HTTP } from "../../utils/constants";
 
 export async function findGenericCommand(

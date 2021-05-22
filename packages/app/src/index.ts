@@ -1,7 +1,7 @@
 import { Chat, DiscordClient, TwitchClient } from "chat";
-import { databaseConnect } from "database/lib";
+import { databaseConnect } from "database/dist";
 import Config from "./config";
-import { getSecret } from "utils/lib/secret";
+import { getSecret } from "utils/dist/secret";
 import { onMessageCallback } from "./app";
 
 async function main() {

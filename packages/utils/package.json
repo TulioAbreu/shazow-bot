@@ -1,7 +1,7 @@
 {
   "name": "utils",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "build": "tsc"

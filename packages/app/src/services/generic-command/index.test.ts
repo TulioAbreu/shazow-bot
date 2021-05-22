@@ -1,8 +1,8 @@
-import { GenericCommand } from "database/lib/models/generic-command";
+import { GenericCommand } from "database/dist/models/generic-command";
 import { executeGenericCommand } from ".";
 import { ExecutableCommand } from "../command";
 
-jest.mock("database/lib/repositories/generic-command", () => ({
+jest.mock("database/dist/repositories/generic-command", () => ({
     findOne: jest
         .fn()
         .mockReturnValueOnce({

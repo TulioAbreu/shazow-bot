@@ -1,6 +1,6 @@
 import { Action, ChatClient, createChatReply, Message, Source } from "chat";
-import { UserSettings } from "database/lib/models/user-settings";
-import * as UserSettingsDb from "database/lib/repositories/user-settings";
+import { UserSettings } from "database/dist/models/user-settings";
+import * as UserSettingsDb from "database/dist/repositories/user-settings";
 import { execute } from "./services/command";
 import { parseExecutableCommand } from "./services/command/parser";
 import { getOutput, Language, Output } from "./services/language";

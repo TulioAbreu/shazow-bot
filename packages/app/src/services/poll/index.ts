@@ -1,5 +1,5 @@
-import * as PollDb from "database/lib/repositories/poll";
-import * as VoteDb from "database/lib/repositories/vote";
+import * as PollDb from "database/dist/repositories/poll";
+import * as VoteDb from "database/dist/repositories/vote";
 import { Poll } from "database/src/models/poll";
 import { Vote } from "database/src/models/vote";
 

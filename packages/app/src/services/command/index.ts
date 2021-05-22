@@ -1,6 +1,6 @@
 import { Action, ChatClient, Source } from "chat";
-import type { UserSettings } from "database/lib/models/user-settings";
-import * as CommandLogDb from "database/lib/repositories/command-log";
+import type { UserSettings } from "database/dist/models/user-settings";
+import * as CommandLogDb from "database/dist/repositories/command-log";
 import config from "../../config";
 import { Ping, Pong, Random, Anilist, CreateCommand, DeleteCommand, Help, Poll, PollStatus, Settings, Vote, Weather } from "../../lib";
 import { executeGenericCommand } from "../generic-command";
