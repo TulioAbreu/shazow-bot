@@ -1,9 +1,9 @@
 import { Action, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
-import * as GenericCommandDb from "../../repositories/generic-command";
-import { UserSettings } from "../../models/user-settings";
+import * as GenericCommandDb from "database/lib/repositories/generic-command";
+import type { UserSettings } from "database/lib/models/user-settings";
 import { Role } from "../../types";
-import { getOutput, Output } from "../../services/language";
+import { getOutput, Language, Output } from "../../services/language";
 
 export default async function DeleteCommand(
     command: ExecutableCommand,
@@ -11,7 +11,7 @@ export default async function DeleteCommand(
 ): Promise<Action> {
     if (userSettings.role < Role.Admin) {
         return createChatReply(
-            getOutput(Output.DeleteCommandAccessNegated, userSettings.language)
+            getOutput(Output.DeleteCommandAccessNegated, userSettings.language as Language)
         );
     }
 
@@ -19,7 +19,7 @@ export default async function DeleteCommand(
         return createChatReply(
             getOutput(
                 Output.DeleteCommandInvalidArguments,
-                userSettings.language
+                userSettings.language as Language
             )
         );
     }
@@ -32,7 +32,7 @@ export default async function DeleteCommand(
                 return createChatReply(
                     getOutput(
                         Output.DeleteCommandInvalidArguments,
-                        userSettings.language
+                        userSettings.language as Language
                     )
                 );
             }
@@ -40,7 +40,7 @@ export default async function DeleteCommand(
     );
 
     return createChatReply(
-        getOutput(Output.DeleteCommandSuccess, userSettings.language, [
+        getOutput(Output.DeleteCommandSuccess, userSettings.language as Language, [
             command.arguments.join(", "),
         ])
     );

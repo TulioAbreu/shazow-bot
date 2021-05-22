@@ -1,7 +1,7 @@
 import { Action, createChatReply } from "chat";
-import { UserSettings } from "../../models/user-settings";
+import { UserSettings } from "database/lib/models/user-settings";
 import { ExecutableCommand } from "../../services/command";
-import { getOutput, Output } from "../../services/language";
+import { getOutput, Language, Output } from "../../services/language";
 import { fetchWeatherStatus } from "../../services/weather";
 
 export default async function Weather(
@@ -11,18 +11,18 @@ export default async function Weather(
     const location = command.arguments?.join(" ");
     if (!location) {
         return createChatReply(
-            getOutput(Output.WeatherInvalidArgs, userSettings.language)
+            getOutput(Output.WeatherInvalidArgs, userSettings.language as Language)
         );
     }
     const weatherResult = await fetchWeatherStatus(location);
     if (!weatherResult.hasValue) {
         return createChatReply(
-            getOutput(Output.WeatherFail, userSettings.language)
+            getOutput(Output.WeatherFail, userSettings.language as Language)
         );
     }
     const weather = weatherResult.value;
     return createChatReply(
-        getOutput(Output.WeatherSuccess, userSettings.language, [
+        getOutput(Output.WeatherSuccess, userSettings.language as Language, [
             weather.location,
             weather.dayTemperature?.toString() ?? "??",
             weather.minTemperature?.toString() ?? "??",

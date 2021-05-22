@@ -1,14 +1,14 @@
 import type { ExecutableCommand } from "../../services/command";
-import type { UserSettings } from "../../models/user-settings";
+import type { UserSettings } from "database/lib/models/user-settings";
 import {
     getPollStatus,
     PollStatus,
     PollStatusOption,
 } from "../../services/poll";
-import { Poll } from "../../models/poll";
+import { Poll } from "database/lib/models/poll";
 import { Language, Output, getOutput } from "../../services/language";
 import { Action, createChatReply, Source } from "chat";
-import * as PollDb from "../../repositories/poll";
+import * as PollDb from "database/lib/repositories/poll";
 import { isPollDisabled } from "../../services/poll";
 
 export default async function PollStatus(
@@ -18,16 +18,16 @@ export default async function PollStatus(
     const poll = await getLastFinishedPoll();
     if (!poll) {
         return createChatReply(
-            getOutput(Output.PollStatusNoRecentPolls, userSettings.language)
+            getOutput(Output.PollStatusNoRecentPolls, userSettings.language as Language)
         );
     }
     const pollStatus = await getPollStatus(poll._id);
     switch (command.source) {
         case Source.Twitch:
-            return renderDiscordResult(pollStatus, userSettings.language);
+            return renderDiscordResult(pollStatus, userSettings.language as Language);
         case Source.Discord:
         default:
-            return renderDiscordResult(pollStatus, userSettings.language);
+            return renderDiscordResult(pollStatus, userSettings.language as Language);
     }
 }
 

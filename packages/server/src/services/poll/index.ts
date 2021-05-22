@@ -1,7 +1,7 @@
-import * as PollDb from "../../repositories/poll";
-import * as VoteDb from "../../repositories/vote";
-import { Poll } from "../../models/poll";
-import { Vote } from "../../models/vote";
+import * as PollDb from "database/lib/repositories/poll";
+import * as VoteDb from "database/lib/repositories/vote";
+import { Poll } from "database/src/models/poll";
+import { Vote } from "database/src/models/vote";
 
 export interface PollStatus {
     question: string;

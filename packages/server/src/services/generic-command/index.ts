@@ -1,6 +1,6 @@
 import { Action, ActionId } from "chat";
 import { ExecutableCommand } from "../command";
-import * as GenericCommandDb from "../../repositories/generic-command";
+import * as GenericCommandDb from "database/lib/repositories/generic-command";
 
 export async function executeGenericCommand(
     command: ExecutableCommand

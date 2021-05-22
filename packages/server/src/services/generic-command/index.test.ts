@@ -1,4 +1,4 @@
-import { GenericCommand } from "../../models/generic-command";
+import { GenericCommand } from "database/lib/models/generic-command";
 import { executeGenericCommand } from ".";
 import { ExecutableCommand } from "../command";
 

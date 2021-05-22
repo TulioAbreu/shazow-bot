@@ -4,8 +4,8 @@ import {
     DiscordClient,
     TwitchClient,
 } from "chat";
+import { databaseConnect } from "database/lib";
 import Config from "./config";
-import * as mongoose from "mongoose";
 import { getSecret } from "./secret";
 import { onMessageCallback } from "./app";
 
@@ -31,11 +31,7 @@ async function main() {
             })
         );
         chat.listen();
-        mongoose.connect(mongodbKey, {
-            useUnifiedTopology: true,
-            useNewUrlParser: true,
-        });
-        mongoose.set("useFindAndModify", false);
+        databaseConnect(mongodbKey);
         server.listen(port);
     } catch (error) {
         console.log(`ERROR - Failed to initialize message environments. Reason: ${error}`);
