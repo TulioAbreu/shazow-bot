@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createErrorResult, createResult, Result } from "../../utils/result";
+import { createErrorResult, createResult, Result } from "utils";
 
 export interface AnimeMedia {
     Media: {

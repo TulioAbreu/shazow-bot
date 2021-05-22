@@ -11,6 +11,7 @@
     "dependencies": {
         "axios": "^0.21.0",
         "chat": "1.0.0",
+        "utils": "1.0.0",
         "cross-env": "^7.0.3",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",

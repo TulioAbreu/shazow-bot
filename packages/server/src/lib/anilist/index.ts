@@ -2,7 +2,7 @@ import { Action, Source, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Language, Output, getOutput } from "../../services/language";
 import { UserSettings } from "../../models/user-settings";
-import { isNullOrUndefined } from "../../utils/is-null-or-undefined";
+import { isNullOrUndefined } from "utils";
 import { AnimeMedia, fetchAnime } from "../../services/anime";
 
 export default async function Anime(
