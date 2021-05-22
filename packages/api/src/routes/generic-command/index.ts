@@ -1,14 +1,11 @@
 import { Router } from "express";
-import {
-    createGenericCommand,
-    deleteGenericCommand,
-    findGenericCommand,
-} from "../../controllers/generic-command";
+import GenericCommandController from "../../controllers/generic-command";
 
 const genericCommandRouter = Router();
 
-genericCommandRouter.get("/:name?", findGenericCommand);
-genericCommandRouter.post("/", createGenericCommand);
-genericCommandRouter.delete("/:name", deleteGenericCommand);
+genericCommandRouter.get("/:name?", GenericCommandController.get);
+// TODO: Add Authentication for POST/DELETE requests
+genericCommandRouter.post("/", GenericCommandController.create);
+genericCommandRouter.delete("/:name", GenericCommandController.delete);
 
 export default genericCommandRouter;
