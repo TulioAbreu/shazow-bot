@@ -19,6 +19,10 @@ flexible enough to support any environment (discord, twitch, etc.) by simply imp
 | -------- | ----------- |
 | [Chat](https://github.com/TulioAbreu/shazow-bot/tree/master/packages/chat)     | Normalizes multiple environments input/output |
 | [Server](https://github.com/TulioAbreu/shazow-bot/tree/master/packages/server)   | Bot implementation |
+| [Api](https://github.com/TulioAbreu/shazow-bot/tree/master/packages/api) | Bot database management API |
+| [Front](https://github.com/TulioAbreu/shazow-bot/tree/master/packages/front) | Bot database management front |
+| [Database](https://github.com/TulioAbreu/shazow-bot/tree/master/packages/database) | Models and Repositories |
+| [Utils](https://github.com/TulioAbreu/shazow-bot/tree/master/packages/utils) | General utils |
 
 ## Settings
 
