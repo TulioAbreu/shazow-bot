@@ -1,5 +1,4 @@
 import { Source } from "chat";
-import { Language } from "../services/language";
 import { Role } from "../types";
 import UserSettingsDb, { UserSettings } from "../models/user-settings";
 
@@ -7,7 +6,7 @@ export async function create(
     userId: string,
     platform: Source
 ): Promise<UserSettings> {
-    const DEFAULT_LANGUAGE = Language.English;
+    const DEFAULT_LANGUAGE = "en"; // TODO: add types
     const DEFAULT_ROLE = Role.None;
 
     const createdUser = await UserSettingsDb.create({
