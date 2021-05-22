@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import axios from "axios";
-import { getSecret } from "utils/dist/secret";
+import { getSecret } from "utils/lib/secret";
 import { createErrorResult, createResult, Result } from "utils";
 import { normalizeDiacritics, normalizeText } from "normalize-text";
 

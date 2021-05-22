@@ -1,5 +1,5 @@
 import app from "./app";
-import { getSecret } from "utils/dist/secret";
+import { getSecret } from "utils/lib/secret";
 import { databaseConnect } from "database/lib";
 
 const secret = getSecret();
