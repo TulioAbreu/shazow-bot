@@ -15,7 +15,6 @@
         "database": "1.0.0",
         "cross-env": "^7.0.3",
         "dotenv": "^8.2.0",
-        "express": "^4.17.1",
         "normalize-text": "^2.3.2",
         "ts-node": "^9.0.0",
         "yup": "^0.30.0"
