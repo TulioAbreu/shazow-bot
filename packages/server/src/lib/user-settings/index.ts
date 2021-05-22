@@ -44,9 +44,11 @@ function replyNoArguments(userSettings: UserSettings): Action {
 
 async function replyLanguage(userSettings: UserSettings): Promise<Action> {
     return createChatReply(
-        getOutput(Output.SettingsGetLanguage, userSettings.language as Language, [
-            userSettings.language,
-        ])
+        getOutput(
+            Output.SettingsGetLanguage,
+            userSettings.language as Language,
+            [userSettings.language]
+        )
     );
 }
 
@@ -81,12 +83,16 @@ async function setLanguage(
 
 function replyInvalidLanguage(userSettings: UserSettings): Action {
     return createChatReply(
-        getOutput(Output.SettingsInvalidLanguage, userSettings.language as Language, [
-            Object.keys(Language)
-                .map((languageKey: string) => {
-                    return `${languageKey} (${Language[languageKey]})`;
-                })
-                .join(", "),
-        ])
+        getOutput(
+            Output.SettingsInvalidLanguage,
+            userSettings.language as Language,
+            [
+                Object.keys(Language)
+                    .map((languageKey: string) => {
+                        return `${languageKey} (${Language[languageKey]})`;
+                    })
+                    .join(", "),
+            ]
+        )
     );
 }

@@ -1,9 +1,5 @@
 import server from "./routes";
-import {
-    Chat,
-    DiscordClient,
-    TwitchClient,
-} from "chat";
+import { Chat, DiscordClient, TwitchClient } from "chat";
 import { databaseConnect } from "database/lib";
 import Config from "./config";
 import { getSecret } from "./secret";
@@ -34,7 +30,9 @@ async function main() {
         databaseConnect(mongodbKey);
         server.listen(port);
     } catch (error) {
-        console.log(`ERROR - Failed to initialize message environments. Reason: ${error}`);
+        console.log(
+            `ERROR - Failed to initialize message environments. Reason: ${error}`
+        );
     } finally {
         console.log(`INFO - Bot is running and listening to port ${port}`);
     }

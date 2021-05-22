@@ -11,15 +11,20 @@ export default async function Anime(
 ): Promise<Action> {
     if (!command.arguments?.length) {
         return createChatReply(
-            getOutput(Output.AnimeNoArguments, userSettings.language as Language)
+            getOutput(
+                Output.AnimeNoArguments,
+                userSettings.language as Language
+            )
         );
     }
     const animeResult = await fetchAnime(command.arguments?.join(" "));
     if (!animeResult.hasValue) {
         return createChatReply(
-            getOutput(Output.AnimeFetchFailed, userSettings.language as Language, [
-                animeResult.errorMessage,
-            ])
+            getOutput(
+                Output.AnimeFetchFailed,
+                userSettings.language as Language,
+                [animeResult.errorMessage]
+            )
         );
     }
     const anime: AnimeMedia = animeResult.value;
@@ -28,7 +33,9 @@ export default async function Anime(
             [Source.Discord]: renderDiscordResponse,
             [Source.Twitch]: renderTwitchResponse,
         }[command.source] ?? renderTwitchResponse;
-    return createChatReply(outputRenderer(anime, userSettings.language as Language));
+    return createChatReply(
+        outputRenderer(anime, userSettings.language as Language)
+    );
 }
 
 function renderTwitchResponse(anime: AnimeMedia, language: Language): string {

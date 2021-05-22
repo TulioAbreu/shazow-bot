@@ -11,7 +11,10 @@ export default async function CreateCommand(
 ): Promise<Action> {
     if (userSettings.role < Role.Trusted) {
         return createChatReply(
-            getOutput(Output.CreateCommandAccessNegated, userSettings.language as Language)
+            getOutput(
+                Output.CreateCommandAccessNegated,
+                userSettings.language as Language
+            )
         );
     }
 
@@ -34,15 +37,20 @@ export default async function CreateCommand(
         });
     } catch (error) {
         return createChatReply(
-            getOutput(Output.CreateCommandFail, userSettings.language as Language, [
-                name,
-                error,
-            ])
+            getOutput(
+                Output.CreateCommandFail,
+                userSettings.language as Language,
+                [name, error]
+            )
         );
     }
 
     return createChatReply(
-        getOutput(Output.CreateCommandSuccess, userSettings.language as Language, [name])
+        getOutput(
+            Output.CreateCommandSuccess,
+            userSettings.language as Language,
+            [name]
+        )
     );
 }
 

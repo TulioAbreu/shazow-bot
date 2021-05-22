@@ -11,7 +11,10 @@ export default async function DeleteCommand(
 ): Promise<Action> {
     if (userSettings.role < Role.Admin) {
         return createChatReply(
-            getOutput(Output.DeleteCommandAccessNegated, userSettings.language as Language)
+            getOutput(
+                Output.DeleteCommandAccessNegated,
+                userSettings.language as Language
+            )
         );
     }
 
@@ -40,9 +43,11 @@ export default async function DeleteCommand(
     );
 
     return createChatReply(
-        getOutput(Output.DeleteCommandSuccess, userSettings.language as Language, [
-            command.arguments.join(", "),
-        ])
+        getOutput(
+            Output.DeleteCommandSuccess,
+            userSettings.language as Language,
+            [command.arguments.join(", ")]
+        )
     );
 }
 

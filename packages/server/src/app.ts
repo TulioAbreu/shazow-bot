@@ -17,7 +17,10 @@ export async function onMessageCallback(
         return;
     }
 
-    const userSettings = await retrieveUserSettings(message.userId, message.source);
+    const userSettings = await retrieveUserSettings(
+        message.userId,
+        message.source
+    );
     const shouldIgnoreMessage = getShouldIgnoreMessage(userSettings);
     if (shouldIgnoreMessage) {
         return;
@@ -31,16 +34,9 @@ export async function onMessageCallback(
     }
 }
 
-function onPingMessage(
-    userSettings: UserSettings,
-    prefix: string,
-): Action {
+function onPingMessage(userSettings: UserSettings, prefix: string): Action {
     return createChatReply(
-        getOutput(
-            Output.Pinged,
-            userSettings.language as Language,
-            [prefix]
-        )
+        getOutput(Output.Pinged, userSettings.language as Language, [prefix])
     );
 }
 
@@ -48,7 +44,7 @@ function onCommandMessage(
     client: ChatClient,
     message: Message,
     userSettings: UserSettings,
-    prefix: string,
+    prefix: string
 ): Promise<Action> {
     const command = parseExecutableCommand(message, prefix);
     return execute(client, userSettings, command);

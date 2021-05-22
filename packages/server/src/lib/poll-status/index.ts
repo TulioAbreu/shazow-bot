@@ -18,16 +18,25 @@ export default async function PollStatus(
     const poll = await getLastFinishedPoll();
     if (!poll) {
         return createChatReply(
-            getOutput(Output.PollStatusNoRecentPolls, userSettings.language as Language)
+            getOutput(
+                Output.PollStatusNoRecentPolls,
+                userSettings.language as Language
+            )
         );
     }
     const pollStatus = await getPollStatus(poll._id);
     switch (command.source) {
         case Source.Twitch:
-            return renderDiscordResult(pollStatus, userSettings.language as Language);
+            return renderDiscordResult(
+                pollStatus,
+                userSettings.language as Language
+            );
         case Source.Discord:
         default:
-            return renderDiscordResult(pollStatus, userSettings.language as Language);
+            return renderDiscordResult(
+                pollStatus,
+                userSettings.language as Language
+            );
     }
 }
 

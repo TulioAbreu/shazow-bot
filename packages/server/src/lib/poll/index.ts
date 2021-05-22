@@ -22,7 +22,10 @@ export default async function Poll(
     }
     if (!canUserStartPoll(userSettings)) {
         return createChatReply(
-            getOutput(Output.PollNoPermission, userSettings.language as Language)
+            getOutput(
+                Output.PollNoPermission,
+                userSettings.language as Language
+            )
         );
     }
     const pollMinutes = parseInt(command.arguments[0]);

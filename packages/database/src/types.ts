@@ -6,5 +6,5 @@ export enum Role {
 
 export declare enum Source {
     Discord = 0,
-    Twitch = 1
+    Twitch = 1,
 }

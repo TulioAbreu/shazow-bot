@@ -20,7 +20,10 @@ export default async function Vote(
     const activePolls = (await PollDb.find()).filter(isPollActive);
     if (!activePolls?.length) {
         return createChatReply(
-            getOutput(Output.VoteNoActivePolls, userSettings.language as Language)
+            getOutput(
+                Output.VoteNoActivePolls,
+                userSettings.language as Language
+            )
         );
     }
     const voteOption = getVoteOption(command.arguments);
