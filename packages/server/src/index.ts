@@ -1,11 +1,7 @@
 import server from "./routes";
-import {
-    Chat,
-    DiscordClient,
-    TwitchClient,
-} from "chat";
+import { Chat, DiscordClient, TwitchClient } from "chat";
+import { databaseConnect } from "database/lib";
 import Config from "./config";
-import * as mongoose from "mongoose";
 import { getSecret } from "./secret";
 import { onMessageCallback } from "./app";
 
@@ -31,14 +27,12 @@ async function main() {
             })
         );
         chat.listen();
-        mongoose.connect(mongodbKey, {
-            useUnifiedTopology: true,
-            useNewUrlParser: true,
-        });
-        mongoose.set("useFindAndModify", false);
+        databaseConnect(mongodbKey);
         server.listen(port);
     } catch (error) {
-        console.log(`ERROR - Failed to initialize message environments. Reason: ${error}`);
+        console.log(
+            `ERROR - Failed to initialize message environments. Reason: ${error}`
+        );
     } finally {
         console.log(`INFO - Bot is running and listening to port ${port}`);
     }

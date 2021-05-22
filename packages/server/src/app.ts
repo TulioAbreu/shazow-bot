@@ -1,9 +1,9 @@
 import { Action, ChatClient, createChatReply, Message, Source } from "chat";
-import { UserSettings } from "./models/user-settings";
-import * as UserSettingsDb from "./repositories/user-settings";
+import { UserSettings } from "database/lib/models/user-settings";
+import * as UserSettingsDb from "database/lib/repositories/user-settings";
 import { execute } from "./services/command";
 import { parseExecutableCommand } from "./services/command/parser";
-import { getOutput, Output } from "./services/language";
+import { getOutput, Language, Output } from "./services/language";
 import Config from "./config";
 
 const prefix = Config.prefix;
@@ -17,7 +17,10 @@ export async function onMessageCallback(
         return;
     }
 
-    const userSettings = await retrieveUserSettings(message.userId, message.source);
+    const userSettings = await retrieveUserSettings(
+        message.userId,
+        message.source
+    );
     const shouldIgnoreMessage = getShouldIgnoreMessage(userSettings);
     if (shouldIgnoreMessage) {
         return;
@@ -31,16 +34,9 @@ export async function onMessageCallback(
     }
 }
 
-function onPingMessage(
-    userSettings: UserSettings,
-    prefix: string,
-): Action {
+function onPingMessage(userSettings: UserSettings, prefix: string): Action {
     return createChatReply(
-        getOutput(
-            Output.Pinged,
-            userSettings.language,
-            [prefix]
-        )
+        getOutput(Output.Pinged, userSettings.language as Language, [prefix])
     );
 }
 
@@ -48,7 +44,7 @@ function onCommandMessage(
     client: ChatClient,
     message: Message,
     userSettings: UserSettings,
-    prefix: string,
+    prefix: string
 ): Promise<Action> {
     const command = parseExecutableCommand(message, prefix);
     return execute(client, userSettings, command);

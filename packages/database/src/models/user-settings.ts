@@ -1,13 +1,11 @@
-import { Source } from "chat";
 import { Document, Schema, model } from "mongoose";
-import { Language } from "../services/language";
-import { Role } from "../types";
+import { Role, Source } from "../types";
 
 export interface UserSettings {
     userId: string;
     platform: Source;
     role: Role;
-    language: Language;
+    language: string; // TODO: add types
     isIgnored: boolean;
 }
 
@@ -29,7 +27,7 @@ const UserSettingsSchema = new Schema({
     },
     language: {
         type: Schema.Types.String,
-        default: Language.English,
+        default: "en", // TODO: add types
         required: true,
     },
     isIgnored: {

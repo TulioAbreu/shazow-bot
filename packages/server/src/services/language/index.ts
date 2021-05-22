@@ -38,7 +38,7 @@ export enum Output {
     WeatherSuccess = "WeatherSuccess",
     WeatherFail = "WeatherFail",
     Help = "Help",
-    Pinged = "Pinged"
+    Pinged = "Pinged",
 }
 
 const DEFAULT_LANGUAGE = Language.English;

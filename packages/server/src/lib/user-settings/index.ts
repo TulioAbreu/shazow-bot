@@ -1,9 +1,9 @@
 import { Action, createChatReply } from "chat";
 import type { ExecutableCommand } from "../../services/command";
 import { Language, Output, getOutput } from "../../services/language";
-import * as UserSettingsDb from "../../repositories/user-settings";
+import * as UserSettingsDb from "database/lib/repositories/user-settings";
 
-import type { UserSettings } from "../../models/user-settings";
+import type { UserSettings } from "database/lib/models/user-settings";
 
 export default async function Settings(
     command: ExecutableCommand,
@@ -38,15 +38,17 @@ async function getSettings(
 
 function replyNoArguments(userSettings: UserSettings): Action {
     return createChatReply(
-        getOutput(Output.SettingsNoArguments, userSettings.language)
+        getOutput(Output.SettingsNoArguments, userSettings.language as Language)
     );
 }
 
 async function replyLanguage(userSettings: UserSettings): Promise<Action> {
     return createChatReply(
-        getOutput(Output.SettingsGetLanguage, userSettings.language, [
-            userSettings.language,
-        ])
+        getOutput(
+            Output.SettingsGetLanguage,
+            userSettings.language as Language,
+            [userSettings.language]
+        )
     );
 }
 
@@ -81,12 +83,16 @@ async function setLanguage(
 
 function replyInvalidLanguage(userSettings: UserSettings): Action {
     return createChatReply(
-        getOutput(Output.SettingsInvalidLanguage, userSettings.language, [
-            Object.keys(Language)
-                .map((languageKey: string) => {
-                    return `${languageKey} (${Language[languageKey]})`;
-                })
-                .join(", "),
-        ])
+        getOutput(
+            Output.SettingsInvalidLanguage,
+            userSettings.language as Language,
+            [
+                Object.keys(Language)
+                    .map((languageKey: string) => {
+                        return `${languageKey} (${Language[languageKey]})`;
+                    })
+                    .join(", "),
+            ]
+        )
     );
 }

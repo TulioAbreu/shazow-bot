@@ -1,5 +1,5 @@
-import { Source } from "chat";
 import { Document, Schema, model } from "mongoose";
+import { Source } from "../types";
 
 export interface Vote {
     _id?: string;

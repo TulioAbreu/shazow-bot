@@ -1,11 +1,11 @@
 import { Action, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
-import { Output, getOutput } from "../../services/language";
-import * as PollDb from "../../repositories/poll";
-import * as VoteDb from "../../repositories/vote";
-import { Poll } from "../../models/poll";
-import { UserSettings } from "../../models/user-settings";
-import { Vote } from "../../models/vote";
+import { Output, getOutput, Language } from "../../services/language";
+import * as PollDb from "database/lib/repositories/poll";
+import * as VoteDb from "database/lib/repositories/vote";
+import { Poll } from "database/lib/models/poll";
+import { UserSettings } from "database/lib/models/user-settings";
+import { Vote } from "database/lib/models/vote";
 import { isPollActive } from "../../services/poll";
 
 export default async function Vote(
@@ -14,13 +14,16 @@ export default async function Vote(
 ): Promise<Action> {
     if (!command.arguments?.length) {
         return createChatReply(
-            getOutput(Output.VoteInvalidArgs, userSettings.language)
+            getOutput(Output.VoteInvalidArgs, userSettings.language as Language)
         );
     }
     const activePolls = (await PollDb.find()).filter(isPollActive);
     if (!activePolls?.length) {
         return createChatReply(
-            getOutput(Output.VoteNoActivePolls, userSettings.language)
+            getOutput(
+                Output.VoteNoActivePolls,
+                userSettings.language as Language
+            )
         );
     }
     const voteOption = getVoteOption(command.arguments);
@@ -35,11 +38,11 @@ export default async function Vote(
     });
     if (!success) {
         return createChatReply(
-            getOutput(Output.VoteFail, userSettings.language)
+            getOutput(Output.VoteFail, userSettings.language as Language)
         );
     }
     return createChatReply(
-        getOutput(Output.VoteSuccess, userSettings.language)
+        getOutput(Output.VoteSuccess, userSettings.language as Language)
     );
 }
 

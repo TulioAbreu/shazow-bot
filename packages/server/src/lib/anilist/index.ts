@@ -1,7 +1,7 @@
 import { Action, Source, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Language, Output, getOutput } from "../../services/language";
-import { UserSettings } from "../../models/user-settings";
+import { UserSettings } from "database/lib/models/user-settings";
 import { isNullOrUndefined } from "utils";
 import { AnimeMedia, fetchAnime } from "../../services/anime";
 
@@ -11,15 +11,20 @@ export default async function Anime(
 ): Promise<Action> {
     if (!command.arguments?.length) {
         return createChatReply(
-            getOutput(Output.AnimeNoArguments, userSettings.language)
+            getOutput(
+                Output.AnimeNoArguments,
+                userSettings.language as Language
+            )
         );
     }
     const animeResult = await fetchAnime(command.arguments?.join(" "));
     if (!animeResult.hasValue) {
         return createChatReply(
-            getOutput(Output.AnimeFetchFailed, userSettings.language, [
-                animeResult.errorMessage,
-            ])
+            getOutput(
+                Output.AnimeFetchFailed,
+                userSettings.language as Language,
+                [animeResult.errorMessage]
+            )
         );
     }
     const anime: AnimeMedia = animeResult.value;
@@ -28,7 +33,9 @@ export default async function Anime(
             [Source.Discord]: renderDiscordResponse,
             [Source.Twitch]: renderTwitchResponse,
         }[command.source] ?? renderTwitchResponse;
-    return createChatReply(outputRenderer(anime, userSettings.language));
+    return createChatReply(
+        outputRenderer(anime, userSettings.language as Language)
+    );
 }
 
 function renderTwitchResponse(anime: AnimeMedia, language: Language): string {

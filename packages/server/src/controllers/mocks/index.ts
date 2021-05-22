@@ -1,5 +1,5 @@
 import { Source } from "chat";
-import { UserSettings } from "../../models/user-settings";
+import { UserSettings } from "database/src/models/user-settings";
 import { Role } from "../../types";
 import { ExecutableCommand } from "../../services/command";
 import { Language } from "../../services/language";

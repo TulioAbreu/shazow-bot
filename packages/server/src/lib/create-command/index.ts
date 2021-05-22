@@ -1,9 +1,9 @@
 import { Action, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
-import * as GenericCommandDb from "../../repositories/generic-command";
-import { UserSettings } from "../../models/user-settings";
+import * as GenericCommandDb from "database/lib/repositories/generic-command";
+import type { UserSettings } from "database/lib/models/user-settings";
 import { Role } from "../../types";
-import { getOutput, Output } from "../../services/language";
+import { getOutput, Language, Output } from "../../services/language";
 
 export default async function CreateCommand(
     command: ExecutableCommand,
@@ -11,7 +11,10 @@ export default async function CreateCommand(
 ): Promise<Action> {
     if (userSettings.role < Role.Trusted) {
         return createChatReply(
-            getOutput(Output.CreateCommandAccessNegated, userSettings.language)
+            getOutput(
+                Output.CreateCommandAccessNegated,
+                userSettings.language as Language
+            )
         );
     }
 
@@ -20,7 +23,7 @@ export default async function CreateCommand(
         return createChatReply(
             getOutput(
                 Output.CreateCommandInvalidArguments,
-                userSettings.language
+                userSettings.language as Language
             )
         );
     }
@@ -34,15 +37,20 @@ export default async function CreateCommand(
         });
     } catch (error) {
         return createChatReply(
-            getOutput(Output.CreateCommandFail, userSettings.language, [
-                name,
-                error,
-            ])
+            getOutput(
+                Output.CreateCommandFail,
+                userSettings.language as Language,
+                [name, error]
+            )
         );
     }
 
     return createChatReply(
-        getOutput(Output.CreateCommandSuccess, userSettings.language, [name])
+        getOutput(
+            Output.CreateCommandSuccess,
+            userSettings.language as Language,
+            [name]
+        )
     );
 }
 
