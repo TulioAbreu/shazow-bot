@@ -16,3 +16,8 @@ export async function save(commandLog: CommandLog): Promise<boolean> {
     await CommandLogDb.create(commandLog);
     return true;
 }
+
+export async function count(commandName: string): Promise<number> {
+    const commandUsageCount = await CommandLogDb.count({ commandName });
+    return commandUsageCount;
+}

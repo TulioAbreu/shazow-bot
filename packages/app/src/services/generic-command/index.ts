@@ -1,6 +1,7 @@
 import { Action, ActionId } from "chat";
 import { ExecutableCommand } from "../command";
 import * as GenericCommandDb from "database/lib/repositories/generic-command";
+import * as CommandLogDb from "database/lib/repositories/command-log";
 import { GenericCommand } from "database/lib/models/generic-command";
 
 export async function executeGenericCommand(
@@ -15,7 +16,14 @@ export async function executeGenericCommand(
         return;
     }
 
-    const output = getGenericCommandOutput(command.arguments, genericCommand);
+    const usageCount = hasCommandUsageCount(genericCommand.output)
+        ? await CommandLogDb.count(genericCommand.name)
+        : 0;
+    const output = getGenericCommandOutput(
+        command.arguments,
+        genericCommand,
+        usageCount
+    );
 
     return {
         id: ActionId.Reply,
@@ -23,9 +31,14 @@ export async function executeGenericCommand(
     };
 }
 
+function hasCommandUsageCount(commandOutput: string): boolean {
+    return commandOutput.includes("%count");
+}
+
 function getGenericCommandOutput(
     commandArguments: string[],
-    genericCommand: GenericCommand
+    genericCommand: GenericCommand,
+    usageCount: number,
 ) {
     return commandArguments
         .reduce(
@@ -34,5 +47,6 @@ function getGenericCommandOutput(
             },
             genericCommand.output
         )
-        .replace(/%args([0-9])+/g, "");
+        .replace(/%args([0-9])+/g, "")
+        .replace("%count", `${usageCount}`);
 }
