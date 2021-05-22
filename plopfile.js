@@ -16,12 +16,12 @@ module.exports = function (plop) {
         actions: [
             {
                 type: "add",
-                path: "packages/server/src/lib/{{hyphenCaseName}}/index.ts",
+                path: "packages/app/src/lib/{{hyphenCaseName}}/index.ts",
                 templateFile: "templates/index.ts.hbs",
             },
             {
                 type: "add",
-                path: "packages/server/src/lib/{{hyphenCaseName}}/index.test.ts",
+                path: "packages/app/src/lib/{{hyphenCaseName}}/index.test.ts",
                 templateFile: "templates/index.test.ts.hbs",
             }
         ]
