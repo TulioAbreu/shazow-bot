@@ -1,6 +1,5 @@
 import PollDb, { Poll } from "../models/poll";
-import { asArray } from "../utils/as-array";
-import { isEmptyString } from "../utils/is-empty-array";
+import { asArray, isEmptyString } from "utils";
 
 export async function create(
     question: string,

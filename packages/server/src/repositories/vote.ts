@@ -1,6 +1,5 @@
 import VoteDb, { Vote } from "../models/vote";
-import { asArray } from "../utils/as-array";
-import { isNullOrUndefined } from "../utils/is-null-or-undefined";
+import { asArray, isNullOrUndefined } from "utils";
 
 export async function save(vote: Vote): Promise<boolean> {
     const userCanVote = await canUserVote(vote.userId, vote.pollId);

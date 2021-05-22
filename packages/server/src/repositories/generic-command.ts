@@ -1,5 +1,5 @@
 import CommandDb, { GenericCommand } from "../models/generic-command";
-import { asArray } from "../utils/as-array";
+import { asArray } from "utils";
 
 export async function save(command: GenericCommand): Promise<GenericCommand> {
     const { name, output, isCacheable } = command;

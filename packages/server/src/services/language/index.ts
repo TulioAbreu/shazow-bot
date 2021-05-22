@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { createErrorResult, createResult, Result } from "../../utils/result";
+import { createErrorResult, createResult, Result } from "utils";
 
 export enum Language {
     English = "en",

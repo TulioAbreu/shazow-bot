@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import axios from "axios";
 import { getSecret } from "../../secret";
-import { createErrorResult, createResult, Result } from "../../utils/result";
+import { createErrorResult, createResult, Result } from "utils";
 import { normalizeDiacritics, normalizeText } from "normalize-text";
 
 const WEATHER_API_KEY: string = getSecret().weatherApiKey;
