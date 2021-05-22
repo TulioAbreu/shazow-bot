@@ -3,3 +3,8 @@ export enum Role {
     Trusted = 1,
     Admin = 2,
 }
+
+export declare enum Source {
+    Discord = 0,
+    Twitch = 1
+}

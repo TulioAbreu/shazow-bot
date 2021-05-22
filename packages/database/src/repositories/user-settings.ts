@@ -1,5 +1,4 @@
-import { Source } from "chat";
-import { Role } from "../types";
+import { Role, Source } from "../types";
 import UserSettingsDb, { UserSettings } from "../models/user-settings";
 
 export async function create(
