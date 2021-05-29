@@ -73,6 +73,9 @@ export class TwitchClient implements ChatClient {
         context: Tmi.ChatUserstate,
         action: Action
     ) {
+        if (!action?.id) {
+            return;
+        }
         switch (action.id) {
             case ActionId.Reply: {
                 return replyMessage(
