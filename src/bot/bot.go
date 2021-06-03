@@ -1,16 +1,21 @@
-package ShazowBot
+package bot
 
 import (
 	"strings"
 
-	chat "../chat"
+	action "../chat/action"
+	message "../chat/message"
+	command "./command"
 )
 
-func isCommand(message string, commandPrefix string) bool {
-	return strings.HasPrefix(message, commandPrefix)
+func isCommand(msg string, commandPrefix string) bool {
+	return strings.HasPrefix(msg, commandPrefix)
 }
 
-func MessageHandler(message chat.Message) chat.Action {
-	if isCommand(message)
-	return chat.Action{}
+func MessageHandler(msg message.Message) action.Action {
+	if !isCommand(msg.Content(), "$") {
+		return action.NewActionNone()
+	}
+	cmd := command.New(msg)
+	return cmd.Execute()
 }

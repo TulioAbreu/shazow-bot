@@ -2,7 +2,11 @@ package chat
 
 import (
 	"fmt"
-	"time"
+
+	"./action"
+	"./author"
+	"./guild"
+	"./message"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -43,22 +47,24 @@ func shouldIgnoreMessage(s *discordgo.Session, m *discordgo.MessageCreate) bool 
 	return m.Author.Bot && s.State.User.ID == m.Author.ID
 }
 
-func discordParseMessage(s *discordgo.Session, m *discordgo.MessageCreate) Message {
-	return Message{
-		Source:    "discord",
-		ChannelID: m.ChannelID,
-		UserID:    m.Author.ID,
-		Username:  m.Author.Username,
-		ServerID:  m.GuildID,
-		IsPing:    m.Pinned,
-		SentAt:    time.Now(),
-		Content:   m.Content,
+func discordParseMessage(s *discordgo.Session, m *discordgo.MessageCreate) message.Message {
+	return message.New(
+		guild.New(m.GuildID, guild.ChatGuildSourceDiscord),
+		author.New(guild.ChatGuildSourceDiscord, m.Author.ID, m.Author.Username),
+		m.ChannelID,
+		m.Content,
+		m.Pinned,
+	)
+}
+
+func discordExecuteAction(s *discordgo.Session, m *discordgo.MessageCreate, a action.Action) {
+	switch a.ID() {
+	case action.ChatActionReply:
+		replyUser(s, m, a)
 	}
 }
 
-func discordExecuteAction(s *discordgo.Session, m *discordgo.MessageCreate, action Action) {
-	switch action.ID {
-	case ACTION_REPLY:
-		s.ChannelMessageSend(m.ChannelID, action.Body)
-	}
+func replyUser(s *discordgo.Session, m *discordgo.MessageCreate, a action.Action) {
+	msg := fmt.Sprintf("<@%s>, %s", m.Author.ID, a.Body())
+	s.ChannelMessageSend(m.ChannelID, msg)
 }

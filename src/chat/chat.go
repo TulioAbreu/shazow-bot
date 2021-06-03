@@ -1,23 +1,12 @@
 package chat
 
 import (
-	"time"
-
-	logger "../logger"
+	"../logger"
+	"./action"
+	"./message"
 )
 
-type Message struct {
-	Source    string
-	ChannelID string
-	UserID    string
-	Username  string
-	Content   string
-	ServerID  string
-	SentAt    time.Time
-	IsPing    bool
-}
-
-type MessageHandler func(Message) Action
+type MessageHandler func(message.Message) action.Action
 
 type Chat struct {
 	messageHandler MessageHandler

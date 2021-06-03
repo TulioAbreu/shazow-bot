@@ -18,6 +18,22 @@ func Log(logType int, message string) {
 	fmt.Printf("[%s] [%s] %s\n", logPrefix, timeStr, message)
 }
 
+func LogInfo(message string) {
+	Log(LOG_INFO, message)
+}
+
+func LogWarning(message string) {
+	Log(LOG_WARNING, message)
+}
+
+func LogError(message string) {
+	Log(LOG_ERROR, message)
+}
+
+func LogFatal(message string) {
+	Log(LOG_FATAL, message)
+}
+
 func getCurrentTimeStr() string {
 	currentTime := time.Now()
 	return currentTime.Format(time.RFC850)

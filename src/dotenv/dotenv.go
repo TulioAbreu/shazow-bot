@@ -15,7 +15,7 @@ type Entry struct {
 }
 
 func StartEnvironment() {
-	dotenvLines, err := readLines("./env")
+	dotenvLines, err := readLines("./.env")
 	if err != nil {
 		logger.Log(logger.LOG_FATAL, "dotenv/StartEnvironment - "+err.Error())
 	}
@@ -31,7 +31,7 @@ func StartEnvironment() {
 func readLines(filepath string) ([]string, error) {
 	data, err := ioutil.ReadFile(filepath)
 	if err != nil {
-		return []string{}, errors.New("failed to read '" + filepath + "'")
+		return []string{}, err
 	}
 	fileContent := string(data)
 	return strings.Split(fileContent, "\n"), nil
