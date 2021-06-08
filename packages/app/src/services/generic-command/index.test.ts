@@ -1,4 +1,3 @@
-import { GenericCommand } from "database/dist/models/generic-command";
 import { executeGenericCommand } from ".";
 import { ExecutableCommand } from "../command";
 import * as GenericCommandDb from "database/dist/repositories/generic-command";
