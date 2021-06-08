@@ -10,7 +10,7 @@ export class Result<T> {
     }
 
     hasValue(): boolean {
-        return !this.value;
+        return !!this.value;
     }
 
     getErrorMessage(): string {
