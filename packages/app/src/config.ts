@@ -8,7 +8,7 @@ export interface Config {
     readonly twitchChannels: string[];
 }
 
-const ConfigSchema: yup.SchemaOf<Config> = yup.object({
+const ConfigSchema = yup.object({
     port: yup
         .number()
         .required("'port' field is required"),
