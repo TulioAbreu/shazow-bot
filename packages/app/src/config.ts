@@ -8,7 +8,7 @@ export interface Config {
     readonly twitchChannels: string[];
 }
 
-const ConfigSchema = yup.object().shape({
+const ConfigSchema: yup.SchemaOf<Config> = yup.object({
     port: yup
         .number()
         .required("'port' field is required"),
@@ -37,5 +37,16 @@ export function getConfig(): Config {
 function readConfigFile(filepath: string): Config {
     const fileContent = readFileSync(filepath, "utf8");
     const rawConfig = JSON.parse(fileContent);
-    return ConfigSchema.validateSync(rawConfig);
+    ConfigSchema.validateSync(rawConfig);
+    return parseRawConfig(rawConfig);
+}
+
+function parseRawConfig(rawConfig: Config): Config {
+    const { port, prefix, trollCommandThreshold, twitchChannels } = rawConfig;
+    return {
+        port,
+        prefix,
+        trollCommandThreshold,
+        twitchChannels,
+    };
 }
