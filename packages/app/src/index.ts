@@ -26,6 +26,7 @@ async function main() {
         );
         chat.listen();
         databaseConnect(mongodbKey);
+        console.log("INFO - ShazowBot is running");
     } catch (error) {
         console.log(
             `ERROR - Failed to initialize message environments. Reason: ${error}`
