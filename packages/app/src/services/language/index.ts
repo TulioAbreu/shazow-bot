@@ -50,7 +50,7 @@ const locales: I18nDict = readLocaleFiles();
 export function getOutput(
     output: Output,
     rawLanguage: Language,
-    args?: string[]
+    args: string[] = []
 ): string {
     const language = parseLegacyLanguage(rawLanguage);
     const rawOutput = locales[language ?? DEFAULT_LANGUAGE][output];
@@ -95,15 +95,22 @@ function readLocaleFiles(): I18nDict {
     return Object.values(Language)
         .map((locale: string) => {
             const localeDict = readLocaleFile(`./locales/${locale}.json`);
-            if (!localeDict.hasValue) {
+            if (!localeDict.hasValue()) {
                 return undefined;
             }
-            return { locale, localeDict: localeDict.value };
+            return {
+                locale,
+                localeDict: localeDict.unwrap(),
+            };
         })
         .filter((x) => x)
         .reduce((languageOutputDict, localeWithLocaleDict) => {
+            if (!localeWithLocaleDict) {
+                return languageOutputDict;
+            }
+            const { locale, localeDict } = localeWithLocaleDict ?? {};
             return {
-                [localeWithLocaleDict.locale]: localeWithLocaleDict.localeDict,
+                [locale]: localeDict,
                 ...languageOutputDict,
             };
         }, {}) as I18nDict;

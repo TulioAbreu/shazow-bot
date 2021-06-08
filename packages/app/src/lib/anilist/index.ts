@@ -15,14 +15,14 @@ export default async function Anime(
         );
     }
     const animeResult = await fetchAnime(command.arguments?.join(" "));
-    if (!animeResult.hasValue) {
+    if (!animeResult.hasValue()) {
         return createChatReply(
             getOutput(Output.AnimeFetchFailed, userSettings.language as Language, [
-                animeResult.errorMessage,
+                animeResult.getErrorMessage(),
             ])
         );
     }
-    const anime: AnimeMedia = animeResult.value;
+    const anime: AnimeMedia = animeResult.unwrap();
     const outputRenderer =
         {
             [Source.Discord]: renderDiscordResponse,

@@ -1,6 +1,6 @@
 import { Chat, DiscordClient, TwitchClient } from "chat";
+import { getConfig } from "./config";
 import { databaseConnect } from "database/dist";
-import Config from "./config";
 import { getSecret } from "utils/dist/secret";
 import { onMessageCallback } from "./app";
 
@@ -12,7 +12,7 @@ async function main() {
         twitchToken,
         twitchUsername,
     } = getSecret();
-    const { twitchChannels } = Config;
+    const { twitchChannels } = getConfig();
     try {
         const chat = new Chat(
             await new DiscordClient(onMessageCallback).authenticate({

@@ -2,6 +2,7 @@ import * as PollDb from "database/dist/repositories/poll";
 import * as VoteDb from "database/dist/repositories/vote";
 import { Poll } from "database/src/models/poll";
 import { Vote } from "database/src/models/vote";
+import { Maybe } from "utils";
 
 export interface PollStatus {
     question: string;
@@ -26,9 +27,9 @@ export function isPollDisabled(poll: Poll): boolean {
     return !isPollActive(poll);
 }
 
-export async function getPollStatus(id: string): Promise<PollStatus> {
+export async function getPollStatus(id: string): Promise<Maybe<PollStatus>> {
     const poll = await PollDb.findById(id);
-    if (!poll) {
+    if (!poll?._id) {
         return;
     }
     const pollVotes = await VoteDb.findByPollId(poll._id);

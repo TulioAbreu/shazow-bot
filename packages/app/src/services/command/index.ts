@@ -1,7 +1,8 @@
 import { Action, ChatClient, Source } from "chat";
 import type { UserSettings } from "database/dist/models/user-settings";
 import * as CommandLogDb from "database/dist/repositories/command-log";
-import config from "../../config";
+import { Maybe } from "utils";
+import { getConfig } from "../../config";
 import { Ping, Pong, Random, Anilist, CreateCommand, DeleteCommand, Help, Poll, PollStatus, Settings, Vote, Weather } from "../../lib";
 import { executeGenericCommand } from "../generic-command";
 
@@ -15,10 +16,10 @@ export interface ExecutableCommand {
 }
 
 export async function execute(
-    client: ChatClient,
+    _client: ChatClient,
     userSettings: UserSettings,
     command: ExecutableCommand
-): Promise<Action> {
+): Promise<Maybe<Action>> {
     if (isTrollCommand(command)) {
         return;
     }
@@ -62,5 +63,6 @@ export async function execute(
 }
 
 function isTrollCommand(command: ExecutableCommand): boolean {
+    const config = getConfig();
     return command.message.length >= config.trollCommandThreshold;
 }

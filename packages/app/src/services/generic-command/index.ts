@@ -3,10 +3,11 @@ import * as GenericCommandDb from "database/dist/repositories/generic-command";
 import * as CommandLogDb from "database/dist/repositories/command-log";
 import { GenericCommand } from "database/dist/models/generic-command";
 import type { ExecutableCommand } from "../command";
+import { Maybe } from "utils";
 
 export async function executeGenericCommand(
     command: ExecutableCommand
-): Promise<Action> {
+): Promise<Maybe<Action>> {
     if (!command?.name?.length) {
         return;
     }

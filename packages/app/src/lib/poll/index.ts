@@ -5,6 +5,7 @@ import { Poll } from "database/dist/models/poll";
 import { UserSettings } from "database/dist/models/user-settings";
 import { Role } from "../../types";
 import * as PollDb from "database/dist/repositories/poll";
+import { Maybe } from "utils";
 
 interface ParsedPoll {
     question: string;
@@ -25,10 +26,16 @@ export default async function Poll(
             getOutput(Output.PollNoPermission, userSettings.language as Language)
         );
     }
-    const pollMinutes = parseInt(command.arguments[0]);
-    const { question, options } = parsePoll(
-        command.arguments.slice(1).join(" ")
-    );
+    const [pollMinutesStr, ...questionStr] = command.arguments;
+    const pollMinutes = parseInt(pollMinutesStr, 10);
+    const poll = parsePoll(questionStr.join(" "));
+    if (!poll) {
+        return createChatReply(
+            getOutput(Output.PollInvalidArgs, userSettings.language as Language)
+        );
+    }
+
+    const { question, options } = poll;
     if (!checkPollParameters(question, options, pollMinutes)) {
         return createChatReply(
             getOutput(Output.PollInvalidArgs, userSettings.language as Language)
@@ -45,41 +52,41 @@ export default async function Poll(
 }
 
 function checkPollParameters(
-    question: string,
-    options: string[],
+    question = "",
+    options: string[] = [],
     pollMinutes: number
 ): boolean {
-    return question?.length && options?.length && !isNaN(pollMinutes);
+    return !!question.length && !!options.length && !isNaN(pollMinutes);
 }
 
 async function canUserStartPoll(userSettings: UserSettings): Promise<boolean> {
     return userSettings.role > Role.None;
 }
 
-function parsePoll(message: string): ParsedPoll {
-    function getQuestion(): string {
-        const rawQuestion = message.split("?").shift();
-        return toTitleCase(rawQuestion.trim()) + "?";
-    }
-
-    function getPollOptions(): string[] {
-        const optionsStr = message.split("?").pop();
-        const rawOptions = optionsStr.split(",");
-        return rawOptions.map((option: string) => option.trim().toLowerCase());
-    }
-
+function parsePoll(message: string): Maybe<ParsedPoll> {
     if (!isValidPollMessage(message)) {
         return;
     }
+    const [question, options] = message.split("?");
+
+    function parseQuestion(questionStr: string) {
+        return `${toTitleCase(questionStr)}?`;
+    }
+
+    function parsePollOptions(optionsStr: string) {
+        return optionsStr
+            .split(",")
+            .map((optionStr: string): string => optionStr.trim().toLowerCase());
+    }
 
     return {
-        question: getQuestion(),
-        options: getPollOptions(),
+        question: parseQuestion(question),
+        options: parsePollOptions(options),
     };
 }
 
 function isValidPollMessage(message: string): boolean {
-    return /(.+?)\?(.+,)+(.)+/.test(message);
+    return /(.+?)\?(.*?)(,.*?)+/.test(message);
 }
 
 function toTitleCase(str: string): string {

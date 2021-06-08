@@ -1,12 +1,9 @@
 import { fetchWeatherStatus } from ".";
-
 import axios from "axios";
-jest.mock("axios");
-const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe("Weather Service", () => {
     it("should parse weather data", async () => {
-        mockedAxios.get.mockImplementationOnce(async () => ({
+        jest.spyOn(axios, "get").mockImplementationOnce(async () => ({
             data: {
                 location: {
                     name: "belo horizonte",
@@ -28,8 +25,8 @@ describe("Weather Service", () => {
         }));
 
         const weatherStatusResult = await fetchWeatherStatus("belo horizonte");
-        expect(weatherStatusResult.hasValue).toBeTruthy();
-        const weatherStatus = weatherStatusResult.value;
+        expect(weatherStatusResult.hasValue()).toBeTruthy();
+        const weatherStatus = weatherStatusResult.unwrap();
         expect(weatherStatus.location).toBe(
             "belo horizonte / minas gerais / brasil"
         );
@@ -40,23 +37,23 @@ describe("Weather Service", () => {
 
     describe("should return error result", () => {
         test("on empty response", async () => {
-            mockedAxios.get.mockImplementationOnce(async () => ({
+            jest.spyOn(axios, "get").mockImplementationOnce(async () => ({
                 data: undefined,
             }));
 
             const weatherStatusResult = await fetchWeatherStatus("bh");
-            expect(weatherStatusResult.hasValue).toBeFalsy();
-            expect(weatherStatusResult.errorMessage.length).toBeGreaterThan(0);
+            expect(weatherStatusResult.hasValue()).toBeFalsy();
+            expect(weatherStatusResult.getErrorMessage().length).toBeGreaterThan(0);
         });
 
         test("on not found error", async () => {
-            mockedAxios.get.mockImplementationOnce(async () => {
+            jest.spyOn(axios, "get").mockImplementationOnce(async () => {
                 throw "404 error";
             });
 
             const weatherStatusResult = await fetchWeatherStatus("bh");
-            expect(weatherStatusResult.hasValue).toBeFalsy();
-            expect(weatherStatusResult.errorMessage.length).toBeGreaterThan(0);
+            expect(weatherStatusResult.hasValue()).toBeFalsy();
+            expect(weatherStatusResult.getErrorMessage().length).toBeGreaterThan(0);
         });
     });
 });

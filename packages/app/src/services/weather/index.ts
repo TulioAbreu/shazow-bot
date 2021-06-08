@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 import axios from "axios";
 import { getSecret } from "utils/dist/secret";
-import { createErrorResult, createResult, Result } from "utils";
+import { createErrorResult, createResult, Maybe, Result } from "utils";
 import { normalizeDiacritics, normalizeText } from "normalize-text";
 
 const WEATHER_API_KEY: string = getSecret().weatherApiKey;
+const WEATHER_API_ENDPOINT = "https://api.weatherapi.com/v1/forecast.json";
 
 export interface Weather {
     location: string;
@@ -14,30 +15,37 @@ export interface Weather {
 }
 
 interface OpenWeatherPayload {
-    location: {
-        name: string;
-        region: string;
-        country: string;
-    };
-    current: {
-        temp_c: number;
-    };
-    forecast: {
-        forecastday: {
-            day: {
-                maxtemp_c: number;
-                mintemp_c: number;
-            };
-        }[];
-    };
+    location: OpenWeatherLocation;
+    current: OpenWeatherCurrent;
+    forecast: OpenWeatherForecast;
+}
+
+interface OpenWeatherLocation {
+    name: string;
+    region: string;
+    country: string;
+}
+
+interface OpenWeatherCurrent {
+    temp_c: number;
+}
+
+interface OpenWeatherForecast {
+    forecastday: OpenWeatherForecastDay[];
+}
+
+interface OpenWeatherForecastDay {
+    day: {
+        maxtemp_c: number;
+        mintemp_c: number;
+    }
 }
 
 export async function fetchWeatherStatus(
     location: string
 ): Promise<Result<Weather>> {
-    const endpoint = getWeatherApiEndpoint();
     try {
-        const response = await axios.get(endpoint, {
+        const response = await axios.get(WEATHER_API_ENDPOINT, {
             params: {
                 key: WEATHER_API_KEY,
                 days: 1,
@@ -57,19 +65,21 @@ export async function fetchWeatherStatus(
     }
 }
 
-function parseWeatherData(payload: OpenWeatherPayload): Weather {
-    if (!payload) {
+function parseWeatherData(payload: OpenWeatherPayload): Maybe<Weather> {
+    const forecast = payload?.forecast.forecastday.shift();
+    if (!payload || !forecast) {
         return;
     }
-    const forecast = payload.forecast.forecastday.shift();
+
     return {
-        location: `${payload.location.name} / ${payload.location.region} / ${payload.location.country}`,
+        location: formatOpenWeatherLocation(payload.location),
         dayTemperature: payload.current.temp_c,
-        maxTemperature: forecast?.day?.maxtemp_c,
-        minTemperature: forecast?.day?.mintemp_c,
+        maxTemperature: forecast.day.maxtemp_c,
+        minTemperature: forecast.day.mintemp_c,
     };
 }
 
-function getWeatherApiEndpoint(): string {
-    return "https://api.weatherapi.com/v1/forecast.json";
+function formatOpenWeatherLocation(openWeatherLocation: OpenWeatherLocation): string {
+    const { name, region, country } = openWeatherLocation;
+    return `${name} / ${region} / ${country}`;
 }

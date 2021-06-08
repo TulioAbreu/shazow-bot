@@ -16,8 +16,8 @@ export interface Action {
 export interface Message {
     source: Source;
     channelId: string;
-    userId: string;
-    userName: string;
+    userId?: string;
+    userName?: string;
     content: string;
     serverId: string;
     sentAt: Date;

@@ -5,9 +5,11 @@ export class Chat {
     private environments: ChatClient[];
 
     constructor(...environments: Maybe<ChatClient>[]) {
-        this.environments = environments.filter(
-            (x: ChatClient): ChatClient => x
-        );
+        function filterEmptyValues<T>(array: Maybe<T>[]): T[] {
+            return array.filter((el) => el) as T[];
+        }
+
+        this.environments = filterEmptyValues(environments);
     }
 
     listen(): void {

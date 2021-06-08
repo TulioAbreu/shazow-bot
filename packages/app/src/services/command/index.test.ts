@@ -1,5 +1,14 @@
-import { Source } from "chat";
+import { ChatClient, Source } from "chat";
+import { UserSettings } from "database/dist/models/user-settings";
 import { ExecutableCommand, execute } from ".";
+
+function getFakeClient(): ChatClient {
+    return {} as unknown as ChatClient;
+}
+
+function getFakeUserSettings(): UserSettings {
+    return {} as unknown as UserSettings;
+}
 
 describe("Command", () => {
     describe("it should ignore", () => {
@@ -12,7 +21,7 @@ describe("Command", () => {
                 userName: "",
                 message: "",
             };
-            const result = await execute(undefined, undefined, command);
+            const result = await execute(getFakeClient(), getFakeUserSettings(), command);
             expect(result).toBeUndefined();
         });
 
@@ -26,7 +35,7 @@ describe("Command", () => {
                 userID: "",
                 userName: "",
             };
-            const result = await execute(undefined, undefined, command);
+            const result = await execute(getFakeClient(), getFakeUserSettings(), command);
             expect(result).toBeUndefined();
         });
     });

@@ -1,11 +1,11 @@
 import CommandDb, { GenericCommand } from "../models/generic-command";
-import { asArray } from "utils";
+import { asArray, Maybe } from "utils";
 
 export async function save(command: GenericCommand): Promise<GenericCommand> {
     const { name, output, isCacheable } = command;
 
-    async function create() {
-        return CommandDb.create({
+    async function create(): Promise<GenericCommand> {
+        return await CommandDb.create({
             name,
             output,
             isCacheable,
@@ -13,7 +13,7 @@ export async function save(command: GenericCommand): Promise<GenericCommand> {
         });
     }
 
-    async function updateExistent() {
+    async function updateExistent(): Promise<GenericCommand> {
         return CommandDb.findOneAndUpdate(
             {
                 name,
@@ -27,7 +27,9 @@ export async function save(command: GenericCommand): Promise<GenericCommand> {
         ).lean();
     }
 
-    const commandFromDB = await CommandDb.findOne({ name });
+    const commandFromDB = await CommandDb
+        .findOne({ name })
+        .lean<GenericCommand>();
     if (!commandFromDB) {
         return create();
     } else {
@@ -40,16 +42,20 @@ export async function findAll(): Promise<GenericCommand[]> {
     return asArray(genericCommands);
 }
 
-export async function findOne(commandName: string): Promise<GenericCommand> {
-    const genericCommand = await CommandDb.findOne({
-        name: commandName,
-    }).lean();
+export async function findOne(commandName: string): Promise<Maybe<GenericCommand>> {
+    const genericCommand = await CommandDb
+        .findOne({
+            name: commandName,
+        })
+        .lean<Maybe<GenericCommand>>();
     return genericCommand ?? undefined;
 }
 
-export async function remove(commandName: string): Promise<GenericCommand> {
-    const operationResult = await CommandDb.findOneAndDelete({
-        name: commandName,
-    }).lean();
-    return operationResult;
+export async function remove(commandName: string): Promise<Maybe<GenericCommand>> {
+    const operationResult = await CommandDb
+        .findOneAndDelete({
+            name: commandName,
+        })
+        .lean<Maybe<GenericCommand>>();
+    return operationResult ?? undefined;
 }

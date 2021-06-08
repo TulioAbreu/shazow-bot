@@ -15,12 +15,12 @@ export default async function Weather(
         );
     }
     const weatherResult = await fetchWeatherStatus(location);
-    if (!weatherResult.hasValue) {
+    if (!weatherResult.hasValue()) {
         return createChatReply(
             getOutput(Output.WeatherFail, userSettings.language as Language)
         );
     }
-    const weather = weatherResult.value;
+    const weather = weatherResult.unwrap();
     return createChatReply(
         getOutput(Output.WeatherSuccess, userSettings.language as Language, [
             weather.location,

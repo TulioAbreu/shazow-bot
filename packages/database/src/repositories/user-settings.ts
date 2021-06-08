@@ -1,5 +1,6 @@
 import { Role, Source } from "../types";
 import UserSettingsDb, { UserSettings } from "../models/user-settings";
+import { Maybe } from "utils";
 
 export async function create(
     userId: string,
@@ -21,11 +22,10 @@ export async function create(
 export async function findOne(
     userId: string,
     platform: Source
-): Promise<UserSettings> {
-    const userSettings = UserSettingsDb.findOne({
-        userId,
-        platform,
-    });
+): Promise<Maybe<UserSettings>> {
+    const userSettings = await UserSettingsDb
+        .findOne({ userId, platform })
+        .lean<UserSettings>();
     return userSettings ?? undefined;
 }
 
@@ -34,9 +34,11 @@ export async function update(
     platform: Source,
     userSettings: Partial<UserSettings>
 ): Promise<boolean> {
-    const updatedUserSettings = await UserSettingsDb.updateOne(
-        { userId, platform },
-        userSettings
-    ).lean();
+    const updatedUserSettings = await UserSettingsDb
+        .updateOne(
+            { userId, platform },
+            userSettings
+        )
+        .lean();
     return updatedUserSettings.nModified === 1;
 }

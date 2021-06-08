@@ -1,4 +1,5 @@
 import { Action, createChatReply } from "chat";
+import { Maybe } from "utils";
 import { ExecutableCommand } from "../../services/command";
 
 const DEFAULT_MIN_VALUE = 0;
@@ -21,7 +22,7 @@ export default function Random(command: ExecutableCommand): Action {
     return createChatReply(`${value}`);
 }
 
-function parseArgument(arg: string): number {
+function parseArgument(arg: string): Maybe<number> {
     function limitValue(value: number): number {
         return value > HIGHER_NUMBER ? HIGHER_NUMBER : value;
     }

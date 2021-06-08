@@ -10,18 +10,24 @@ import { Language, Output, getOutput } from "../../services/language";
 import { Action, createChatReply, Source } from "chat";
 import * as PollDb from "database/dist/repositories/poll";
 import { isPollDisabled } from "../../services/poll";
+import { Maybe } from "utils";
 
 export default async function PollStatus(
     command: ExecutableCommand,
     userSettings: UserSettings
 ): Promise<Action> {
     const poll = await getLastFinishedPoll();
-    if (!poll) {
+    if (!poll?._id) {
         return createChatReply(
             getOutput(Output.PollStatusNoRecentPolls, userSettings.language as Language)
         );
     }
     const pollStatus = await getPollStatus(poll._id);
+    if (!pollStatus) {
+        return createChatReply(
+            getOutput(Output.PollStatusNoRecentPolls, userSettings.language as Language)
+        );
+    }
     switch (command.source) {
         case Source.Twitch:
             return renderDiscordResult(pollStatus, userSettings.language as Language);
@@ -51,7 +57,7 @@ function renderDiscordResult(
     );
 }
 
-async function getLastFinishedPoll(): Promise<Poll> {
+async function getLastFinishedPoll(): Promise<Maybe<Poll>> {
     const disabledPolls = (await PollDb.find()).filter(isPollDisabled);
     if (!disabledPolls?.length) {
         return;

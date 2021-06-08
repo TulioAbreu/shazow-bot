@@ -1,11 +1,11 @@
 import PollDb, { Poll } from "../models/poll";
-import { asArray, isEmptyString } from "utils";
+import { asArray, isEmptyString, Maybe } from "utils";
 
 export async function create(
     question: string,
     options: string[],
     pollMinutes: number
-): Promise<Poll> {
+): Promise<Maybe<Poll>> {
     function getPollExpirationDate(
         startDate: Date,
         durationMinutes: number

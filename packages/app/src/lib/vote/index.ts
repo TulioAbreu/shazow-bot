@@ -25,8 +25,14 @@ export default async function Vote(
     }
     const voteOption = getVoteOption(command.arguments);
     const pollIndex = getPollIndexFromOption(activePolls, voteOption);
+    const poll = activePolls[pollIndex];
+    if (!poll?._id) {
+        return createChatReply(
+            getOutput(Output.VoteFail, userSettings.language as Language)
+        );
+    }
     const success = await VoteDb.save({
-        pollId: activePolls[pollIndex]?._id,
+        pollId: poll._id,
         username: command.userName,
         userId: command.userID,
         sentAt: new Date(),

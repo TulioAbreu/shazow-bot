@@ -10,6 +10,15 @@ export interface Secret {
     weatherApiKey: string;
 }
 
+interface Environment {
+    DISCORD_TOKEN: string;
+    MONGODB_CONNECTION_URL: string;
+    TWITCH_USERNAME: string;
+    TWITCH_TOKEN: string;
+    PORT: number;
+    WEATHER_API_KEY: string;
+}
+
 const SecretSchema = yup.object().shape({
     DISCORD_TOKEN: yup.string().default(""),
     MONGODB_CONNECTION_URL: yup.string().default(""),
@@ -22,6 +31,10 @@ const SecretSchema = yup.object().shape({
 export function getSecret(): Secret {
     dotenv.config();
     const env = SecretSchema.validateSync(process.env);
+    return getSecretFromEnv(env);
+}
+
+function getSecretFromEnv(env: Environment): Secret {
     return {
         discordToken: env.DISCORD_TOKEN,
         mongodbKey: env.MONGODB_CONNECTION_URL,

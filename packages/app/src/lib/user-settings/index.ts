@@ -12,12 +12,12 @@ export default async function Settings(
     if (command.arguments.length === 0) {
         return replyNoArguments(userSettings);
     }
-    const commandArgs = command.arguments;
-    switch (commandArgs.shift().toLowerCase()) {
+    const [rawMethodName, ...options] = command.arguments;
+    switch (rawMethodName.toLowerCase()) {
         case "get":
-            return await getSettings(commandArgs, userSettings);
+            return await getSettings(options, userSettings);
         case "set":
-            return await setSettings(commandArgs, userSettings);
+            return await setSettings(options, userSettings);
         default:
             return replyNoArguments(userSettings);
     }

@@ -1,7 +1,6 @@
 import * as DiscordJs from "discord.js";
 import { ChatClient, OnMessageCallback } from "..";
-import { Action, ActionId, Message, Source } from "../../types";
-import { replyMessage } from "./actions";
+import { Action, ActionId, Maybe, Message, Source } from "../../types";
 
 export interface DiscordCredentials {
     token: string;
@@ -18,47 +17,39 @@ export class DiscordClient implements ChatClient {
 
     public async authenticate(
         credentials: DiscordCredentials
-    ): Promise<ChatClient> {
-        if (!credentials?.token) {
-            return;
-        }
+    ): Promise<Maybe<ChatClient>> {
         try {
             await this.client.login(credentials.token);
             return this;
         } catch (error) {
             console.error(error);
-            return undefined;
+            return;
         }
     }
 
     public listen(): void {
-        this.client.on(
-            "message",
-            async (discordMessage: DiscordJs.Message): Promise<void> => {
-                if (discordMessage.author.bot) {
-                    return;
-                }
-                const message = this.parseMessage(discordMessage);
-                const responseAction = await this.onMessageCallback(
-                    this,
-                    message
-                );
-                this.handleOutput(discordMessage, responseAction);
+        const internalMessageHandler = async (discordMessage: DiscordJs.Message) => {
+            if (discordMessage.author.bot) {
+                return;
             }
-        );
+            const message = this.parseMessage(discordMessage);
+            const response = await this.onMessageCallback(this, message);
+            this.execute(discordMessage, response);
+        };
+        this.client.on("message", internalMessageHandler);
     }
 
-    private async handleOutput(
-        discordMessage: DiscordJs.Message,
-        action: Action
-    ): Promise<void> {
-        if (!action?.id) {
+    private async execute(discordMessage: DiscordJs.Message, action: Maybe<Action>) {
+        if (!action?.id || !action?.body) {
             return;
         }
         switch (action.id) {
-            case ActionId.Reply:
-                return replyMessage(discordMessage, action.body);
+            case ActionId.Reply: return this.replyMessage(discordMessage, action.body);
         }
+    }
+
+    private replyMessage(discordMessage: DiscordJs.Message, response: string) {
+        discordMessage.reply(response);
     }
 
     private parseMessage(discordMessage: DiscordJs.Message): Message {
@@ -67,7 +58,7 @@ export class DiscordClient implements ChatClient {
             userName: discordMessage.author.username,
             channelId: discordMessage.channel.id,
             content: discordMessage.content,
-            serverId: discordMessage.guild.id,
+            serverId: discordMessage.guild?.id ?? "unknown",
             source: Source.Discord,
             sentAt: new Date(),
             isPing: this.isPingMessage(discordMessage),
@@ -75,6 +66,10 @@ export class DiscordClient implements ChatClient {
     }
 
     private isPingMessage(discordMessage: DiscordJs.Message): boolean {
-        return discordMessage.mentions.has(this.client.user.id);
+        const botUserId = this.client.user?.id;
+        if (!botUserId) {
+            return false;
+        }
+        return discordMessage.mentions.has(botUserId);
     }
 }

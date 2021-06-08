@@ -1,19 +1,23 @@
 import { Message } from "chat";
+import { Maybe } from "utils";
 import { ExecutableCommand } from ".";
 
 export function parseExecutableCommand(
     message: Message,
     commandPrefix: string
-): ExecutableCommand {
+): Maybe<ExecutableCommand> {
     const sanitizedCommandMessage = removePrefix(
         message.content,
         commandPrefix
     );
     const commandChunks = sanitizedCommandMessage.split(" ");
-    const commandName = commandChunks.shift();
+    const [commandName, ...commandArgs] = commandChunks;
+    if (!message.userId || !message.userName) {
+        return;
+    }
     return {
         name: commandName,
-        arguments: commandChunks,
+        arguments: commandArgs,
         userID: message.userId,
         userName: message.userName,
         message: message.content,

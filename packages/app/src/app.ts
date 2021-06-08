@@ -4,16 +4,18 @@ import * as UserSettingsDb from "database/dist/repositories/user-settings";
 import { execute } from "./services/command";
 import { parseExecutableCommand } from "./services/command/parser";
 import { getOutput, Language, Output } from "./services/language";
-import Config from "./config";
+import { getConfig } from "./config";
+import { Maybe } from "utils";
 
-const prefix = Config.prefix;
+const { prefix } = getConfig();
 
 export async function onMessageCallback(
     client: ChatClient,
     message: Message
-): Promise<Action> {
-    const shouldIgnoreMessageSync = getShouldIgnoreMessageSync(message, prefix);
-    if (shouldIgnoreMessageSync) {
+): Promise<Maybe<Action>> {
+    if (!(message.isPing || isCommandMessage(message.content, prefix))
+        || !message.userId
+    ) {
         return;
     }
 
@@ -40,14 +42,17 @@ function onPingMessage(userSettings: UserSettings, prefix: string): Action {
     );
 }
 
-function onCommandMessage(
+async function onCommandMessage(
     client: ChatClient,
     message: Message,
     userSettings: UserSettings,
     prefix: string
-): Promise<Action> {
+): Promise<Maybe<Action>> {
     const command = parseExecutableCommand(message, prefix);
-    return execute(client, userSettings, command);
+    if (!command) {
+        return;
+    }
+    return await execute(client, userSettings, command);
 }
 
 function isCommandMessage(content: string, commandPrefix: string): boolean {
@@ -55,10 +60,6 @@ function isCommandMessage(content: string, commandPrefix: string): boolean {
         return false;
     }
     return content.startsWith(commandPrefix);
-}
-
-function getShouldIgnoreMessageSync(message: Message, prefix: string): boolean {
-    return !(message.isPing || isCommandMessage(message.content, prefix));
 }
 
 async function retrieveUserSettings(
