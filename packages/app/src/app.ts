@@ -13,21 +13,23 @@ export async function onMessageCallback(
     client: ChatClient,
     message: Message
 ): Promise<Maybe<Action>> {
-    if (!(message.isPing || isCommandMessage(message.content, prefix))
-        || !message.userId
-    ) {
+    if (!shouldProcessMessage(message, prefix)) {
         return;
     }
 
-    const userSettings = await retrieveUserSettings(
-        message.userId,
-        message.source
-    );
-    const shouldIgnoreMessage = getShouldIgnoreMessage(userSettings);
-    if (shouldIgnoreMessage) {
+    const userSettings = await retrieveUserSettings(message.userId as string, message.source);
+    if (shouldIgnoreMessage(userSettings)) {
         return;
     }
 
+    return processMessage(client, message, userSettings);
+}
+
+async function processMessage(
+    client: ChatClient,
+    message: Message,
+    userSettings: UserSettings
+): Promise<Maybe<Action>> {
     if (message.isPing) {
         return onPingMessage(userSettings, prefix);
     }
@@ -36,10 +38,18 @@ export async function onMessageCallback(
     }
 }
 
+function shouldProcessMessage(message: Message, prefix: string): boolean {
+    if (message.isPing) {
+        return true;
+    }
+    if (isCommandMessage(message.content, prefix)) {
+        return true;
+    }
+    return false;
+}
+
 function onPingMessage(userSettings: UserSettings, prefix: string): Action {
-    return createChatReply(
-        getOutput(Output.Pinged, userSettings.language as Language, [prefix])
-    );
+    return createChatReply(getOutput(Output.Pinged, userSettings.language as Language, [prefix]));
 }
 
 async function onCommandMessage(
@@ -62,10 +72,7 @@ function isCommandMessage(content: string, commandPrefix: string): boolean {
     return content.startsWith(commandPrefix);
 }
 
-async function retrieveUserSettings(
-    userId: string,
-    userSource: Source
-): Promise<UserSettings> {
+async function retrieveUserSettings(userId: string, userSource: Source): Promise<UserSettings> {
     const userSettings = await UserSettingsDb.findOne(userId, userSource);
     if (userSettings) {
         return userSettings;
@@ -74,6 +81,6 @@ async function retrieveUserSettings(
     }
 }
 
-function getShouldIgnoreMessage(userSettings: UserSettings): boolean {
+function shouldIgnoreMessage(userSettings: UserSettings): boolean {
     return userSettings.isIgnored;
 }
