@@ -38,12 +38,10 @@ interface OpenWeatherForecastDay {
     day: {
         maxtemp_c: number;
         mintemp_c: number;
-    }
+    };
 }
 
-export async function fetchWeatherStatus(
-    location: string
-): Promise<Result<Weather>> {
+export async function fetchWeatherStatus(location: string): Promise<Result<Weather>> {
     try {
         const response = await axios.get(WEATHER_API_ENDPOINT, {
             params: {

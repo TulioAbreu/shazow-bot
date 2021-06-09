@@ -9,21 +9,11 @@ export interface Config {
 }
 
 const ConfigSchema = yup.object({
-    port: yup
-        .number()
-        .required("'port' field is required"),
-    prefix: yup
-        .string()
-        .required("'prefix' field is required"),
-    trollCommandThreshold: yup
-        .number()
-        .default(100),
+    port: yup.number().required("'port' field is required"),
+    prefix: yup.string().required("'prefix' field is required"),
+    trollCommandThreshold: yup.number().default(100),
     twitchChannels: yup
-        .array(
-            yup
-                .string()
-                .required()
-        )
+        .array(yup.string().required())
         .required("'twitchChannels' field is required"),
 });
 

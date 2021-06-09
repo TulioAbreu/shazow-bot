@@ -45,12 +45,7 @@ export default async function Poll(
     }
     const createdPoll = await PollDb.create(question, options, pollMinutes);
     setTimeout(() => {
-        publishPollResult(
-            client,
-            userSettings,
-            command,
-            createdPoll?._id
-        );
+        publishPollResult(client, userSettings, command, createdPoll?._id);
     }, pollMinutes * 60 * 1000);
     return createChatReply(
         getOutput(Output.PollSuccess, userSettings.language as Language, [
@@ -81,7 +76,11 @@ async function publishPollResult(
     client.sendMessage(createPollCommand.channelId, response);
 }
 
-function renderPollResult(pollStatus: PollStatus, commandSource: Source, userSettings: UserSettings): string {
+function renderPollResult(
+    pollStatus: PollStatus,
+    commandSource: Source,
+    userSettings: UserSettings
+): string {
     function getOutputBySource(): Output[] {
         if (commandSource === Source.Discord) {
             return [Output.PollStatusSuccessDiscord, Output.PollStatusSuccessDiscordOption];
@@ -95,21 +94,16 @@ function renderPollResult(pollStatus: PollStatus, commandSource: Source, userSet
         pollStatus.question,
         pollStatus.options
             .map((option: PollStatusOption): string => {
-                return getOutput(
-                    optionStatusOutput,
-                    userSettings.language as Language,
-                    [option.option, (option.votes ?? 0).toString()]
-                );
+                return getOutput(optionStatusOutput, userSettings.language as Language, [
+                    option.option,
+                    (option.votes ?? 0).toString(),
+                ]);
             })
             .join("\n"),
     ]);
 }
 
-function checkPollParameters(
-    question = "",
-    options: string[] = [],
-    pollMinutes: number
-): boolean {
+function checkPollParameters(question = "", options: string[] = [], pollMinutes: number): boolean {
     return !!question.length && !!options.length && !isNaN(pollMinutes);
 }
 

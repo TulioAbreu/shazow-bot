@@ -6,10 +6,7 @@ export function parseExecutableCommand(
     message: Message,
     commandPrefix: string
 ): Maybe<ExecutableCommand> {
-    const sanitizedCommandMessage = removePrefix(
-        message.content,
-        commandPrefix
-    );
+    const sanitizedCommandMessage = removePrefix(message.content, commandPrefix);
     const commandChunks = sanitizedCommandMessage.split(" ");
     const [commandName, ...commandArgs] = commandChunks;
     if (!message.userId || !message.userName) {

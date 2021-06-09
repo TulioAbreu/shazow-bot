@@ -5,13 +5,12 @@ import { ActionId } from "chat";
 
 describe("Generic Command", () => {
     it("should execute", async () => {
-        jest.spyOn(GenericCommandDb, "findOne")
-            .mockImplementationOnce(async () => ({
-                name: "ping",
-                createdAt: new Date(),
-                isCacheable: true,
-                output: "pong",
-            }));
+        jest.spyOn(GenericCommandDb, "findOne").mockImplementationOnce(async () => ({
+            name: "ping",
+            createdAt: new Date(),
+            isCacheable: true,
+            output: "pong",
+        }));
 
         const command: Partial<ExecutableCommand> = {
             name: "ping",
@@ -24,13 +23,12 @@ describe("Generic Command", () => {
     });
 
     it("should execute with one argument", async () => {
-        jest.spyOn(GenericCommandDb, "findOne")
-            .mockImplementationOnce(async () => ({
-                name: "redirect",
-                createdAt: new Date(),
-                isCacheable: false,
-                output: "redirect to %args0",
-            }));
+        jest.spyOn(GenericCommandDb, "findOne").mockImplementationOnce(async () => ({
+            name: "redirect",
+            createdAt: new Date(),
+            isCacheable: false,
+            output: "redirect to %args0",
+        }));
 
         const command: Partial<ExecutableCommand> = {
             name: "redirect",
@@ -43,13 +41,12 @@ describe("Generic Command", () => {
     });
 
     it("should execute with multiple arguments", async () => {
-        jest.spyOn(GenericCommandDb, "findOne")
-            .mockImplementationOnce(async () => ({
-                name: "redirect",
-                createdAt: new Date(),
-                isCacheable: false,
-                output: "redirect from %args0 to %args1",
-            }));
+        jest.spyOn(GenericCommandDb, "findOne").mockImplementationOnce(async () => ({
+            name: "redirect",
+            createdAt: new Date(),
+            isCacheable: false,
+            output: "redirect from %args0 to %args1",
+        }));
 
         const command: Partial<ExecutableCommand> = {
             name: "redirect",

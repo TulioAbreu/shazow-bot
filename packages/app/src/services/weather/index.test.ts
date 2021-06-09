@@ -27,9 +27,7 @@ describe("Weather Service", () => {
         const weatherStatusResult = await fetchWeatherStatus("belo horizonte");
         expect(weatherStatusResult.hasValue()).toBeTruthy();
         const weatherStatus = weatherStatusResult.unwrap();
-        expect(weatherStatus.location).toBe(
-            "belo horizonte / minas gerais / brasil"
-        );
+        expect(weatherStatus.location).toBe("belo horizonte / minas gerais / brasil");
         expect(weatherStatus.dayTemperature).toBe(30);
         expect(weatherStatus.maxTemperature).toBe(40);
         expect(weatherStatus.minTemperature).toBe(10);

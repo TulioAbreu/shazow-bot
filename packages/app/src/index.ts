@@ -6,12 +6,7 @@ import { onMessageCallback } from "./app";
 
 async function main() {
     console.log("INFO - Starting...");
-    const {
-        mongodbKey,
-        discordToken,
-        twitchToken,
-        twitchUsername,
-    } = getSecret();
+    const { mongodbKey, discordToken, twitchToken, twitchUsername } = getSecret();
     const { twitchChannels } = getConfig();
     try {
         const chat = new Chat(
@@ -28,9 +23,7 @@ async function main() {
         databaseConnect(mongodbKey);
         console.log("INFO - ShazowBot is running");
     } catch (error) {
-        console.log(
-            `ERROR - Failed to initialize message environments. Reason: ${error}`
-        );
+        console.log(`ERROR - Failed to initialize message environments. Reason: ${error}`);
     }
 }
 

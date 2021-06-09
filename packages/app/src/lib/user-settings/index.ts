@@ -23,10 +23,7 @@ export default async function Settings(
     }
 }
 
-async function getSettings(
-    commandArgs: string[],
-    userSettings: UserSettings
-): Promise<Action> {
+async function getSettings(commandArgs: string[], userSettings: UserSettings): Promise<Action> {
     const settings = commandArgs.shift();
     switch (settings) {
         case "language":
@@ -50,10 +47,7 @@ async function replyLanguage(userSettings: UserSettings): Promise<Action> {
     );
 }
 
-async function setSettings(
-    commandArgs: string[],
-    userSettings: UserSettings
-): Promise<Action> {
+async function setSettings(commandArgs: string[], userSettings: UserSettings): Promise<Action> {
     const settings = commandArgs.shift();
     switch (settings) {
         case "language":
@@ -63,10 +57,7 @@ async function setSettings(
     }
 }
 
-async function setLanguage(
-    commandArgs: string[],
-    userSettings: UserSettings
-): Promise<Action> {
+async function setLanguage(commandArgs: string[], userSettings: UserSettings): Promise<Action> {
     const language = commandArgs.shift() as Language;
     if (!Object.values(Language).includes(language)) {
         return replyInvalidLanguage(userSettings);
@@ -74,9 +65,7 @@ async function setLanguage(
     await UserSettingsDb.update(userSettings.userId, userSettings.platform, {
         language,
     });
-    return createChatReply(
-        getOutput(Output.SettingsSetLanguageSuccess, language, [language])
-    );
+    return createChatReply(getOutput(Output.SettingsSetLanguageSuccess, language, [language]));
 }
 
 function replyInvalidLanguage(userSettings: UserSettings): Action {

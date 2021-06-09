@@ -35,9 +35,7 @@ export async function getPollStatus(id: string): Promise<Maybe<PollStatus>> {
     const pollVotes = await VoteDb.findByPollId(poll._id);
     return {
         question: poll.question,
-        options: poll.options.map((option: string) =>
-            getOptionVotes(option, pollVotes)
-        ),
+        options: poll.options.map((option: string) => getOptionVotes(option, pollVotes)),
     };
 }
 

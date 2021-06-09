@@ -18,10 +18,7 @@ export default async function CreateCommand(
     const [name, ...output] = command.arguments;
     if (!hasValidArguments(name, output)) {
         return createChatReply(
-            getOutput(
-                Output.CreateCommandInvalidArguments,
-                userSettings.language as Language
-            )
+            getOutput(Output.CreateCommandInvalidArguments, userSettings.language as Language)
         );
     }
 
@@ -34,10 +31,7 @@ export default async function CreateCommand(
         });
     } catch (error) {
         return createChatReply(
-            getOutput(Output.CreateCommandFail, userSettings.language as Language, [
-                name,
-                error,
-            ])
+            getOutput(Output.CreateCommandFail, userSettings.language as Language, [name, error])
         );
     }
 

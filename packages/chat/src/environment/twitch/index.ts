@@ -17,9 +17,7 @@ export class TwitchClient implements ChatClient {
         this.onMessageCallback = onMessageCallback;
     }
 
-    public async authenticate(
-        credentials: TwitchCredentials
-    ): Promise<Maybe<ChatClient>> {
+    public async authenticate(credentials: TwitchCredentials): Promise<Maybe<ChatClient>> {
         if (!credentials?.token || !credentials?.username) {
             return;
         }
@@ -51,7 +49,7 @@ export class TwitchClient implements ChatClient {
             target: string,
             ctx: Tmi.ChatUserstate,
             msg: string,
-            sentFromBot: boolean,
+            sentFromBot: boolean
         ) => {
             if (sentFromBot) {
                 return;
@@ -71,20 +69,13 @@ export class TwitchClient implements ChatClient {
         await this.client.say(channelId, message);
     }
 
-    private execute(
-        target: string,
-        context: Tmi.ChatUserstate,
-        action: Maybe<Action>
-    ) {
+    private execute(target: string, context: Tmi.ChatUserstate, action: Maybe<Action>) {
         if (!this.client || !action?.id || !context?.username || !action) {
             return;
         }
         switch (action.id) {
-            case ActionId.Reply: return this.replyMessage(
-                target,
-                context.username,
-                action.body ?? "",
-            );
+            case ActionId.Reply:
+                return this.replyMessage(target, context.username, action.body ?? "");
         }
     }
 

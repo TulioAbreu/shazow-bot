@@ -15,9 +15,7 @@ export class DiscordClient implements ChatClient {
         this.onMessageCallback = onMessageCallback;
     }
 
-    public async authenticate(
-        credentials: DiscordCredentials
-    ): Promise<Maybe<ChatClient>> {
+    public async authenticate(credentials: DiscordCredentials): Promise<Maybe<ChatClient>> {
         try {
             await this.client.login(credentials.token);
             return this;
@@ -52,7 +50,8 @@ export class DiscordClient implements ChatClient {
             return;
         }
         switch (action.id) {
-            case ActionId.Reply: return this.replyMessage(discordMessage, action.body);
+            case ActionId.Reply:
+                return this.replyMessage(discordMessage, action.body);
         }
     }
 

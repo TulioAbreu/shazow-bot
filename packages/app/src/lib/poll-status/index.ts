@@ -1,10 +1,6 @@
 import type { ExecutableCommand } from "../../services/command";
 import type { UserSettings } from "database/dist/models/user-settings";
-import {
-    getPollStatus,
-    PollStatus,
-    PollStatusOption,
-} from "../../services/poll";
+import { getPollStatus, PollStatus, PollStatusOption } from "../../services/poll";
 import { Poll } from "database/dist/models/poll";
 import { Language, Output, getOutput } from "../../services/language";
 import { Action, createChatReply, Source } from "chat";
@@ -37,20 +33,16 @@ export default async function PollStatus(
     }
 }
 
-function renderDiscordResult(
-    pollStatus: PollStatus,
-    language: Language
-): Action {
+function renderDiscordResult(pollStatus: PollStatus, language: Language): Action {
     return createChatReply(
         getOutput(Output.PollStatusSuccessDiscord, language, [
             pollStatus.question,
             pollStatus.options
                 .map((option: PollStatusOption) => {
-                    return getOutput(
-                        Output.PollStatusSuccessDiscordOption,
-                        language,
-                        [option.option, (option.votes ?? 0).toString()]
-                    );
+                    return getOutput(Output.PollStatusSuccessDiscordOption, language, [
+                        option.option,
+                        (option.votes ?? 0).toString(),
+                    ]);
                 })
                 .join("\n"),
         ])

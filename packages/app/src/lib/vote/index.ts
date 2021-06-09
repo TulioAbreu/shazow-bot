@@ -27,9 +27,7 @@ export default async function Vote(
     const pollIndex = getPollIndexFromOption(activePolls, voteOption);
     const poll = activePolls[pollIndex];
     if (!poll?._id) {
-        return createChatReply(
-            getOutput(Output.VoteFail, userSettings.language as Language)
-        );
+        return createChatReply(getOutput(Output.VoteFail, userSettings.language as Language));
     }
     const success = await VoteDb.save({
         pollId: poll._id,
@@ -40,13 +38,9 @@ export default async function Vote(
         source: command.source,
     });
     if (!success) {
-        return createChatReply(
-            getOutput(Output.VoteFail, userSettings.language as Language)
-        );
+        return createChatReply(getOutput(Output.VoteFail, userSettings.language as Language));
     }
-    return createChatReply(
-        getOutput(Output.VoteSuccess, userSettings.language as Language)
-    );
+    return createChatReply(getOutput(Output.VoteSuccess, userSettings.language as Language));
 }
 
 function getVoteOption(args: string[]): string {

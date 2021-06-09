@@ -7,7 +7,5 @@ export default async function Help(
     command: ExecutableCommand,
     userSettings: UserSettings
 ): Promise<Action> {
-    return createChatReply(
-        getOutput(Output.Help, userSettings.language as Language)
-    );
+    return createChatReply(getOutput(Output.Help, userSettings.language as Language));
 }

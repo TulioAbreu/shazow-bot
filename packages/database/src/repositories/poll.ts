@@ -6,10 +6,7 @@ export async function create(
     options: string[],
     pollMinutes: number
 ): Promise<Maybe<Poll>> {
-    function getPollExpirationDate(
-        startDate: Date,
-        durationMinutes: number
-    ): Date {
+    function getPollExpirationDate(startDate: Date, durationMinutes: number): Date {
         const expiresAt = new Date(startDate);
         expiresAt.setMinutes(expiresAt.getMinutes() + durationMinutes);
         return expiresAt;

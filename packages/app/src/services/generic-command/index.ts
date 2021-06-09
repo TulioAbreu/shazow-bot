@@ -5,9 +5,7 @@ import { GenericCommand } from "database/dist/models/generic-command";
 import type { ExecutableCommand } from "../command";
 import { Maybe } from "utils";
 
-export async function executeGenericCommand(
-    command: ExecutableCommand
-): Promise<Maybe<Action>> {
+export async function executeGenericCommand(command: ExecutableCommand): Promise<Maybe<Action>> {
     if (!command?.name?.length) {
         return;
     }
@@ -20,11 +18,7 @@ export async function executeGenericCommand(
     const usageCount = hasCommandUsageCount(genericCommand.output)
         ? await CommandLogDb.count(genericCommand.name)
         : 0;
-    const output = getGenericCommandOutput(
-        command.arguments,
-        genericCommand,
-        usageCount
-    );
+    const output = getGenericCommandOutput(command.arguments, genericCommand, usageCount);
 
     return {
         id: ActionId.Reply,
@@ -39,15 +33,12 @@ function hasCommandUsageCount(commandOutput: string): boolean {
 function getGenericCommandOutput(
     commandArguments: string[],
     genericCommand: GenericCommand,
-    usageCount: number,
+    usageCount: number
 ) {
     return commandArguments
-        .reduce(
-            (currentOutput, argument, index) => {
-                return currentOutput.replace(`%args${index}`, argument);
-            },
-            genericCommand.output
-        )
+        .reduce((currentOutput, argument, index) => {
+            return currentOutput.replace(`%args${index}`, argument);
+        }, genericCommand.output)
         .replace(/%args([0-9])+/g, "")
         .replace("%count", `${usageCount}`);
 }

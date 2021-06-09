@@ -16,9 +16,7 @@ export default async function Weather(
     }
     const weatherResult = await fetchWeatherStatus(location);
     if (!weatherResult.hasValue()) {
-        return createChatReply(
-            getOutput(Output.WeatherFail, userSettings.language as Language)
-        );
+        return createChatReply(getOutput(Output.WeatherFail, userSettings.language as Language));
     }
     const weather = weatherResult.unwrap();
     return createChatReply(

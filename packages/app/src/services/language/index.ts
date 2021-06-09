@@ -49,11 +49,7 @@ type I18nLanguageOutputs = Record<Output, string>;
 type I18nDict = Record<Language, I18nLanguageOutputs>;
 const locales: I18nDict = readLocaleFiles();
 
-export function getOutput(
-    output: Output,
-    rawLanguage: Language,
-    args: string[] = []
-): string {
+export function getOutput(output: Output, rawLanguage: Language, args: string[] = []): string {
     const language = parseLegacyLanguage(rawLanguage);
     const rawOutput = locales[language ?? DEFAULT_LANGUAGE][output];
     return applyArgs(rawOutput, args);
@@ -87,9 +83,7 @@ function readLocaleFiles(): I18nDict {
             const localeFileContent = readFileSync(filepath, "utf-8");
             return createResult(JSON.parse(localeFileContent));
         } catch (error) {
-            console.error(
-                `[ERROR] Failed to read locale file. ErrorMsg: ${error}`
-            );
+            console.error(`[ERROR] Failed to read locale file. ErrorMsg: ${error}`);
             return createErrorResult("Failed to read locale file");
         }
     }

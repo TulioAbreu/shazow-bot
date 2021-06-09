@@ -17,10 +17,7 @@ export default async function DeleteCommand(
 
     if (!hasValidArguments(command.arguments)) {
         return createChatReply(
-            getOutput(
-                Output.DeleteCommandInvalidArguments,
-                userSettings.language as Language
-            )
+            getOutput(Output.DeleteCommandInvalidArguments, userSettings.language as Language)
         );
     }
 

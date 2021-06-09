@@ -5,8 +5,7 @@ import { ActionId } from "chat";
 describe("Random", () => {
     describe("with defined interval", () => {
         test("should return 4", () => {
-            jest.spyOn(Math, "random")
-                .mockReturnValueOnce(0);
+            jest.spyOn(Math, "random").mockReturnValueOnce(0);
             const command: Partial<ExecutableCommand> = {
                 name: "random",
                 arguments: ["4", "10"],
@@ -17,8 +16,7 @@ describe("Random", () => {
         });
 
         test("should return 10", () => {
-            jest.spyOn(Math, "random")
-                .mockReturnValueOnce(1);
+            jest.spyOn(Math, "random").mockReturnValueOnce(1);
             const command: Partial<ExecutableCommand> = {
                 name: "random",
                 arguments: ["4", "10"],
@@ -31,8 +29,7 @@ describe("Random", () => {
 
     describe("with default interval", () => {
         test("should return 0", () => {
-            jest.spyOn(Math, "random")
-                .mockReturnValueOnce(0);
+            jest.spyOn(Math, "random").mockReturnValueOnce(0);
             const command: Partial<ExecutableCommand> = {
                 name: "random",
                 arguments: [],
@@ -43,8 +40,7 @@ describe("Random", () => {
         });
 
         test("should return 1000", () => {
-            jest.spyOn(Math, "random")
-                .mockReturnValueOnce(1);
+            jest.spyOn(Math, "random").mockReturnValueOnce(1);
             const command: Partial<ExecutableCommand> = {
                 name: "random",
                 arguments: [],
@@ -57,8 +53,7 @@ describe("Random", () => {
 
     describe("ignores NaN arguments", () => {
         test("should return 0", () => {
-            jest.spyOn(Math, "random")
-                .mockReturnValueOnce(0);
+            jest.spyOn(Math, "random").mockReturnValueOnce(0);
             const command: Partial<ExecutableCommand> = {
                 name: "random",
                 arguments: ["not", "number"],
@@ -69,8 +64,7 @@ describe("Random", () => {
         });
 
         test("should return 1000", () => {
-            jest.spyOn(Math, "random")
-                .mockReturnValueOnce(1);
+            jest.spyOn(Math, "random").mockReturnValueOnce(1);
             const command: Partial<ExecutableCommand> = {
                 name: "random",
                 arguments: ["not", "number"],
@@ -81,4 +75,3 @@ describe("Random", () => {
         });
     });
 });
-

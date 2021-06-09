@@ -3,11 +3,11 @@ import { UserSettings } from "database/dist/models/user-settings";
 import { ExecutableCommand, execute } from ".";
 
 function getFakeClient(): ChatClient {
-    return {} as unknown as ChatClient;
+    return ({} as unknown) as ChatClient;
 }
 
 function getFakeUserSettings(): UserSettings {
-    return {} as unknown as UserSettings;
+    return ({} as unknown) as UserSettings;
 }
 
 describe("Command", () => {

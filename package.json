@@ -19,7 +19,7 @@
         "api:start": "node packages/api/dist/index.js",
         "front:dev": "yarn --cwd ./packages/front next dev",
         "new": "plop",
-        "prettier": "prettier --write ./*",
+        "prettier": "prettier --write ./*/**",
         "lint": "eslint ./ --fix --max-warnings=0"
     },
     "dependencies": {

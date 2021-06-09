@@ -27,9 +27,7 @@ export async function save(command: GenericCommand): Promise<GenericCommand> {
         ).lean();
     }
 
-    const commandFromDB = await CommandDb
-        .findOne({ name })
-        .lean<GenericCommand>();
+    const commandFromDB = await CommandDb.findOne({ name }).lean<GenericCommand>();
     if (!commandFromDB) {
         return create();
     } else {
@@ -43,19 +41,15 @@ export async function findAll(): Promise<GenericCommand[]> {
 }
 
 export async function findOne(commandName: string): Promise<Maybe<GenericCommand>> {
-    const genericCommand = await CommandDb
-        .findOne({
-            name: commandName,
-        })
-        .lean<Maybe<GenericCommand>>();
+    const genericCommand = await CommandDb.findOne({
+        name: commandName,
+    }).lean<Maybe<GenericCommand>>();
     return genericCommand ?? undefined;
 }
 
 export async function remove(commandName: string): Promise<Maybe<GenericCommand>> {
-    const operationResult = await CommandDb
-        .findOneAndDelete({
-            name: commandName,
-        })
-        .lean<Maybe<GenericCommand>>();
+    const operationResult = await CommandDb.findOneAndDelete({
+        name: commandName,
+    }).lean<Maybe<GenericCommand>>();
     return operationResult ?? undefined;
 }

@@ -3,7 +3,20 @@ import type { UserSettings } from "database/dist/models/user-settings";
 import * as CommandLogDb from "database/dist/repositories/command-log";
 import { Maybe } from "utils";
 import { getConfig } from "../../config";
-import { Ping, Pong, Random, Anilist, CreateCommand, DeleteCommand, Help, Poll, PollStatus, Settings, Vote, Weather } from "../../lib";
+import {
+    Ping,
+    Pong,
+    Random,
+    Anilist,
+    CreateCommand,
+    DeleteCommand,
+    Help,
+    Poll,
+    PollStatus,
+    Settings,
+    Vote,
+    Weather,
+} from "../../lib";
 import { executeGenericCommand } from "../generic-command";
 
 export interface ExecutableCommand {
