@@ -1,4 +1,4 @@
-import { Action, createChatReply } from "chat";
+import { Action, ChatClient, createChatReply, Source } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Output, getOutput, Language } from "../../services/language";
 import { Poll } from "database/dist/models/poll";
@@ -6,6 +6,7 @@ import { UserSettings } from "database/dist/models/user-settings";
 import { Role } from "../../types";
 import * as PollDb from "database/dist/repositories/poll";
 import { Maybe } from "utils";
+import { getPollStatus, PollStatus, PollStatusOption } from "../../services/poll";
 
 interface ParsedPoll {
     question: string;
@@ -13,6 +14,7 @@ interface ParsedPoll {
 }
 
 export default async function Poll(
+    client: ChatClient,
     command: ExecutableCommand,
     userSettings: UserSettings
 ): Promise<Action> {
@@ -41,7 +43,15 @@ export default async function Poll(
             getOutput(Output.PollInvalidArgs, userSettings.language as Language)
         );
     }
-    await PollDb.create(question, options, pollMinutes);
+    const createdPoll = await PollDb.create(question, options, pollMinutes);
+    setTimeout(() => {
+        publishPollResult(
+            client,
+            userSettings,
+            command,
+            createdPoll?._id
+        );
+    }, pollMinutes * 60 * 1000);
     return createChatReply(
         getOutput(Output.PollSuccess, userSettings.language as Language, [
             `${pollMinutes}`,
@@ -49,6 +59,50 @@ export default async function Poll(
             options.join(", "),
         ])
     );
+}
+
+/**
+ * TODO: It will not work if the bot is restarted before ending the poll.
+ * Maybe could add something that stores future events in database
+ * and execute those events
+ */
+async function publishPollResult(
+    client: ChatClient,
+    userSettings: UserSettings,
+    createPollCommand: ExecutableCommand,
+    pollId?: string
+): Promise<void> {
+    const pollStatus = await getPollStatus(pollId ?? "");
+    if (!pollStatus) {
+        console.error("Failed to publish poll result");
+        return;
+    }
+    const response = renderPollResult(pollStatus, createPollCommand.source, userSettings);
+    client.sendMessage(createPollCommand.channelId, response);
+}
+
+function renderPollResult(pollStatus: PollStatus, commandSource: Source, userSettings: UserSettings): string {
+    function getOutputBySource(): Output[] {
+        if (commandSource === Source.Discord) {
+            return [Output.PollStatusSuccessDiscord, Output.PollStatusSuccessDiscordOption];
+        } else {
+            return [Output.PollStatusSuccessTwitch, Output.PollStatusSuccessTwitchOption];
+        }
+    }
+
+    const [pollStatusOutput, optionStatusOutput] = getOutputBySource();
+    return getOutput(pollStatusOutput, userSettings.language as Language, [
+        pollStatus.question,
+        pollStatus.options
+            .map((option: PollStatusOption): string => {
+                return getOutput(
+                    optionStatusOutput,
+                    userSettings.language as Language,
+                    [option.option, (option.votes ?? 0).toString()]
+                );
+            })
+            .join("\n"),
+    ]);
 }
 
 function checkPollParameters(

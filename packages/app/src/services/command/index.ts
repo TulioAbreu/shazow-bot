@@ -9,6 +9,7 @@ import { executeGenericCommand } from "../generic-command";
 export interface ExecutableCommand {
     userID: string;
     userName: string;
+    channelId: string;
     name: string;
     message: string;
     arguments: string[];
@@ -16,7 +17,7 @@ export interface ExecutableCommand {
 }
 
 export async function execute(
-    _client: ChatClient,
+    client: ChatClient,
     userSettings: UserSettings,
     command: ExecutableCommand
 ): Promise<Maybe<Action>> {
@@ -42,7 +43,7 @@ export async function execute(
         case "anime":
             return Anilist(command, userSettings);
         case "poll":
-            return Poll(command, userSettings);
+            return Poll(client, command, userSettings);
         case "vote":
             return Vote(command, userSettings);
         case "pollStatus":

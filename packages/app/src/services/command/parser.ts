@@ -20,6 +20,7 @@ export function parseExecutableCommand(
         arguments: commandArgs,
         userID: message.userId,
         userName: message.userName,
+        channelId: message.channelId,
         message: message.content,
         source: message.source,
     };

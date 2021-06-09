@@ -19,6 +19,7 @@ describe("Command", () => {
                 source: Source.Discord,
                 userID: "",
                 userName: "",
+                channelId: "",
                 message: "",
             };
             const result = await execute(getFakeClient(), getFakeUserSettings(), command);
@@ -33,6 +34,7 @@ describe("Command", () => {
                 message:
                     "!teste 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 userID: "",
+                channelId: "",
                 userName: "",
             };
             const result = await execute(getFakeClient(), getFakeUserSettings(), command);
