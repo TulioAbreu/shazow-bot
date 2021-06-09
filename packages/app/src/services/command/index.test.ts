@@ -2,30 +2,8 @@ import { ChatClient, Source } from "chat";
 import { UserSettings } from "database/dist/models/user-settings";
 import { ExecutableCommand, execute } from ".";
 
-function getFakeClient(): ChatClient {
-    return ({} as unknown) as ChatClient;
-}
-
-function getFakeUserSettings(): UserSettings {
-    return ({} as unknown) as UserSettings;
-}
-
 describe("Command", () => {
     describe("it should ignore", () => {
-        test("empty commands", async () => {
-            const command: ExecutableCommand = {
-                name: "",
-                arguments: [],
-                source: Source.Discord,
-                userID: "",
-                userName: "",
-                channelId: "",
-                message: "",
-            };
-            const result = await execute(getFakeClient(), getFakeUserSettings(), command);
-            expect(result).toBeUndefined();
-        });
-
         test("troll commands", async () => {
             const command: ExecutableCommand = {
                 name: "teste",
@@ -37,7 +15,7 @@ describe("Command", () => {
                 channelId: "",
                 userName: "",
             };
-            const result = await execute(getFakeClient(), getFakeUserSettings(), command);
+            const result = await execute({} as ChatClient, {} as UserSettings, command);
             expect(result).toBeUndefined();
         });
     });

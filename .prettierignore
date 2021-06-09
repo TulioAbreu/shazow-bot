@@ -6,4 +6,6 @@
 packages/*/dist/*
 Procfile
 *.md
-
+.husky
+*.hbs
+*.svg
