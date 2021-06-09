@@ -64,6 +64,13 @@ export class TwitchClient implements ChatClient {
         this.client.on("message", internalMessageHandler);
     }
 
+    public async sendMessage(channelId: string, message: string): Promise<void> {
+        if (!this.client) {
+            return;
+        }
+        await this.client.say(channelId, message);
+    }
+
     private execute(
         target: string,
         context: Tmi.ChatUserstate,

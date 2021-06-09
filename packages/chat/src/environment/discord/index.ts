@@ -39,6 +39,14 @@ export class DiscordClient implements ChatClient {
         this.client.on("message", internalMessageHandler);
     }
 
+    public async sendMessage(channelId: string, message: string): Promise<void> {
+        const channel = await this.client.channels.fetch(channelId);
+        if (channel.type !== "text") {
+            return;
+        }
+        await (channel as DiscordJs.TextChannel).send(message);
+    }
+
     private async execute(discordMessage: DiscordJs.Message, action: Maybe<Action>) {
         if (!action?.id || !action?.body) {
             return;

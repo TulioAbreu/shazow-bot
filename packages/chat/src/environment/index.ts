@@ -8,6 +8,7 @@ export type OnMessageCallback = (
 export interface ChatClient {
     authenticate(credentials: ChatCredentials): Promise<Maybe<ChatClient>>;
     listen(): void;
+    sendMessage(id: string, messageContent: string): void;
 }
 
 export interface ChatCredentials {
