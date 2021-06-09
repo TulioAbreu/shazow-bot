@@ -21,6 +21,8 @@ export enum Output {
     PollStatusNoRecentPolls = "PollStatusNoRecentPolls",
     PollStatusSuccessDiscord = "PollStatusSuccessDiscord",
     PollStatusSuccessDiscordOption = "PollStatusSuccessDiscordOption",
+    PollStatusSuccessTwitch = "PollStatusSuccessTwitch",
+    PollStatusSuccessTwitchOption = "PollStatusSuccessTwitchOption",
     SettingsNoArguments = "SettingsNoArguments",
     SettingsGetLanguage = "SettingsGetLanguage",
     SettingsInvalidLanguage = "SettingsInvalidLanguage",
