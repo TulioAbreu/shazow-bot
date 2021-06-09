@@ -19,13 +19,13 @@ interface Environment {
     WEATHER_API_KEY: string;
 }
 
-const SecretSchema = yup.object().shape({
-    DISCORD_TOKEN: yup.string().default(""),
-    MONGODB_CONNECTION_URL: yup.string().default(""),
-    TWITCH_USERNAME: yup.string().default(""),
-    TWITCH_TOKEN: yup.string().default(""),
+const SecretSchema = yup.object({
+    DISCORD_TOKEN: yup.string().required("'DISCORD_TOKEN' env value is required"),
+    MONGODB_CONNECTION_URL: yup.string().default("'MONGODB_CONNECTION_URL' env value is required"),
+    TWITCH_USERNAME: yup.string().default("'TWITCH_USERNAME' env value is required"),
+    TWITCH_TOKEN: yup.string().default("'TWITCH_TOKEN' env value is required"),
     PORT: yup.number().default(3001),
-    WEATHER_API_KEY: yup.string().default(""),
+    WEATHER_API_KEY: yup.string().default("'WEATHER_API_KEY' env value is required"),
 });
 
 export function getSecret(): Secret {
