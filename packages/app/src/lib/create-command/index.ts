@@ -8,7 +8,7 @@ import { getOutput, Language, Output } from "../../services/language";
 export default async function CreateCommand(
     _client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings,
+    userSettings: UserSettings
 ): Promise<Action> {
     if (userSettings.role < Role.Trusted) {
         return createChatReply(

@@ -6,24 +6,26 @@ import type { ExecutableCommand } from "../command";
 import { Maybe } from "utils";
 
 export async function executeGenericCommand(command: ExecutableCommand): Promise<Maybe<Action>> {
-    if (!command?.name?.length) {
-        return;
-    }
-
     const genericCommand = await GenericCommandDb.findOne(command.name);
     if (!genericCommand) {
         return;
     }
 
+    return {
+        id: ActionId.Reply,
+        body: await processGenericCommand(command, genericCommand),
+    };
+}
+
+async function processGenericCommand(
+    command: ExecutableCommand,
+    genericCommand: GenericCommand
+): Promise<string> {
     const usageCount = hasCommandUsageCount(genericCommand.output)
         ? await CommandLogDb.count(genericCommand.name)
         : 0;
     const output = getGenericCommandOutput(command.arguments, genericCommand, usageCount);
-
-    return {
-        id: ActionId.Reply,
-        body: output,
-    };
+    return output;
 }
 
 function hasCommandUsageCount(commandOutput: string): boolean {

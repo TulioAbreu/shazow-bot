@@ -17,7 +17,7 @@ import { UserSettings } from "database/dist/models/user-settings";
 type NativeCommand = (
     client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings,
+    userSettings: UserSettings
 ) => Promise<Action> | Action;
 type NativeCommandsMap = Readonly<Map<string, NativeCommand>>;
 

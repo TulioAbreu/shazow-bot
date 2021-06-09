@@ -6,10 +6,7 @@ const DEFAULT_MIN_VALUE = 0;
 const DEFAULT_MAX_VALUE = 1000;
 const HIGHER_NUMBER = 1000000;
 
-export default function Random(
-    _client: ChatClient,
-    command: ExecutableCommand,
-): Action {
+export default function Random(_client: ChatClient, command: ExecutableCommand): Action {
     let minValue = DEFAULT_MIN_VALUE;
     let maxValue = DEFAULT_MAX_VALUE;
     if (command.arguments?.length === 2) {

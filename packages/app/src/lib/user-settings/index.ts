@@ -8,7 +8,7 @@ import type { UserSettings } from "database/dist/models/user-settings";
 export default async function Settings(
     _client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings,
+    userSettings: UserSettings
 ): Promise<Action> {
     if (command.arguments.length === 0) {
         return replyNoArguments(userSettings);

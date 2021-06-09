@@ -8,7 +8,7 @@ import { AnimeMedia, fetchAnime } from "../../services/anime";
 export default async function Anime(
     _client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings,
+    userSettings: UserSettings
 ): Promise<Action> {
     if (!command.arguments?.length) {
         return createChatReply(

@@ -11,7 +11,7 @@ import { Maybe } from "utils";
 export default async function PollStatus(
     _client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings,
+    userSettings: UserSettings
 ): Promise<Action> {
     const poll = await getLastFinishedPoll();
     if (!poll?._id) {

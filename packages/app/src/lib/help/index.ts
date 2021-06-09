@@ -6,7 +6,7 @@ import { getOutput, Language, Output } from "../../services/language";
 export default async function Help(
     _client: ChatClient,
     _command: ExecutableCommand,
-    userSettings: UserSettings,
+    userSettings: UserSettings
 ): Promise<Action> {
     return createChatReply(getOutput(Output.Help, userSettings.language as Language));
 }

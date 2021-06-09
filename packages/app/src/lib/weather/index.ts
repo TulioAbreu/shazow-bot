@@ -7,7 +7,7 @@ import { fetchWeatherStatus } from "../../services/weather";
 export default async function Weather(
     _client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings,
+    userSettings: UserSettings
 ): Promise<Action> {
     const location = command.arguments?.join(" ");
     if (!location) {

@@ -11,7 +11,7 @@ import { isPollActive } from "../../services/poll";
 export default async function Vote(
     _client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings,
+    userSettings: UserSettings
 ): Promise<Action> {
     if (!command.arguments?.length) {
         return createChatReply(
