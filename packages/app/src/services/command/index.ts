@@ -3,20 +3,7 @@ import type { UserSettings } from "database/dist/models/user-settings";
 import * as CommandLogDb from "database/dist/repositories/command-log";
 import { Maybe } from "utils";
 import { getConfig } from "../../config";
-import {
-    Ping,
-    Pong,
-    Random,
-    Anilist,
-    CreateCommand,
-    DeleteCommand,
-    Help,
-    Poll,
-    PollStatus,
-    Settings,
-    Vote,
-    Weather,
-} from "../../lib";
+import { nativeCommandsMap } from "../../lib";
 import { executeGenericCommand } from "../generic-command";
 
 export interface ExecutableCommand {
@@ -46,33 +33,11 @@ export async function execute(
         sentAt: new Date(),
     });
 
-    switch (command.name) {
-        case "ping":
-            return Ping();
-        case "pong":
-            return Pong();
-        case "random":
-            return Random(command);
-        case "anime":
-            return Anilist(command, userSettings);
-        case "poll":
-            return Poll(client, command, userSettings);
-        case "vote":
-            return Vote(command, userSettings);
-        case "pollStatus":
-            return PollStatus(command, userSettings);
-        case "settings":
-            return Settings(command, userSettings);
-        case "createCommand":
-            return CreateCommand(command, userSettings);
-        case "deleteCommand":
-            return DeleteCommand(command, userSettings);
-        case "weather":
-            return Weather(command, userSettings);
-        case "help":
-            return Help(command, userSettings);
-        default:
-            return executeGenericCommand(command);
+    const nativeCommand = nativeCommandsMap.get(command.name);
+    if (nativeCommand) {
+        return nativeCommand(client, command, userSettings);
+    } else {
+        return executeGenericCommand(command);
     }
 }
 

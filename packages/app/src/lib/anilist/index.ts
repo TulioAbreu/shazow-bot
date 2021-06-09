@@ -1,4 +1,4 @@
-import { Action, Source, createChatReply } from "chat";
+import { Action, Source, createChatReply, ChatClient } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Language, Output, getOutput } from "../../services/language";
 import { UserSettings } from "database/dist/models/user-settings";
@@ -6,8 +6,9 @@ import { isNullOrUndefined } from "utils/dist";
 import { AnimeMedia, fetchAnime } from "../../services/anime";
 
 export default async function Anime(
+    _client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings
+    userSettings: UserSettings,
 ): Promise<Action> {
     if (!command.arguments?.length) {
         return createChatReply(

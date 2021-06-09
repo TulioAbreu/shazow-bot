@@ -1,12 +1,13 @@
-import { Action, createChatReply } from "chat";
+import { Action, ChatClient, createChatReply } from "chat";
 import { UserSettings } from "database/dist/models/user-settings";
 import { ExecutableCommand } from "../../services/command";
 import { getOutput, Language, Output } from "../../services/language";
 import { fetchWeatherStatus } from "../../services/weather";
 
 export default async function Weather(
+    _client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings
+    userSettings: UserSettings,
 ): Promise<Action> {
     const location = command.arguments?.join(" ");
     if (!location) {

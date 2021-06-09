@@ -1,4 +1,4 @@
-import { Action, createChatReply } from "chat";
+import { Action, ChatClient, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import { Output, getOutput, Language } from "../../services/language";
 import * as PollDb from "database/dist/repositories/poll";
@@ -9,8 +9,9 @@ import { Vote } from "database/dist/models/vote";
 import { isPollActive } from "../../services/poll";
 
 export default async function Vote(
+    _client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings
+    userSettings: UserSettings,
 ): Promise<Action> {
     if (!command.arguments?.length) {
         return createChatReply(

@@ -1,6 +1,6 @@
 import { ExecutableCommand } from "../../services/command";
 import Random from ".";
-import { ActionId } from "chat";
+import { ActionId, ChatClient } from "chat";
 
 describe("Random", () => {
     describe("with defined interval", () => {
@@ -10,7 +10,7 @@ describe("Random", () => {
                 name: "random",
                 arguments: ["4", "10"],
             };
-            const result = Random(command as ExecutableCommand);
+            const result = Random({} as ChatClient, command as ExecutableCommand);
             expect(result.id).toBe(ActionId.Reply);
             expect(result.body).toBe("4");
         });
@@ -21,7 +21,7 @@ describe("Random", () => {
                 name: "random",
                 arguments: ["4", "10"],
             };
-            const result = Random(command as ExecutableCommand);
+            const result = Random({} as ChatClient, command as ExecutableCommand);
             expect(result.id).toBe(ActionId.Reply);
             expect(result.body).toBe("10");
         });
@@ -34,7 +34,7 @@ describe("Random", () => {
                 name: "random",
                 arguments: [],
             };
-            const result = Random(command as ExecutableCommand);
+            const result = Random({} as ChatClient, command as ExecutableCommand);
             expect(result.id).toBe(ActionId.Reply);
             expect(result.body).toBe("0");
         });
@@ -45,7 +45,7 @@ describe("Random", () => {
                 name: "random",
                 arguments: [],
             };
-            const result = Random(command as ExecutableCommand);
+            const result = Random({} as ChatClient, command as ExecutableCommand);
             expect(result.id).toBe(ActionId.Reply);
             expect(result.body).toBe("1000");
         });
@@ -58,7 +58,7 @@ describe("Random", () => {
                 name: "random",
                 arguments: ["not", "number"],
             };
-            const result = Random(command as ExecutableCommand);
+            const result = Random({} as ChatClient, command as ExecutableCommand);
             expect(result.id).toBe(ActionId.Reply);
             expect(result.body).toBe("0");
         });
@@ -69,7 +69,7 @@ describe("Random", () => {
                 name: "random",
                 arguments: ["not", "number"],
             };
-            const result = Random(command as ExecutableCommand);
+            const result = Random({} as ChatClient, command as ExecutableCommand);
             expect(result.id).toBe(ActionId.Reply);
             expect(result.body).toBe("1000");
         });

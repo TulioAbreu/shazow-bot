@@ -3,14 +3,15 @@ import type { UserSettings } from "database/dist/models/user-settings";
 import { getPollStatus, PollStatus, PollStatusOption } from "../../services/poll";
 import { Poll } from "database/dist/models/poll";
 import { Language, Output, getOutput } from "../../services/language";
-import { Action, createChatReply, Source } from "chat";
+import { Action, ChatClient, createChatReply, Source } from "chat";
 import * as PollDb from "database/dist/repositories/poll";
 import { isPollDisabled } from "../../services/poll";
 import { Maybe } from "utils";
 
 export default async function PollStatus(
+    _client: ChatClient,
     command: ExecutableCommand,
-    userSettings: UserSettings
+    userSettings: UserSettings,
 ): Promise<Action> {
     const poll = await getLastFinishedPoll();
     if (!poll?._id) {
