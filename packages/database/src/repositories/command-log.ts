@@ -1,11 +1,11 @@
 import * as yup from "yup";
 import CommandLogDb, { CommandLog } from "../models/command-log";
 
-const CommandLogSchema = yup.object().shape({
-    author: yup.string().required(),
-    commandName: yup.string().required(),
-    message: yup.string().required(),
-    source: yup.string().required(),
+const CommandLogSchema = yup.object({
+    author: yup.string().required("'author' field is required"),
+    commandName: yup.string().required("'commandName' field is required"),
+    message: yup.string().required("'message' field is required"),
+    source: yup.string().required("'source' field is required"),
 });
 
 export async function save(commandLog: CommandLog): Promise<boolean> {
@@ -18,6 +18,6 @@ export async function save(commandLog: CommandLog): Promise<boolean> {
 }
 
 export async function count(commandName: string): Promise<number> {
-    const commandUsageCount = await CommandLogDb.count({ commandName });
-    return commandUsageCount;
+    const commandLogs = await CommandLogDb.find({ commandName}).lean();
+    return commandLogs.length;
 }
