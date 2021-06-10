@@ -4,12 +4,15 @@ import { Maybe } from "./types";
 export class Chat {
     private environments: ChatClient[];
 
-    constructor(...environments: Maybe<ChatClient>[]) {
-        function filterEmptyValues<T>(array: Maybe<T>[]): T[] {
-            return array.filter((el) => el) as T[];
-        }
+    constructor() {
+        this.environments = [];
+    }
 
-        this.environments = filterEmptyValues(environments);
+    addClient(environment: Maybe<ChatClient>): void {
+        if (!environment) {
+            return;
+        }
+        this.environments.push(environment);
     }
 
     listen(): void {

@@ -18,6 +18,6 @@ export async function save(commandLog: CommandLog): Promise<boolean> {
 }
 
 export async function count(commandName: string): Promise<number> {
-    const commandLogs = await CommandLogDb.find({ commandName}).lean();
+    const commandLogs = await CommandLogDb.find({ commandName }).lean();
     return commandLogs.length;
 }

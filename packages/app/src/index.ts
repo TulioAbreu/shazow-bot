@@ -8,11 +8,14 @@ async function main() {
     console.log("INFO - Starting...");
     const { mongodbKey, discordToken, twitchToken, twitchUsername } = getSecret();
     const { twitchChannels } = getConfig();
+    const chat = new Chat();
     try {
-        const chat = new Chat(
+        chat.addClient(
             await new DiscordClient(onMessageCallback).authenticate({
                 token: discordToken,
-            }),
+            })
+        );
+        chat.addClient(
             await new TwitchClient(onMessageCallback).authenticate({
                 username: twitchUsername,
                 token: twitchToken,
