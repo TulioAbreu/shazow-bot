@@ -8,12 +8,12 @@ export enum ActionId {
     Reply = 1,
 }
 
-export interface Action {
+export type Action = {
     id: ActionId;
     body?: string;
 }
 
-export interface Message {
+export type Message = {
     source: Source;
     channelId: string;
     userId?: string;
