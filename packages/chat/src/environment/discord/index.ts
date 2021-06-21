@@ -1,8 +1,8 @@
 import * as DiscordJs from "discord.js";
-import { ChatClient, OnMessageCallback } from "..";
+import { ChatClient, ChatClientID, OnMessageCallback } from "..";
 import { Action, ActionId, Maybe, Message, Source } from "../../types";
 
-export interface DiscordCredentials {
+export type DiscordCredentials = {
     token: string;
 }
 
@@ -15,7 +15,15 @@ export class DiscordClient implements ChatClient {
         this.onMessageCallback = onMessageCallback;
     }
 
-    public async authenticate(credentials: DiscordCredentials): Promise<Maybe<ChatClient>> {
+    getID(): ChatClientID {
+        return ChatClientID.Discord;
+    }
+
+    async stop(): Promise<void> {
+        this.client.destroy();
+    }
+
+    async authenticate(credentials: DiscordCredentials): Promise<Maybe<ChatClient>> {
         try {
             await this.client.login(credentials.token);
             return this;
@@ -25,7 +33,7 @@ export class DiscordClient implements ChatClient {
         }
     }
 
-    public listen(): void {
+    listen(): void {
         const internalMessageHandler = async (discordMessage: DiscordJs.Message) => {
             if (discordMessage.author.bot) {
                 return;
@@ -37,7 +45,7 @@ export class DiscordClient implements ChatClient {
         this.client.on("message", internalMessageHandler);
     }
 
-    public async sendMessage(channelId: string, message: string): Promise<void> {
+    async sendMessage(channelId: string, message: string): Promise<void> {
         const channel = await this.client.channels.fetch(channelId);
         if (channel.type !== "text") {
             return;

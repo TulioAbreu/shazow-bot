@@ -1,8 +1,8 @@
 import * as Tmi from "tmi.js";
-import { ChatClient, OnMessageCallback } from "..";
+import { ChatClient, ChatClientID, OnMessageCallback } from "..";
 import { Action, ActionId, Maybe, Message, Source } from "../../types";
 
-interface TwitchCredentials {
+export type TwitchCredentials = {
     username: string;
     token: string;
     channels: string[];
@@ -17,7 +17,18 @@ export class TwitchClient implements ChatClient {
         this.onMessageCallback = onMessageCallback;
     }
 
-    public async authenticate(credentials: TwitchCredentials): Promise<Maybe<ChatClient>> {
+    getID(): ChatClientID {
+        return ChatClientID.Twitch;
+    }
+
+    async stop(): Promise<void> {
+        if (!this.client) {
+            return;
+        }
+        await this.client.disconnect();
+    }
+
+    async authenticate(credentials: TwitchCredentials): Promise<Maybe<ChatClient>> {
         if (!credentials?.token || !credentials?.username) {
             return;
         }
@@ -38,7 +49,7 @@ export class TwitchClient implements ChatClient {
         }
     }
 
-    public listen(): void {
+    listen(): void {
         if (!this.client) {
             console.error("ERROR - Authentication is required before listening messages.");
             return;
@@ -62,7 +73,7 @@ export class TwitchClient implements ChatClient {
         this.client.on("message", internalMessageHandler);
     }
 
-    public async sendMessage(channelId: string, message: string): Promise<void> {
+    async sendMessage(channelId: string, message: string): Promise<void> {
         if (!this.client) {
             return;
         }
