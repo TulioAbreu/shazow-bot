@@ -3,6 +3,7 @@
     "prefix": "$",
     "trollCommandThreshold": 150,
     "twitchChannels": [
-        "shazowaq"
+        "shazowaq",
+        "nulligor"
     ]
 }
