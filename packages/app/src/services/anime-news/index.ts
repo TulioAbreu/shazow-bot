@@ -1,22 +1,20 @@
 import axios from "axios";
 import { load as cheerioLoad, Cheerio, Element } from "cheerio";
-import { Maybe } from "../utils/src/result";
+import { Maybe } from "utils/dist/result";
 
 interface CrunchyrollNews {
     title: string;
     href: string;
     abstract: string;
-    postDate: string; // TODO: Parse to date??
+    postDate: string;
     imageUrl: string;
     short: string;
 }
 
-async function scrapCrunchyrollNews() {
+async function scrapCrunchyrollNews(): Promise<Maybe<CrunchyrollNews[]>> {
     const pageHTML = await fetchCrunchyrollNewsPage();
-    // const pageHTML = readFileSync("./crunchyrollPage.html", "utf8");
     if (!pageHTML) {
-        console.log("Could not retrieve pageHTML");
-        return;
+        return undefined;
     }
 
     const news: CrunchyrollNews[] = [];
@@ -72,7 +70,6 @@ async function fetchCrunchyrollNewsPage(): Promise<Maybe<string>> {
     const CRUNCHYROLL_NEWS_URL = "https://www.crunchyroll.com/pt-br/news";
     try {
         const response = await axios.get(CRUNCHYROLL_NEWS_URL);
-        console.log("status", response.status);
         return response.data;
     } catch (error) {
         if (error instanceof Error) {

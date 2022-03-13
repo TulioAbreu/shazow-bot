@@ -11,12 +11,13 @@
     "dependencies": {
         "axios": "^0.21.0",
         "chat": "1.0.0",
-        "utils": "1.0.0",
-        "database": "1.0.0",
+        "cheerio": "^1.0.0-rc.10",
         "cross-env": "^7.0.3",
+        "database": "1.0.0",
         "dotenv": "^8.2.0",
         "normalize-text": "^2.3.2",
         "ts-node": "^9.0.0",
+        "utils": "1.0.0",
         "yup": "^0.30.0"
     },
     "devDependencies": {
