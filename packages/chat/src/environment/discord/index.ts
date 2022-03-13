@@ -4,7 +4,7 @@ import { Action, ActionId, Maybe, Message, Source } from "../../types";
 
 export type DiscordCredentials = {
     token: string;
-}
+};
 
 export class DiscordClient implements ChatClient {
     private client: DiscordJs.Client;

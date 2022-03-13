@@ -6,7 +6,7 @@ export type TwitchCredentials = {
     username: string;
     token: string;
     channels: string[];
-}
+};
 
 export class TwitchClient implements ChatClient {
     private client?: Tmi.Client;
