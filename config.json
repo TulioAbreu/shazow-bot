@@ -1,6 +1,6 @@
 {
     "port": 3001,
-    "prefix": "%,
+    "prefix": "%",
     "trollCommandThreshold": 150,
     "twitchChannels": [
         "shazowaq",
