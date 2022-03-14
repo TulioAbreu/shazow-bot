@@ -4,7 +4,7 @@ import { Action, ActionId, Maybe, Message, Source } from "../../types";
 
 export type DiscordCredentials = {
     token: string;
-}
+};
 
 export class DiscordClient implements ChatClient {
     private client: DiscordJs.Client;
@@ -45,12 +45,16 @@ export class DiscordClient implements ChatClient {
         this.client.on("message", internalMessageHandler);
     }
 
-    async sendMessage(channelId: string, message: string): Promise<void> {
+    async sendMessage(
+        channelId: string,
+        message: string,
+        embed?: DiscordJs.MessageEmbed | DiscordJs.MessageEmbedOptions
+    ): Promise<void> {
         const channel = await this.client.channels.fetch(channelId);
         if (channel.type !== "text") {
             return;
         }
-        await (channel as DiscordJs.TextChannel).send(message);
+        await (channel as DiscordJs.TextChannel).send(message, { embed });
     }
 
     private async execute(discordMessage: DiscordJs.Message, action: Maybe<Action>) {

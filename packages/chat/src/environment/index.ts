@@ -19,4 +19,4 @@ export type ChatCredentials = {
     username?: string;
     token?: string;
     channels?: string[];
-}
+};

@@ -11,7 +11,7 @@ export enum ActionId {
 export type Action = {
     id: ActionId;
     body?: string;
-}
+};
 
 export type Message = {
     source: Source;
@@ -22,7 +22,7 @@ export type Message = {
     serverId: string;
     sentAt: Date;
     isPing: boolean;
-}
+};
 
 export enum Event {
     OnMessage = 0,
