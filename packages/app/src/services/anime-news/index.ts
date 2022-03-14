@@ -2,7 +2,7 @@ import axios from "axios";
 import { load as cheerioLoad, Cheerio, Element } from "cheerio";
 import { Maybe } from "utils/dist/result";
 
-interface CrunchyrollNews {
+export interface CrunchyrollNews {
     title: string;
     href: string;
     abstract: string;
@@ -11,7 +11,7 @@ interface CrunchyrollNews {
     short: string;
 }
 
-async function scrapCrunchyrollNews(): Promise<Maybe<CrunchyrollNews[]>> {
+export async function scrapCrunchyrollNews(): Promise<Maybe<CrunchyrollNews[]>> {
     const pageHTML = await fetchCrunchyrollNewsPage();
     if (!pageHTML) {
         return undefined;
@@ -77,5 +77,3 @@ async function fetchCrunchyrollNewsPage(): Promise<Maybe<string>> {
         }
     }
 }
-
-scrapCrunchyrollNews();
