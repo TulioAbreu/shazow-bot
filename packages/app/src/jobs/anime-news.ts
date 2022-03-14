@@ -49,8 +49,8 @@ function renderNews(news: CrunchyrollNews) {
             {
                 name: "Data",
                 value: news.postDate,
-            }
-        ]
+            },
+        ],
     };
 }
 
