@@ -10,7 +10,7 @@ const AnimeNewsChannelSchema = new Schema({
     id: {
         type: Schema.Types.String,
         required: true,
-    }
+    },
 });
 
 export default model<IAnimeNewsChannel>("AnimeNewsChannel", AnimeNewsChannelSchema);
