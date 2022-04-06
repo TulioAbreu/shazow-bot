@@ -1,6 +1,7 @@
 import { Chat, ChatClientID, DiscordClient } from "chat";
 import { CrunchyrollNews, scrapCrunchyrollNews } from "../services/anime-news";
-import { getRecentNews, save } from "database/dist/repositories/news-log";
+import { getRecentNews, save as saveNewsLog } from "database/dist/repositories/news-log";
+import { findAll as findAllAnimeNewsChannels } from "database/dist/repositories/anime-news-channels";
 
 export async function animeNewsJob(chat: Chat): Promise<void> {
     console.log("INFO | Running animes job");
@@ -10,7 +11,7 @@ export async function animeNewsJob(chat: Chat): Promise<void> {
         return;
     }
 
-    const subscribedChannels = ["825855371859198054"]; // TODO: Move this to a database + command (or website) to register
+    const subscribedChannels = await findAllAnimeNewsChannels();
     const sentRecentNews = await getRecentNews();
 
     const discordClient = chat.getClientByID(ChatClientID.Discord) as DiscordClient;
@@ -20,12 +21,12 @@ export async function animeNewsJob(chat: Chat): Promise<void> {
         }
 
         const renderedNews = renderNews(news);
-        for (const channelId of subscribedChannels) {
+        for (const subscribedChannel of subscribedChannels) {
             // TODO: Handle errors
-            discordClient.sendMessage(channelId, "", renderedNews);
+            discordClient.sendMessage(subscribedChannel.id, "", renderedNews);
         }
 
-        await save({
+        await saveNewsLog({
             newsId: getNewsId(news),
             sentAt: new Date(),
         });
@@ -33,11 +34,12 @@ export async function animeNewsJob(chat: Chat): Promise<void> {
 }
 
 function renderNews(news: CrunchyrollNews) {
+    const CRUNCHYROLL_PRIMARY_COLOR = "#F78C25";
     return {
         title: news.title,
         description: news.abstract,
         url: news.href,
-        color: "#F78C25",
+        color: CRUNCHYROLL_PRIMARY_COLOR,
         image: {
             url: news.imageUrl,
         },
