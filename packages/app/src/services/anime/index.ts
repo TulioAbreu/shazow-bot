@@ -59,6 +59,9 @@ export async function fetchAnime(title: string): Promise<Result<AnimeMedia>> {
         );
         return createResult(response.data?.data);
     } catch (error) {
-        return createErrorResult(error);
+        if (error instanceof Error) {
+            return createErrorResult(error.message);
+        }
     }
+    return createErrorResult("Unknown error");
 }

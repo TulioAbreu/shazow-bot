@@ -58,9 +58,12 @@ export async function fetchWeatherStatus(location: string): Promise<Result<Weath
         }
         return createResult(weather);
     } catch (error) {
-        console.error(error);
-        return createErrorResult(error);
+        if (error instanceof Error) {
+            console.error(error);
+            return createErrorResult(error.message);
+        }
     }
+    return createErrorResult("Unknown error");
 }
 
 function parseWeatherData(payload: OpenWeatherPayload): Maybe<Weather> {
