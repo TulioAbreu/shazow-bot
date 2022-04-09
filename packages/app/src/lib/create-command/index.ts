@@ -31,9 +31,11 @@ export default async function CreateCommand(
             isCacheable: false,
         });
     } catch (error) {
-        return createChatReply(
-            getOutput(Output.CreateCommandFail, userSettings.language as Language, [name, error])
-        );
+        if (error instanceof Error) {
+            return createChatReply(
+                getOutput(Output.CreateCommandFail, userSettings.language as Language, [name, error.message])
+            );
+        }
     }
 
     return createChatReply(
