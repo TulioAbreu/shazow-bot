@@ -5,7 +5,6 @@ export interface GenericCommand {
     name: string;
     output: string;
     createdAt: Date;
-    isCacheable: boolean;
     source: Source;
     serverId: string;
 }
