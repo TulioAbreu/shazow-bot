@@ -28,12 +28,15 @@ export default async function CreateCommand(
             name: name,
             output: output.join(" "),
             createdAt: new Date(),
-            isCacheable: false,
+            serverId: command.serverId,
+            source: command.source,
         });
     } catch (error) {
-        return createChatReply(
-            getOutput(Output.CreateCommandFail, userSettings.language as Language, [name, error])
-        );
+        if (error instanceof Error) {
+            return createChatReply(
+                getOutput(Output.CreateCommandFail, userSettings.language as Language, [name, error.message])
+            );
+        }
     }
 
     return createChatReply(
