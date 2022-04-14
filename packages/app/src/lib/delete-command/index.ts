@@ -25,7 +25,7 @@ export default async function DeleteCommand(
     await Promise.all(
         command.arguments.map(async (name: string) => {
             try {
-                await GenericCommandDb.remove(name);
+                await GenericCommandDb.remove(name, command.source, command.serverId);
             } catch (error) {
                 return createChatReply(
                     getOutput(
