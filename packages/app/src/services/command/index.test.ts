@@ -14,6 +14,7 @@ describe("Command", () => {
                 userID: "",
                 channelId: "",
                 userName: "",
+                serverId: "",
             };
             const result = await execute({} as ChatClient, {} as UserSettings, command);
             expect(result).toBeUndefined();
