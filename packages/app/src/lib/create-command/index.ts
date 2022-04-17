@@ -34,7 +34,10 @@ export default async function CreateCommand(
     } catch (error) {
         if (error instanceof Error) {
             return createChatReply(
-                getOutput(Output.CreateCommandFail, userSettings.language as Language, [name, error.message])
+                getOutput(Output.CreateCommandFail, userSettings.language as Language, [
+                    name,
+                    error.message,
+                ])
             );
         }
     }
