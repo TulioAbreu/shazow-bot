@@ -2,7 +2,6 @@ import { executeGenericCommand } from ".";
 import { ExecutableCommand } from "../command";
 import * as GenericCommandDb from "database/dist/repositories/generic-command";
 import { ActionId } from "chat";
-import { Source } from "database/dist/types";
 
 describe("Generic Command", () => {
     it("should execute", async () => {
@@ -11,7 +10,7 @@ describe("Generic Command", () => {
             createdAt: new Date(),
             output: "pong",
             serverId: "fakeServerId",
-            source: Source.Twitch,
+            source: 0,
         }));
 
         const command: Partial<ExecutableCommand> = {
@@ -30,7 +29,7 @@ describe("Generic Command", () => {
             createdAt: new Date(),
             output: "redirect to %args0",
             serverId: "fakeServerId",
-            source: Source.Discord,
+            source: 1,
         }));
 
         const command: Partial<ExecutableCommand> = {
@@ -49,7 +48,7 @@ describe("Generic Command", () => {
             createdAt: new Date(),
             output: "redirect from %args0 to %args1",
             serverId: "fakeServerId",
-            source: Source.Discord,
+            source: 1, // TODO: Check why ts-jest can't access enums
         }));
 
         const command: Partial<ExecutableCommand> = {
