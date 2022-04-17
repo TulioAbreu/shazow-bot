@@ -30,7 +30,8 @@ const GenericCommandSchema = new Schema({
         type: Schema.Types.String,
         required: true,
     },
-    serverId: { // TODO: Maybe switch this to be a string (less dependent on enum order)
+    serverId: {
+        // TODO: Maybe switch this to be a string (less dependent on enum order)
         type: Schema.Types.Number,
         required: true,
     },
