@@ -2,14 +2,16 @@ import { executeGenericCommand } from ".";
 import { ExecutableCommand } from "../command";
 import * as GenericCommandDb from "database/dist/repositories/generic-command";
 import { ActionId } from "chat";
+import { Source } from "database/dist/types";
 
 describe("Generic Command", () => {
     it("should execute", async () => {
         jest.spyOn(GenericCommandDb, "findOne").mockImplementationOnce(async () => ({
             name: "ping",
             createdAt: new Date(),
-            isCacheable: true,
             output: "pong",
+            serverId: "fakeServerId",
+            source: Source.Twitch,
         }));
 
         const command: Partial<ExecutableCommand> = {
@@ -26,8 +28,9 @@ describe("Generic Command", () => {
         jest.spyOn(GenericCommandDb, "findOne").mockImplementationOnce(async () => ({
             name: "redirect",
             createdAt: new Date(),
-            isCacheable: false,
             output: "redirect to %args0",
+            serverId: "fakeServerId",
+            source: Source.Discord,
         }));
 
         const command: Partial<ExecutableCommand> = {
@@ -44,8 +47,9 @@ describe("Generic Command", () => {
         jest.spyOn(GenericCommandDb, "findOne").mockImplementationOnce(async () => ({
             name: "redirect",
             createdAt: new Date(),
-            isCacheable: false,
             output: "redirect from %args0 to %args1",
+            serverId: "fakeServerId",
+            source: Source.Discord,
         }));
 
         const command: Partial<ExecutableCommand> = {
