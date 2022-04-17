@@ -2,13 +2,12 @@ import CommandDb, { GenericCommand } from "../models/generic-command";
 import { asArray, Maybe } from "utils";
 
 export async function save(command: GenericCommand): Promise<GenericCommand> {
-    const { name, output, isCacheable } = command;
+    const { name, output } = command;
 
     async function create(): Promise<GenericCommand> {
         return await CommandDb.create({
             name,
             output,
-            isCacheable,
             createdAt: new Date(),
         });
     }
@@ -21,7 +20,6 @@ export async function save(command: GenericCommand): Promise<GenericCommand> {
             {
                 name,
                 output,
-                isCacheable: commandFromDB.isCacheable,
                 createdAt: commandFromDB.createdAt,
             }
         ).lean();
