@@ -13,6 +13,7 @@ describe("Command", () => {
                     "!teste 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
                 userID: "",
                 channelId: "",
+                serverId: "fakeServerId",
                 userName: "",
             };
             const result = await execute({} as ChatClient, {} as UserSettings, command);

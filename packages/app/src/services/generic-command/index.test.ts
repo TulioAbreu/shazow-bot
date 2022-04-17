@@ -8,8 +8,9 @@ describe("Generic Command", () => {
         jest.spyOn(GenericCommandDb, "findOne").mockImplementationOnce(async () => ({
             name: "ping",
             createdAt: new Date(),
-            isCacheable: true,
             output: "pong",
+            serverId: "fakeServerId",
+            source: 0,
         }));
 
         const command: Partial<ExecutableCommand> = {
@@ -26,8 +27,9 @@ describe("Generic Command", () => {
         jest.spyOn(GenericCommandDb, "findOne").mockImplementationOnce(async () => ({
             name: "redirect",
             createdAt: new Date(),
-            isCacheable: false,
             output: "redirect to %args0",
+            serverId: "fakeServerId",
+            source: 1,
         }));
 
         const command: Partial<ExecutableCommand> = {
@@ -44,8 +46,9 @@ describe("Generic Command", () => {
         jest.spyOn(GenericCommandDb, "findOne").mockImplementationOnce(async () => ({
             name: "redirect",
             createdAt: new Date(),
-            isCacheable: false,
             output: "redirect from %args0 to %args1",
+            serverId: "fakeServerId",
+            source: 1, // TODO: Check why ts-jest can't access enums
         }));
 
         const command: Partial<ExecutableCommand> = {
