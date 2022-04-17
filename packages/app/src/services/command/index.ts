@@ -10,6 +10,7 @@ export interface ExecutableCommand {
     userID: string;
     userName: string;
     channelId: string;
+    serverId: string;
     name: string;
     message: string;
     arguments: string[];
