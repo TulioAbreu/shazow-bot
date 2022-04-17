@@ -6,7 +6,7 @@ import type { ExecutableCommand } from "../command";
 import { Maybe } from "utils";
 
 export async function executeGenericCommand(command: ExecutableCommand): Promise<Maybe<Action>> {
-    const genericCommand = await GenericCommandDb.findOne(command.name);
+    const genericCommand = await GenericCommandDb.findOne(command.source, command.serverId, command.name);
     if (!genericCommand) {
         return;
     }
