@@ -26,7 +26,11 @@ async function processGenericCommand(
     genericCommand: GenericCommand
 ): Promise<string> {
     const usageCount = hasCommandUsageCount(genericCommand.output)
-        ? await CommandLogDb.count(genericCommand.name)
+        ? await CommandLogDb.count({
+            source: genericCommand.source,
+            serverId: genericCommand.serverId,
+            commandName: genericCommand.name,
+        })
         : 0;
     const output = getGenericCommandOutput(command.arguments, genericCommand, usageCount);
     return output;

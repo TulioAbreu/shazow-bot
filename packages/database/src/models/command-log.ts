@@ -5,6 +5,7 @@ export interface CommandLog {
     message: string;
     author: string;
     sentAt: Date;
+    serverId: string;
     source: Source;
     commandName: string;
 }
@@ -22,6 +23,10 @@ const CommandLogSchema = new Schema({
     },
     sentAt: {
         type: Schema.Types.Date,
+        required: true,
+    },
+    serverId: {
+        type: Schema.Types.String,
         required: true,
     },
     source: {

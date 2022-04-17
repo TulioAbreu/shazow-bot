@@ -31,6 +31,7 @@ export async function execute(
         commandName: command.name,
         message: command.message,
         source: command.source,
+        serverId: command.serverId,
         sentAt: new Date(),
     });
 
