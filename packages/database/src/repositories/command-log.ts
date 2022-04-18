@@ -30,6 +30,6 @@ export async function count({ source, serverId, commandName }: CountParameters):
         commandName,
         source: source,
         serverId,
-     }).lean();
+    }).lean();
     return commandLogs.length;
 }

@@ -44,6 +44,17 @@ export async function save(command: GenericCommand): Promise<GenericCommand> {
     }
 }
 
+export async function findAllById(
+    commandSource: Source,
+    commandServerId: string
+): Promise<GenericCommand[]> {
+    const genericCommands = await CommandDb.find({
+        source: commandSource,
+        serverId: commandServerId,
+    });
+    return asArray(genericCommands);
+}
+
 export async function findAll(): Promise<GenericCommand[]> {
     const genericCommands = await CommandDb.find().lean();
     return asArray(genericCommands);
