@@ -21,7 +21,7 @@ const UserSettingsSchema = new Schema({
         required: true,
     },
     platform: {
-        type: Schema.Types.Number,
+        type: Schema.Types.String,
         required: true,
     },
     role: {
