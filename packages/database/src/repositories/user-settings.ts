@@ -1,5 +1,5 @@
-import { Source } from "../types";
 import UserSettingsDb, { UserSettings } from "../models/user-settings";
+import { Source } from "chat";
 import { Maybe } from "utils";
 
 export async function create(userId: string, platform: Source): Promise<UserSettings> {

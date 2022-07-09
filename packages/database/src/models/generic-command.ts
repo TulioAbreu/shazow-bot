@@ -1,5 +1,5 @@
 import { Document, Schema, model } from "mongoose";
-import { Source } from "../types";
+import { Source } from "chat";
 
 export interface GenericCommand {
     name: string;

@@ -1,6 +1,6 @@
 import CommandDb, { GenericCommand } from "../models/generic-command";
 import { asArray, Maybe } from "utils";
-import { Source } from "../types";
+import { Source } from "chat";
 
 export async function save(command: GenericCommand): Promise<GenericCommand> {
     const { name, output, serverId, source } = command;

@@ -12,6 +12,7 @@
   "dependencies": {
     "cross-env": "^7.0.3",
     "utils": "1.0.0",
-    "mongoose": "^5.12.10"
+    "mongoose": "^5.12.10",
+    "chat": "1.0.0"
   }
 }

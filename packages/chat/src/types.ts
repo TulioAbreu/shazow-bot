@@ -1,6 +1,6 @@
 export enum Source {
-    Discord = 0,
-    Twitch = 1,
+    Discord = "discord",
+    Twitch = "twitch",
 }
 
 export enum ActionId {

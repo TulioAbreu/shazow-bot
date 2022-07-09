@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import CommandLogDb, { CommandLog } from "../models/command-log";
-import { Source } from "../types";
+import { Source } from "chat";
 
 const CommandLogSchema = yup.object({
     author: yup.string().required("'author' field is required"),

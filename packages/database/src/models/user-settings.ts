@@ -1,5 +1,6 @@
 import { Document, Schema, model } from "mongoose";
-import { Role, Source } from "../types";
+import { Role } from "../types";
+import { Source } from "chat";
 
 export interface UserSettings {
     userId: string;
