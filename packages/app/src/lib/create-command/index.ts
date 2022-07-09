@@ -2,9 +2,9 @@ import { Action, ChatClient, createChatReply } from "chat";
 import { ExecutableCommand } from "../../services/command";
 import * as GenericCommandDb from "database/dist/repositories/generic-command";
 import type { UserSettings } from "database/dist/models/user-settings";
-import { Role } from "../../types";
 import { getOutput, Language, Output } from "../../services/language";
 import { getUserRole } from "../role";
+import { Role } from "database/dist/types";
 
 export default async function CreateCommand(
     _client: ChatClient,

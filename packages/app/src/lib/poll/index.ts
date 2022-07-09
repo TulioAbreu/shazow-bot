@@ -3,11 +3,11 @@ import { ExecutableCommand } from "../../services/command";
 import { Output, getOutput, Language } from "../../services/language";
 import { Poll } from "database/dist/models/poll";
 import { UserSettings } from "database/dist/models/user-settings";
-import { Role } from "../../types";
 import * as PollDb from "database/dist/repositories/poll";
 import { Maybe } from "utils";
 import { getPollStatus, PollStatus, PollStatusOption } from "../../services/poll";
 import { getUserRole } from "../role";
+import { Role } from "database/dist/types";
 
 interface ParsedPoll {
     question: string;
