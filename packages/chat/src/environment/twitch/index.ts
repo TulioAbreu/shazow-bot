@@ -109,7 +109,7 @@ export class TwitchClient implements ChatClient {
             userId: context["user-id"],
             userName: context["username"],
             content: content,
-            serverId: target,
+            serverId: target.replace(/^#/, ""),
             sentAt: new Date(),
             isPing: this.isPingMessage(botUsername, content),
         };
