@@ -1,14 +1,14 @@
 import { Maybe } from "utils";
 
 export enum Role {
-    None = 0,
-    Trusted = 1,
-    Admin = 2,
+    None = "none",
+    Trusted = "trusted",
+    Admin = "admin",
 }
 
 export enum Source {
-    Discord = 0,
-    Twitch = 1,
+    Discord = "discord",
+    Twitch = "twitch",
 }
 
 export function parseSource(rawSourceStr: string): Maybe<Source> {
