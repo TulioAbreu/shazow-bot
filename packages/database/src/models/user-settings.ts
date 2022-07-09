@@ -26,11 +26,7 @@ const UserSettingsSchema = new Schema({
         required: true,
     },
     role: {
-        type: Schema.Types.Map,
-        of: {
-            type: Schema.Types.Map,
-            of: Schema.Types.String,
-        },
+        type: Schema.Types.Mixed,
     },
     language: {
         type: Schema.Types.String,
