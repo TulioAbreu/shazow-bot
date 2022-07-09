@@ -31,8 +31,7 @@ const GenericCommandSchema = new Schema({
         required: true,
     },
     serverId: {
-        // TODO: Maybe switch this to be a string (less dependent on enum order)
-        type: Schema.Types.Number,
+        type: Schema.Types.String,
         required: true,
     },
 });
