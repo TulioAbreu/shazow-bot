@@ -1,8 +1,7 @@
 import { executeGenericCommand } from ".";
 import { ExecutableCommand } from "../command";
 import * as GenericCommandDb from "database/dist/repositories/generic-command";
-import { ActionId } from "chat";
-import { Source } from "database/dist/types";
+import { ActionId, Source } from "chat";
 
 describe("Generic Command", () => {
     it("should execute", async () => {
