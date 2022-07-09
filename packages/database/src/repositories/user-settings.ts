@@ -1,4 +1,4 @@
-import { Role, Source } from "../types";
+import { Source } from "../types";
 import UserSettingsDb, { UserSettings } from "../models/user-settings";
 import { Maybe } from "utils";
 
