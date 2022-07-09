@@ -4,10 +4,14 @@ import { Role, Source } from "../types";
 export interface UserSettings {
     userId: string;
     platform: Source;
-    role: Role;
+    role: Record<Source, SourceRoles>;
     language: string; // TODO: add types
     isIgnored: boolean;
 }
+
+type ServerId = string;
+
+type SourceRoles = Record<ServerId, Role>;
 
 export interface IUserSettings extends UserSettings, Document {}
 
@@ -21,9 +25,11 @@ const UserSettingsSchema = new Schema({
         required: true,
     },
     role: {
-        type: Schema.Types.Number,
-        default: Role.None,
-        required: true,
+        type: Schema.Types.Map,
+        of: {
+            type: Schema.Types.Map,
+            of: Schema.Types.String,
+        },
     },
     language: {
         type: Schema.Types.String,

@@ -7,6 +7,7 @@ import { Role } from "../../types";
 import * as PollDb from "database/dist/repositories/poll";
 import { Maybe } from "utils";
 import { getPollStatus, PollStatus, PollStatusOption } from "../../services/poll";
+import { getUserRole } from "../role";
 
 interface ParsedPoll {
     question: string;
@@ -23,7 +24,8 @@ export default async function Poll(
             getOutput(Output.PollInvalidArgs, userSettings.language as Language)
         );
     }
-    if (!canUserStartPoll(userSettings)) {
+    const userRole = getUserRole(userSettings, command.source, command.channelId);
+    if (userRole === undefined || !isAllowedToStartPoll(userRole)) {
         return createChatReply(
             getOutput(Output.PollNoPermission, userSettings.language as Language)
         );
@@ -107,8 +109,8 @@ function checkPollParameters(question = "", options: string[] = [], pollMinutes:
     return !!question.length && !!options.length && !isNaN(pollMinutes);
 }
 
-async function canUserStartPoll(userSettings: UserSettings): Promise<boolean> {
-    return userSettings.role > Role.None;
+function isAllowedToStartPoll(role: Role): boolean {
+    return role === Role.Admin || role === Role.Trusted;
 }
 
 function parsePoll(message: string): Maybe<ParsedPoll> {
