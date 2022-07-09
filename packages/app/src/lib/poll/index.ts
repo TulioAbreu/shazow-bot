@@ -25,7 +25,7 @@ export default async function Poll(
         );
     }
     const userRole = getUserRole(userSettings, command.source, command.channelId);
-    if (userRole === undefined || !isAllowedToStartPoll(userRole)) {
+    if (!isAllowedToStartPoll(userRole)) {
         return createChatReply(
             getOutput(Output.PollNoPermission, userSettings.language as Language)
         );

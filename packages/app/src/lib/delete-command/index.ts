@@ -12,7 +12,7 @@ export default async function DeleteCommand(
     userSettings: UserSettings
 ): Promise<Action> {
     const userRole = getUserRole(userSettings, command.source, command.channelId);
-    if (userRole === undefined || !isAllowedToDeleteCommand(userRole)) {
+    if (!isAllowedToDeleteCommand(userRole)) {
         return createChatReply(
             getOutput(Output.DeleteCommandAccessNegated, userSettings.language as Language)
         );

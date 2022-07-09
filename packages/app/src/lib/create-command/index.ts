@@ -12,7 +12,7 @@ export default async function CreateCommand(
     userSettings: UserSettings
 ): Promise<Action> {
     const userRole = getUserRole(userSettings, command.source, command.serverId);
-    if (userRole === undefined || !isAllowedToCreateCommand(userRole)) {
+    if (!isAllowedToCreateCommand(userRole)) {
         return createChatReply(
             getOutput(Output.CreateCommandAccessNegated, userSettings.language as Language)
         );
