@@ -4,13 +4,15 @@ import * as GenericCommandDb from "database/dist/repositories/generic-command";
 import type { UserSettings } from "database/dist/models/user-settings";
 import { Role } from "../../types";
 import { getOutput, Language, Output } from "../../services/language";
+import { getUserRole } from "../role";
 
 export default async function CreateCommand(
     _client: ChatClient,
     command: ExecutableCommand,
     userSettings: UserSettings
 ): Promise<Action> {
-    if (userSettings.role < Role.Trusted) {
+    const userRole = getUserRole(userSettings, command.source, command.serverId);
+    if (!isAllowedToCreateCommand(userRole)) {
         return createChatReply(
             getOutput(Output.CreateCommandAccessNegated, userSettings.language as Language)
         );
@@ -45,6 +47,10 @@ export default async function CreateCommand(
     return createChatReply(
         getOutput(Output.CreateCommandSuccess, userSettings.language as Language, [name])
     );
+}
+
+function isAllowedToCreateCommand(role: Role): boolean {
+    return role === Role.Admin;
 }
 
 function hasValidArguments(name: string, output: string[]): boolean {

@@ -62,7 +62,7 @@ async function onCommandMessage(
     if (!command) {
         return;
     }
-    return await execute(client, userSettings, command);
+    return execute(client, userSettings, command);
 }
 
 function isCommandMessage(content: string, commandPrefix: string): boolean {

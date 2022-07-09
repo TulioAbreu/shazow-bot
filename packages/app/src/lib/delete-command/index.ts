@@ -4,13 +4,15 @@ import * as GenericCommandDb from "database/dist/repositories/generic-command";
 import type { UserSettings } from "database/dist/models/user-settings";
 import { Role } from "../../types";
 import { getOutput, Language, Output } from "../../services/language";
+import { getUserRole } from "../role";
 
 export default async function DeleteCommand(
     _client: ChatClient,
     command: ExecutableCommand,
     userSettings: UserSettings
 ): Promise<Action> {
-    if (userSettings.role < Role.Admin) {
+    const userRole = getUserRole(userSettings, command.source, command.channelId);
+    if (!isAllowedToDeleteCommand(userRole)) {
         return createChatReply(
             getOutput(Output.DeleteCommandAccessNegated, userSettings.language as Language)
         );
@@ -42,6 +44,10 @@ export default async function DeleteCommand(
             command.arguments.join(", "),
         ])
     );
+}
+
+function isAllowedToDeleteCommand(role: Role): boolean {
+    return role === Role.Admin;
 }
 
 function hasValidArguments(args: string[]): boolean {
