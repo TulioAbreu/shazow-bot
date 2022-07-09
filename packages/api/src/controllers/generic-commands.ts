@@ -1,7 +1,8 @@
 import * as yup from "yup";
 import { Request, Response } from "express";
 import { findAllById, save } from "database/dist/repositories/generic-command";
-import { parseSource, Source } from "database/dist/types";
+import { parseSource } from "database/dist/types";
+import { Source } from "chat";
 import { HttpCode } from "../http-code";
 import { isNullOrUndefined } from "utils";
 
